@@ -21,7 +21,18 @@ class OrderCountCharts extends Component {
                     labelRadius={45}
                     style={{ labels: { fill: "black", fontSize: 8 } }}
                 />
-
+                <VictoryPie
+                    data={[
+                        { y: this.props.countPerTime(6, 12), label: "Morning" },
+                        { y: this.props.countPerTime(12, 17), label: "Afternoon" },
+                        { y: this.props.countPerTime(17, 20), label: "Evening" },
+                        { y: this.props.countPerTime(20, 24) + this.props.countPerTime(0, 6), label: "Night" },
+                    ]}
+                    height={200}
+                    colorScale="warm"
+                    labelRadius={60}
+                    style={{ labels: { fill: "black", fontSize: 8 } }}
+                />
 
             </div>
         )
