@@ -6,17 +6,20 @@ import RevenueCharts from './RevenueCharts'
 import TimeSeriesCharts from './TimeSeriesCharts'
 class App extends Component {
   componentDidMount() {
-    console.log(this.state.data.filter(order => (new Date(order.orderdate).getHours()) - 2 > 20))
+    console.log(this.getCountPerTime(20, 24) + this.getCountPerTime(0, 6))
   }
   state = {
     data
   }
   //get order count per payment method.
-  getCountPerPayment = (paymentMethod) => {
-    return this.state.data.filter(order => order.paymentMethod === paymentMethod).length
-  }
+  getCountPerPayment = paymentMethod => 
+    this.state.data.filter(order => order.paymentMethod === paymentMethod).length
+  
 
-
+  getCountPerTime = (startHour, endHour) => 
+    this.state.data.filter(order => (new Date(order.orderdate).getHours()) - 2 >= startHour
+     && (new Date(order.orderdate).getHours()) - 2 < endHour).length
+  
 
   render() {
     return (
@@ -25,6 +28,7 @@ class App extends Component {
         <OrderCountCharts
           data={this.state.data}
           countPerPayment={this.getCountPerPayment}
+          countPerTime={this.getCountPerTime}
         />
         <RevenueCharts 
           data={this.state.data}
