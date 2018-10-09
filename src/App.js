@@ -29,8 +29,12 @@ class App extends Component {
     //console.log(this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).group(d => d >= 70).all())
     //console.log(this.state.dataCrossFiltered.dimension(d => d.branch).group().all())
     //console.log(this.state.dataCrossFiltered.dimension(d => d.deliveryArea).group().top(20))
-    console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().all())
-    console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().all().map(day => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]))
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().all())
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().all().map(day => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]))
+    //console.log(this.state.dataCrossFiltered.dimension(d => d.branch).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
+    //console.log(this.state.dataCrossFiltered.groupAll().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).value())
+    //console.log(this.state.dataCrossFiltered.dimension(d => d.deliveryArea).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).top(20))
+    console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
   }
   state = {
     data,
@@ -79,6 +83,9 @@ class App extends Component {
         />
         <RevenueCharts 
           //data={this.state.data}
+          branchDim={this.state.dataCrossFiltered.dimension(d => d.branch)}
+          deliveryAreaDim={this.state.dataCrossFiltered.dimension(d => d.deliveryArea)}
+          dayDim={this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay())}
         />
         <TimeSeriesCharts 
           //data={this.state.data}
