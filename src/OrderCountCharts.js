@@ -13,11 +13,9 @@ class OrderCountCharts extends Component {
         return (
             <div>
                 <VictoryPie
-                    data={[
-                        { y: this.props.paymentMethodDim.group().all()[0].value, label: "Cash" },
-                        { y: this.props.paymentMethodDim.group().all()[1].value, label: "Credit Card" },
-                        { y: this.props.paymentMethodDim.group().all()[2].value, label: "KNET" }
-                    ]}
+                    data={
+                        this.props.paymentMethodDim.group().all().map(paymentMethod => {return {y: paymentMethod.value, label: paymentMethod.key}})
+                    }
                     height={200}
                     colorScale="warm"
                     labelRadius={60}
@@ -51,59 +49,31 @@ class OrderCountCharts extends Component {
 
                 <VictoryChart
                     domainPadding={20}
-                    theme={VictoryTheme.material}
 
 
                 >
-                    <VictoryAxis
-
-                        tickValues={this.props.branchDim.group().all().map( (branch , index) => index++)}
-                        tickFormat={this.props.branchDim.group().all().map(branch => branch.key) }
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                    />
+                    
                     <VictoryBar
-                        data={this.props.branchDim.group().all().map(branch => {return {y: branch.value, label: branch.key}}) }
+                        data={this.props.branchDim.group().all().map(branch => {return {y: branch.value, x: branch.key}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
                     />
                 </VictoryChart>
 
                 <VictoryChart 
                     domainPadding={20}
-                    theme={VictoryTheme.material}
-
-
                 >
-                    <VictoryAxis
-
-                        tickValues={this.props.deliveryAreaDim.group().top(20).map( (area , index) => index++)}
-                        tickFormat={this.props.deliveryAreaDim.group().top(20).map(area => area.key) }
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                    />
+                    
                     <VictoryBar
-                        data={this.props.deliveryAreaDim.group().top(20).map(order => {return {y: order.value, label: order.key}}) }
+                        data={this.props.deliveryAreaDim.group().top(20).map(order => {return {y: order.value, x: order.key}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
                     />
                 </VictoryChart>
+
                 <VictoryChart 
                     domainPadding={20}
-                    theme={VictoryTheme.material}
-
-
                 >
-                    <VictoryAxis
-
-                        tickValues={this.props.dayDim.group().all().map(day=> day.key)}
-                        tickFormat={this.props.dayDim.group().all().map(day => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]) }
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                    />
                     <VictoryBar
-                        data={this.props.dayDim.group().all().map(day => {return {y: day.value, label: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]}}) }
+                        data={this.props.dayDim.group().all().map(day => {return {y: day.value, x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
                     />
                 </VictoryChart>
