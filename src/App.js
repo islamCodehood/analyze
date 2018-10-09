@@ -34,8 +34,14 @@ class App extends Component {
     //console.log(this.state.dataCrossFiltered.dimension(d => d.branch).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
     //console.log(this.state.dataCrossFiltered.groupAll().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).value())
     //console.log(this.state.dataCrossFiltered.dimension(d => d.deliveryArea).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).top(20))
-    console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay()).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
+    //console.log(this.state.dataCrossFiltered.dimension(d => d.paymentMethod).group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours()).group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours()).group(d => d >= 12).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value)
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours()).group(d => d >= 20).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours()).group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[0].value)
+    //console.log(this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours()).group(d => d >= 70).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all())
+    //console.log(this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).group(d => d >= 70).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value)
   }
+  
   state = {
     data,
     dataCrossFiltered: crossfilter(data)
@@ -86,6 +92,9 @@ class App extends Component {
           branchDim={this.state.dataCrossFiltered.dimension(d => d.branch)}
           deliveryAreaDim={this.state.dataCrossFiltered.dimension(d => d.deliveryArea)}
           dayDim={this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getDay())}
+          paymentMethodDim={this.state.dataCrossFiltered.dimension(d => d.paymentMethod)}
+          orderdateDim={this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours())}
+          orderAmountDim={this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, '')))}
         />
         <TimeSeriesCharts 
           //data={this.state.data}
