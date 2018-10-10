@@ -30,10 +30,10 @@ class RevenueCharts extends Component {
 
                 <VictoryPie
                     data={[
-                            { y: this.props.ordertimeDim.group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.ordertimeDim.group(d => d >= 12).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Morning" },
-                            { y: this.props.ordertimeDim.group(d => d >= 12).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.ordertimeDim.group(d => d >= 17).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Afternoon" },
-                            { y: this.props.ordertimeDim.group(d => d >= 17).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.ordertimeDim.group(d => d >= 20).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Evening" },
-                            { y: this.props.ordertimeDim.group(d => d >= 20).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value + this.props.ordertimeDim.group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[0].value, label: "Night" }
+                            { y: this.props.orderTimeDim.group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.orderTimeDim.group(d => d >= 12).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Morning" },
+                            { y: this.props.orderTimeDim.group(d => d >= 12).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.orderTimeDim.group(d => d >= 17).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Afternoon" },
+                            { y: this.props.orderTimeDim.group(d => d >= 17).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value - this.props.orderTimeDim.group(d => d >= 20).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value, label: "Evening" },
+                            { y: this.props.orderTimeDim.group(d => d >= 20).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[1].value + this.props.orderTimeDim.group(d => d >= 6).reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all()[0].value, label: "Night" }
                         ]}
                     height={200}
                     colorScale="warm"
