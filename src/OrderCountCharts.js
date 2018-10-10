@@ -23,10 +23,10 @@ class OrderCountCharts extends Component {
                 />
                 <VictoryPie
                     data={[
-                        { y: this.props.orderdateDim.group(d => d >= 6).all()[1].value - this.props.orderdateDim.group(d => d >= 12).all()[1].value, label: "Morning" },
-                        { y: this.props.orderdateDim.group(d => d >= 12).all()[1].value - this.props.orderdateDim.group(d => d >= 17).all()[1].value, label: "Afternoon" },
-                        { y: this.props.orderdateDim.group(d => d >= 17).all()[1].value - this.props.orderdateDim.group(d => d >= 20).all()[1].value, label: "Evening" },
-                        { y: this.props.orderdateDim.group(d => d >= 20).all()[1].value + this.props.orderdateDim.group(d => d >= 6).all()[0].value, label: "Night" }
+                        { y: this.props.ordertimeDim.group(d => d >= 6).all()[1].value - this.props.ordertimeDim.group(d => d >= 12).all()[1].value, label: "Morning" },
+                        { y: this.props.ordertimeDim.group(d => d >= 12).all()[1].value - this.props.ordertimeDim.group(d => d >= 17).all()[1].value, label: "Afternoon" },
+                        { y: this.props.ordertimeDim.group(d => d >= 17).all()[1].value - this.props.ordertimeDim.group(d => d >= 20).all()[1].value, label: "Evening" },
+                        { y: this.props.ordertimeDim.group(d => d >= 20).all()[1].value + this.props.ordertimeDim.group(d => d >= 6).all()[0].value, label: "Night" }
                     ]}
                     height={200}
                     colorScale="warm"
