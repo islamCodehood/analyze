@@ -2,11 +2,24 @@ import React, { Component } from 'react'
 import {
     VictoryPie,
     VictoryBar,
-    VictoryChart
+    VictoryChart,
+    VictorySelectionContainer,
+    VictoryBrushContainer
 } from 'victory';
 import PropTypes from 'prop-types'
 
 class OrderCountCharts extends Component {
+
+    handleSelection = (points, bounds, props) => {
+        console.log(points)
+        console.log(bounds)
+        console.log(props)
+    }
+    handleChange = (domain, props) => {
+        //console.log(domain.x)
+        //console.log(props.name)
+        this.props.handleChartChange(domain.x, props.name)
+    }
     render() {
         return (
             <div>
@@ -37,6 +50,7 @@ class OrderCountCharts extends Component {
                     }}
                 />
                 <VictoryPie
+                
                     data={[
                         { y: this.props.orderAmountDim.group(d => d >= 10).all()[0].value, label: "< $10" },
                         { y: this.props.orderAmountDim.group(d => d >= 10).all()[1].value - this.props.orderAmountDim.group(d => d >= 20).all()[1].value, label: "$10 - $20" },
@@ -55,14 +69,23 @@ class OrderCountCharts extends Component {
                 />
 
                 <VictoryChart
+                    containerComponent={<VictorySelectionContainer
+                        onSelection={this.handleSelection}
+                        selectionDimension="x"
+                        selectionStyle={{
+                            fill: "tomato", fillOpacity: 0.5,
+                            stroke: "tomato", strokeWidth: 1
+                          }}
+                    />}
                     domainPadding={20}
 
 
                 >
                     
                     <VictoryBar
+                        
                         data={this.props.branchDim.group().all().map(branch => {return {y: branch.value, x: branch.key}}) }
-                        style={{ labels: { fill: "black", fontSize: 8 } }}
+                        style={{ data: { fill: (d, active) => active ? "grey" : "blue" } }}
                         animate={{
                             duration: 2000,
                             onLoad: { duration: 3000 }
@@ -71,12 +94,22 @@ class OrderCountCharts extends Component {
                 </VictoryChart>
 
                 <VictoryChart 
+                    containerComponent={
+                    <VictoryBrushContainer
+                      brushDimension="x"
+                      brushDomain={{x: [5, 8]}}
+                      defaultBrushArea={"none"}
+                      onBrushDomainChange={this.handleChange}
+                      brushStyle={{stroke: "transparent", fill: "red", fillOpacity: 0.3}}
+                      name="deliverAreaChart"
+                    />
+                  }
                     domainPadding={20}
                 >
                     
                     <VictoryBar
                         data={this.props.deliveryAreaDim.group().top(20).map(order => {return {y: order.value, x: order.key}}) }
-                        style={{ labels: { fill: "black", fontSize: 8 } }}
+                        style={{ data: { fill: (d, active) => active ? "grey" : "blue" } }}
                         animate={{
                             duration: 2000,
                             onLoad: { duration: 3000 }
@@ -85,6 +118,17 @@ class OrderCountCharts extends Component {
                 </VictoryChart>
 
                 <VictoryChart 
+                
+                    containerComponent={
+                        <VictoryBrushContainer
+                          brushDimension="x"
+                          brushDomain={{x: [3, 5]}}
+                          defaultBrushArea={"none"}
+                          onBrushDomainChange={this.handleChange}
+                          brushStyle={{stroke: "transparent", fill: "red", fillOpacity: 0.3}}
+                          name="orderWeekDayChart"
+                        />
+                      }
                     domainPadding={20}
                 >
                     <VictoryBar
@@ -94,6 +138,7 @@ class OrderCountCharts extends Component {
                             duration: 2000,
                             onLoad: { duration: 3000 }
                         }}
+                        
                     />
                 </VictoryChart>
 
