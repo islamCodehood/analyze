@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import {
     VictoryPie,
     VictoryBar,
-    VictoryChart,
-    VictoryAxis,
-    VictoryTheme
+    VictoryChart
 } from 'victory';
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 
 class RevenueCharts extends Component {
     render() {
@@ -108,7 +106,7 @@ class RevenueCharts extends Component {
                     <VictoryBar
                     style={{ labels: { fill: "black", fontSize: 1 }, data: { fill: "#6DB65B", fontSize: 1 } }}
                         data={
-                            this.props.dayDim.group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all().map(day => { return { y: day.value, x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key] } })
+                            this.props.orderWeekDayDim.group().reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all().map(day => { return { y: day.value, x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key] } })
                         }
                         animate={{
                         duration: 2000,
