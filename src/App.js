@@ -8,6 +8,12 @@ import RevenueCharts from './RevenueCharts'
 import TimeSeriesCharts from './TimeSeriesCharts'
 
 class App extends Component {
+  componentDidMount() {
+    this.state.branchDim.filterRange(["Branch A", "Branch D"])
+    console.log(this.state.dataCrossFiltered.groupAll().value())
+    this.state.paymentMethodDim.filterRange(["Cash", "KNET"])
+    console.log(this.state.dataCrossFiltered.groupAll().value())
+  }
   componentWillMount() {
     //Get all dimensions ready.
     this.setState({
@@ -35,8 +41,8 @@ class App extends Component {
       deliveryAreaDim: this.state.dataCrossFiltered.dimension(d => d.deliveryArea)
     })
   }
- 
-  
+
+
 
   state = {
     data,
@@ -69,29 +75,49 @@ class App extends Component {
     console.log(this.state.dataCrossFiltered.groupAll().value())
 
   }
-  /* handleThirdClick = () => {
-    this.state.dataCrossFiltered.dimension(d => d.paymentMethod).filterExact("Cash")
-    console.log(this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).group().all())
-    console.log(this.state.dataCrossFiltered.dimension(d => d.paymentMethod).group().all())
-    console.log(this.state.dataCrossFiltered.dimension(d => d.branch).group().all())
-    this.setState({
-      data
-    })
-  } */
-  /* handleFourthClick = () => {
-   
-    this.state.dataCrossFiltered.dimension(d => d.paymentMethod).filter(0)
-    this.state.dataCrossFiltered.dimension(d => d.branch).filter(0)
-    console.log(this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).group().all())
-    console.log(this.state.dataCrossFiltered.dimension(d => d.paymentMethod).group().all())
-    console.log(this.state.dataCrossFiltered.dimension(d => d.branch).group().all())
-    this.setState({
-      data
-    })
-  } */
 
-
-
+  handleChartChange = (dataWidth, chartName) => {
+    //console.log(dataWidth.x)
+    switch (chartName) {
+      case "orderWeekDayChart":
+        this.state.orderWeekDayDim.filterRange([Math.floor(dataWidth[0]),Math.floor(dataWidth[1])])
+        this.setState({
+          data
+        })
+        console.log(this.state.dataCrossFiltered.groupAll().value())
+        break
+      case "deliverAreaChart":
+        let minEnd = this.state.deliveryAreaDim.group().top(20)[Math.floor(dataWidth[0])]
+        let maxEnd = this.state.deliveryAreaDim.group().top(20)[Math.floor(dataWidth[1])]
+        if (dataWidth[1] >= 19.9 && dataWidth[0] >= 19.9) {
+          maxEnd = 19
+          minEnd = 19
+          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
+          console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[0] >= 19.9) {
+          minEnd = 19
+          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
+          console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[1] >= 19.9) {
+          maxEnd = 19
+          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
+          console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else {
+          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
+          console.log(this.state.dataCrossFiltered.groupAll().value())
+        }
+        //console.log(this.state.deliveryAreaDim.group().top(20)[])
+        //console.log(this.state.deliveryAreaDim.group().top(20))
+        
+        //console.log(Math.floor(dataWidth[1]-1.5), maxEnd)
+        //this.state.deliveryAreaDim.filterRange(minEnd, maxEnd)
+        this.setState({
+          data
+        })
+        break
+    }
+    
+  }
 
   render() {
     return (
@@ -99,6 +125,7 @@ class App extends Component {
         <h1>Analyze</h1>
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
+
         <OrderCountCharts
           orderTimeDim={this.state.orderTimeDim}
           paymentMethodDim={this.state.paymentMethodDim}
@@ -106,6 +133,7 @@ class App extends Component {
           branchDim={this.state.branchDim}
           deliveryAreaDim={this.state.deliveryAreaDim}
           orderWeekDayDim={this.state.orderWeekDayDim}
+          handleChartChange={this.handleChartChange}
         />
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
@@ -121,7 +149,7 @@ class App extends Component {
         <button onClick={this.handleSecondClick}>Filter Again</button>
         <TimeSeriesCharts
           orderDateDim={this.state.orderDateDim}
-        />
+        /> 
       </div>
     );
   }
