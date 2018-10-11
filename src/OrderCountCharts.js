@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import {
     VictoryPie,
     VictoryBar,
-    VictoryChart,
-    VictoryAxis,
-    VictoryTheme
+    VictoryChart
 } from 'victory';
 import PropTypes from 'prop-types'
 
@@ -15,10 +13,11 @@ class OrderCountCharts extends Component {
                 <VictoryPie
                     data={
                         this.props.paymentMethodDim.group().all().map(paymentMethod => {return {y: paymentMethod.value, label: paymentMethod.key}})
+                        
                     }
                     height={200}
                     colorScale="warm"
-                    labelRadius={60}
+                    labelRadius={20}
                     style={{ labels: { fill: "black", fontSize: 8 } }}
                 />
                 <VictoryPie
@@ -32,6 +31,10 @@ class OrderCountCharts extends Component {
                     colorScale="warm"
                     labelRadius={60}
                     style={{ labels: { fill: "black", fontSize: 8 } }}
+                    animate={{
+                        duration: 2000,
+                        onLoad: { duration: 3000 }
+                    }}
                 />
                 <VictoryPie
                     data={[
@@ -45,6 +48,10 @@ class OrderCountCharts extends Component {
                     colorScale="warm"
                     labelRadius={60}
                     style={{ labels: { fill: "black", fontSize: 8 } }}
+                    animate={{
+                        duration: 2000,
+                        onLoad: { duration: 3000 }
+                    }}
                 />
 
                 <VictoryChart
@@ -56,6 +63,10 @@ class OrderCountCharts extends Component {
                     <VictoryBar
                         data={this.props.branchDim.group().all().map(branch => {return {y: branch.value, x: branch.key}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
+                        animate={{
+                            duration: 2000,
+                            onLoad: { duration: 3000 }
+                        }}
                     />
                 </VictoryChart>
 
@@ -66,6 +77,10 @@ class OrderCountCharts extends Component {
                     <VictoryBar
                         data={this.props.deliveryAreaDim.group().top(20).map(order => {return {y: order.value, x: order.key}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
+                        animate={{
+                            duration: 2000,
+                            onLoad: { duration: 3000 }
+                        }}
                     />
                 </VictoryChart>
 
@@ -73,8 +88,12 @@ class OrderCountCharts extends Component {
                     domainPadding={20}
                 >
                     <VictoryBar
-                        data={this.props.dayDim.group().all().map(day => {return {y: day.value, x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]}}) }
+                        data={this.props.orderWeekDayDim.group().all().map(day => {return {y: day.value, x: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.key]}}) }
                         style={{ labels: { fill: "black", fontSize: 8 } }}
+                        animate={{
+                            duration: 2000,
+                            onLoad: { duration: 3000 }
+                        }}
                     />
                 </VictoryChart>
 
@@ -84,7 +103,6 @@ class OrderCountCharts extends Component {
 }
 
 OrderCountCharts.propTypes = {
-    data: PropTypes.array.isRequired,
     height: PropTypes.number,
     colorScale: PropTypes.string,
     labelRadius: PropTypes.number,
