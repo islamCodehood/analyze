@@ -1,47 +1,85 @@
-import React, { Component } from 'react'
-import {
-    VictoryLine,
-    VictoryChart
-} from 'victory';
+import React, { Component } from "react";
+import { VictoryLine, VictoryChart, VictoryBrushContainer } from "victory";
 //import PropTypes from 'prop-types'
 
 class TimeSeriesCharts extends Component {
-    render() {
-        return (
-            <div>
-                <VictoryChart
-                >
-                    <VictoryLine
-                        style={{
-                            data: { stroke: "#c43a31", strokeWidth: 1 },
+  handleChange = (domain, props) => {
+    this.props.handleChartChange(domain.x, props.name);
+  };
 
-                        }}
-                        data={this.props.orderDateDim.group().all()
-                            .map(date => { return { x: date.key, y: date.value } })}
-                        animate={{
-                            duration: 2000,
-                            onLoad: { duration: 2000 }
-                        }}
-                    />
-                </VictoryChart>
-                <VictoryChart
-                >
-                    <VictoryLine
-                        style={{
-                            data: { stroke: "#c43a58", strokeWidth: 1 },
-
-                        }}
-                        data={this.props.orderDateDim.group()
-                            .reduceSum(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ''))).all().map(date => { return { x: date.key, y: date.value } })}
-                        animate={{
-                            duration: 2000,
-                            onLoad: { duration: 2000 }
-                        }}
-                    />
-                </VictoryChart>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <VictoryChart
+          containerComponent={
+            <VictoryBrushContainer
+              brushDimension="x"
+              brushDomain={{ x: [12, 18] }}
+              defaultBrushArea={"none"}
+              onBrushDomainChange={this.handleChange}
+              brushStyle={{
+                stroke: "transparent",
+                fill: "red",
+                fillOpacity: 0.3
+              }}
+              name="orderDateChart"
+            />
+          }
+        >
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a31", strokeWidth: 1 }
+            }}
+            data={this.props.orderDateDim
+              .group()
+              .all()
+              .map(date => {
+                return { x: date.key, y: date.value };
+              })}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 2000 }
+            }}
+          />
+        </VictoryChart>
+        <VictoryChart
+          containerComponent={
+            <VictoryBrushContainer
+              brushDimension="x"
+              brushDomain={{ x: [12, 18] }}
+              defaultBrushArea={"none"}
+              onBrushDomainChange={this.handleChange}
+              brushStyle={{
+                stroke: "transparent",
+                fill: "red",
+                fillOpacity: 0.3
+              }}
+              name="orderDateChart"
+            />
+          }
+        >
+          <VictoryLine
+            style={{
+              data: { stroke: "#c43a58", strokeWidth: 1 }
+            }}
+            data={this.props.orderDateDim
+              .group()
+              .reduceSum(d =>
+                parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+              )
+              .all()
+              .map(date => {
+                return { x: date.key, y: date.value };
+              })}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 2000 }
+            }}
+          />
+        </VictoryChart>
+      </div>
+    );
+  }
 }
 
-export default TimeSeriesCharts
+export default TimeSeriesCharts;
