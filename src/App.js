@@ -1,48 +1,62 @@
-import React, { Component } from 'react';
-import './App.css';
-import data from './data'
-import crossfilter2 from 'crossfilter2'
-import PropTypes from 'prop-types'
-import OrderCountCharts from './OrderCountCharts'
-import RevenueCharts from './RevenueCharts'
-import TimeSeriesCharts from './TimeSeriesCharts'
+import React, { Component } from "react";
+import "./App.css";
+import data from "./data";
+import crossfilter2 from "crossfilter2";
+import PropTypes from "prop-types";
+import OrderCountCharts from "./OrderCountCharts";
+import RevenueCharts from "./RevenueCharts";
+import TimeSeriesCharts from "./TimeSeriesCharts";
 
 class App extends Component {
   componentDidMount() {
-    this.state.branchDim.filterRange(["Branch A", "Branch D"])
-    console.log(this.state.dataCrossFiltered.groupAll().value())
-    this.state.paymentMethodDim.filterRange(["Cash", "KNET"])
-    console.log(this.state.dataCrossFiltered.groupAll().value())
+    //this.state.branchDim.filterExact("Branch A")
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    this.state.branchDim.filterExact("Branch B");
+    console.log(this.state.dataCrossFiltered.groupAll().value());
+    //this.state.paymentMethodDim.filterRange(["Cash", "KNET"])
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
   }
   componentWillMount() {
     //Get all dimensions ready.
     this.setState({
       branchDim: this.state.dataCrossFiltered.dimension(d => d.branch)
-    })
+    });
     this.setState({
-      paymentMethodDim: this.state.dataCrossFiltered.dimension(d => d.paymentMethod)
-    })
+      paymentMethodDim: this.state.dataCrossFiltered.dimension(
+        d => d.paymentMethod
+      )
+    });
     this.setState({
-      orderAmountDim: this.state.dataCrossFiltered.dimension(d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, '')))
-    })
+      orderAmountDim: this.state.dataCrossFiltered.dimension(d =>
+        parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+      )
+    });
     this.setState({
-      orderDateDim: this.state.dataCrossFiltered.dimension(d => (new Date(d.orderdate.substr(0, 10)).getDate()))
-    })
+      orderDateDim: this.state.dataCrossFiltered.dimension(d =>
+        new Date(d.orderdate.substr(0, 10)).getDate()
+      )
+    });
     this.setState({
-      orderWeekDayDim: this.state.dataCrossFiltered.dimension(d => (new Date(d.orderdate.substr(0, 10)).getDay()))
-    })
+      orderWeekDayDim: this.state.dataCrossFiltered.dimension(d =>
+        new Date(d.orderdate.substr(0, 10)).getDay()
+      )
+    });
     this.setState({
-      orderMonthDim: this.state.dataCrossFiltered.dimension(d => (new Date(d.orderdate.substr(0, 10)).getMonth()))
-    })
+      orderMonthDim: this.state.dataCrossFiltered.dimension(d =>
+        new Date(d.orderdate.substr(0, 10)).getMonth()
+      )
+    });
     this.setState({
-      orderTimeDim: this.state.dataCrossFiltered.dimension(d => new Date(d.orderdate).getHours())
-    })
+      orderTimeDim: this.state.dataCrossFiltered.dimension(d =>
+        new Date(d.orderdate).getHours()
+      )
+    });
     this.setState({
-      deliveryAreaDim: this.state.dataCrossFiltered.dimension(d => d.deliveryArea)
-    })
+      deliveryAreaDim: this.state.dataCrossFiltered.dimension(
+        d => d.deliveryArea
+      )
+    });
   }
-
-
 
   state = {
     data,
@@ -55,76 +69,160 @@ class App extends Component {
     orderMonthDim: {},
     orderTimeDim: {},
     deliveryAreaDim: {}
-  }
+  };
 
   handleClick = () => {
-    this.state.orderMonthDim.filterRange([0, 2])
+    this.state.orderMonthDim.filterRange([0, 2]);
     this.setState({
       data
-    })
-    console.log(this.state.dataCrossFiltered.groupAll().value())
-    console.log(this.state.paymentMethodDim.group().all()[0].key)
-
-  }
+    });
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    //console.log(this.state.paymentMethodDim.group().all()[0].key)
+  };
 
   handleSecondClick = () => {
-    this.state.orderMonthDim.filterAll()
+    this.state.branchDim.filterAll();
+    this.state.paymentMethodDim.filterAll();
+    this.state.orderAmountDim.filterAll();
+    this.state.orderDateDim.filterAll();
+    this.state.orderWeekDayDim.filterAll();
+    this.state.orderMonthDim.filterAll();
+    this.state.orderTimeDim.filterAll();
+    this.state.deliveryAreaDim.filterAll();
     this.setState({
       data
-    })
-    console.log(this.state.dataCrossFiltered.groupAll().value())
-
-  }
+    });
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+  };
 
   handleChartChange = (dataWidth, chartName) => {
     //console.log(dataWidth.x)
     switch (chartName) {
       case "orderWeekDayChart":
-        this.state.orderWeekDayDim.filterRange([Math.floor(dataWidth[0]),Math.floor(dataWidth[1])])
+        //console.log(dataWidth[1])
+        this.state.orderWeekDayDim.filterRange([
+          Math.floor(dataWidth[0]),
+          Math.floor(dataWidth[1])
+        ]);
         this.setState({
           data
-        })
-        console.log(this.state.dataCrossFiltered.groupAll().value())
-        break
+        });
+        //console.log(this.state.dataCrossFiltered.groupAll().value())
+        break;
       case "deliverAreaChart":
-        let minEnd = this.state.deliveryAreaDim.group().top(20)[Math.floor(dataWidth[0])]
-        let maxEnd = this.state.deliveryAreaDim.group().top(20)[Math.floor(dataWidth[1])]
-        if (dataWidth[1] >= 19.9 && dataWidth[0] >= 19.9) {
-          maxEnd = 19
-          minEnd = 19
-          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
-          console.log(this.state.dataCrossFiltered.groupAll().value())
-        } else if (dataWidth[0] >= 19.9) {
-          minEnd = 19
-          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
-          console.log(this.state.dataCrossFiltered.groupAll().value())
-        } else if (dataWidth[1] >= 19.9) {
-          maxEnd = 19
-          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
-          console.log(this.state.dataCrossFiltered.groupAll().value())
+        let minEndDelivery = this.state.deliveryAreaDim.group().top(20)[
+          Math.floor(dataWidth[0])
+        ];
+        let maxEndDelivery = this.state.deliveryAreaDim.group().top(20)[
+          Math.floor(dataWidth[1])
+        ];
+        if (dataWidth[1] >= 19 && dataWidth[0] >= 19) {
+          minEndDelivery = 19;
+          maxEndDelivery = 19;
+          this.state.deliveryAreaDim.filterRange([
+            minEndDelivery.key,
+            maxEndDelivery.key + "a"
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[0] >= 19) {
+          minEndDelivery = 19;
+          this.state.deliveryAreaDim.filterRange([
+            minEndDelivery.key,
+            maxEndDelivery.key
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[1] >= 19) {
+          maxEndDelivery = 19;
+          this.state.deliveryAreaDim.filterRange([
+            minEndDelivery.key,
+            maxEndDelivery.key + "a"
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else {
-          this.state.deliveryAreaDim.filterRange([minEnd.key, maxEnd.key])
-          console.log(this.state.dataCrossFiltered.groupAll().value())
+          this.state.deliveryAreaDim.filterRange([
+            minEndDelivery.key,
+            maxEndDelivery.key
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
         }
-        //console.log(this.state.deliveryAreaDim.group().top(20)[])
-        //console.log(this.state.deliveryAreaDim.group().top(20))
-        
-        //console.log(Math.floor(dataWidth[1]-1.5), maxEnd)
-        //this.state.deliveryAreaDim.filterRange(minEnd, maxEnd)
         this.setState({
           data
-        })
-        break
+        });
+        break;
+      case "branchChart":
+        let minEndBranch = this.state.branchDim.group().all()[
+          Math.floor(dataWidth[0])
+        ];
+        let maxEndBranch = this.state.branchDim.group().all()[
+          Math.floor(dataWidth[1])
+        ];
+        if (dataWidth[1] >= 5 && dataWidth[0] >= 5) {
+          minEndBranch = 5;
+          maxEndBranch = 5;
+          this.state.branchDim.filterRange([
+            minEndBranch.key,
+            minEndBranch.key + "a"
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[0] >= 5.9) {
+          minEndBranch = 5;
+          this.state.branchDim.filterRange([
+            minEndBranch.key,
+            maxEndBranch.key
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else if (dataWidth[1] >= 5.9) {
+          maxEndBranch = 5;
+          this.state.branchDim.filterRange([
+            minEndBranch.key,
+            maxEndBranch.key + "a"
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        } else {
+          this.state.branchDim.filterRange([
+            minEndBranch.key,
+            maxEndBranch.key
+          ]);
+          //console.log(this.state.dataCrossFiltered.groupAll().value())
+        }
+        this.setState({
+          data
+        });
+        break;
+      case "orderDateChart":
+        this.state.orderDateDim.filterRange([
+          Math.floor(dataWidth[0]),
+          Math.floor(dataWidth[1])
+        ]);
+        this.setState({
+          data
+        });
+        break;
+      default:
+        break;
     }
-    
-  }
+  };
+
+  handleBranchBarClick = branch => {
+    this.state.branchDim.filterExact(branch);
+    this.setState({
+      data
+    });
+  };
+
+  resetBarFilter = branch => {
+    this.state.branchDim.filterAll();
+    this.setState({
+      data
+    });
+  };
 
   render() {
     return (
       <div className="App">
         <h1>Analyze</h1>
         <button onClick={this.handleClick}>Filter</button>
-        <button onClick={this.handleSecondClick}>Filter Again</button>
+        <button onClick={this.handleSecondClick}>Reset</button>
 
         <OrderCountCharts
           orderTimeDim={this.state.orderTimeDim}
@@ -134,6 +232,8 @@ class App extends Component {
           deliveryAreaDim={this.state.deliveryAreaDim}
           orderWeekDayDim={this.state.orderWeekDayDim}
           handleChartChange={this.handleChartChange}
+          handleBranchBarClick={this.handleBranchBarClick}
+          resetBarFilter={this.resetBarFilter}
         />
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
@@ -144,12 +244,16 @@ class App extends Component {
           paymentMethodDim={this.state.paymentMethodDim}
           orderTimeDim={this.state.orderTimeDim}
           orderAmountDim={this.state.orderAmountDim}
+          handleChartChange={this.handleChartChange}
+          handleBranchBarClick={this.handleBranchBarClick}
+          resetBarFilter={this.resetBarFilter}
         />
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
         <TimeSeriesCharts
           orderDateDim={this.state.orderDateDim}
-        /> 
+          handleChartChange={this.handleChartChange}
+        />
       </div>
     );
   }
@@ -159,6 +263,6 @@ App.propTypes = {
   data: PropTypes.array,
   countPerPayment: PropTypes.func,
   countPerTime: PropTypes.func
-}
+};
 
 export default App;
