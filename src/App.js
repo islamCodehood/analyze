@@ -8,14 +8,7 @@ import RevenueCharts from "./RevenueCharts";
 import TimeSeriesCharts from "./TimeSeriesCharts";
 
 class App extends Component {
-  componentDidMount() {
-    //this.state.branchDim.filterExact("Branch A")
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    this.state.branchDim.filterExact("Branch B");
-    console.log(this.state.dataCrossFiltered.groupAll().value());
-    //this.state.paymentMethodDim.filterRange(["Cash", "KNET"])
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-  }
+
   componentWillMount() {
     //Get all dimensions ready.
     this.setState({
@@ -71,43 +64,21 @@ class App extends Component {
     deliveryAreaDim: {}
   };
 
-  handleClick = () => {
-    this.state.orderMonthDim.filterRange([0, 2]);
-    this.setState({
-      data
-    });
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    //console.log(this.state.paymentMethodDim.group().all()[0].key)
-  };
+  /*****Filteration Functions*****/
 
-  handleSecondClick = () => {
-    this.state.branchDim.filterAll();
-    this.state.paymentMethodDim.filterAll();
-    this.state.orderAmountDim.filterAll();
-    this.state.orderDateDim.filterAll();
-    this.state.orderWeekDayDim.filterAll();
-    this.state.orderMonthDim.filterAll();
-    this.state.orderTimeDim.filterAll();
-    this.state.deliveryAreaDim.filterAll();
-    this.setState({
-      data
-    });
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-  };
-
+  /*Deal with filteration of bar charts through brushing. It detects the chart name,
+  *and the area of filteration. Chart name is used to decide which dimension to do
+  *filteration upon. area of filteration(dataWidth) is the filteration range.*/
   handleChartChange = (dataWidth, chartName) => {
-    //console.log(dataWidth.x)
     switch (chartName) {
       case "orderWeekDayChart":
-        //console.log(dataWidth[1])
         this.state.orderWeekDayDim.filterRange([
-          Math.floor(dataWidth[0]),
+          Math.floor(dataWidth[0]),//Math.floor to reduce the float numbers to the nearst.
           Math.floor(dataWidth[1])
         ]);
         this.setState({
           data
         });
-        //console.log(this.state.dataCrossFiltered.groupAll().value())
         break;
       case "deliverAreaChart":
         let minEndDelivery = this.state.deliveryAreaDim.group().top(20)[
@@ -116,34 +87,32 @@ class App extends Component {
         let maxEndDelivery = this.state.deliveryAreaDim.group().top(20)[
           Math.floor(dataWidth[1])
         ];
+        /*If minEnd or maxEnd points went over 19.9 this would throw error because the max index
+        * is 19 (20 branch).So if it would be larger than 19 I return it to 19.*/
         if (dataWidth[1] >= 19 && dataWidth[0] >= 19) {
           minEndDelivery = 19;
           maxEndDelivery = 19;
           this.state.deliveryAreaDim.filterRange([
             minEndDelivery.key,
-            maxEndDelivery.key + "a"
+            maxEndDelivery.key + "a"//This is to include the maxEnd value in the range.
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else if (dataWidth[0] >= 19) {
           minEndDelivery = 19;
           this.state.deliveryAreaDim.filterRange([
             minEndDelivery.key,
             maxEndDelivery.key
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else if (dataWidth[1] >= 19) {
           maxEndDelivery = 19;
           this.state.deliveryAreaDim.filterRange([
             minEndDelivery.key,
             maxEndDelivery.key + "a"
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else {
           this.state.deliveryAreaDim.filterRange([
             minEndDelivery.key,
             maxEndDelivery.key
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         }
         this.setState({
           data
@@ -156,6 +125,7 @@ class App extends Component {
         let maxEndBranch = this.state.branchDim.group().all()[
           Math.floor(dataWidth[1])
         ];
+        //Here the max index is 5 (6 branches)
         if (dataWidth[1] >= 5 && dataWidth[0] >= 5) {
           minEndBranch = 5;
           maxEndBranch = 5;
@@ -163,27 +133,23 @@ class App extends Component {
             minEndBranch.key,
             minEndBranch.key + "a"
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else if (dataWidth[0] >= 5.9) {
           minEndBranch = 5;
           this.state.branchDim.filterRange([
             minEndBranch.key,
             maxEndBranch.key
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else if (dataWidth[1] >= 5.9) {
           maxEndBranch = 5;
           this.state.branchDim.filterRange([
             minEndBranch.key,
             maxEndBranch.key + "a"
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         } else {
           this.state.branchDim.filterRange([
             minEndBranch.key,
             maxEndBranch.key
           ]);
-          //console.log(this.state.dataCrossFiltered.groupAll().value())
         }
         this.setState({
           data
@@ -202,20 +168,24 @@ class App extends Component {
         break;
     }
   };
-
+  //Deal with filteration of Branch bar charts by clicking on bars.
   handleBranchBarClick = branch => {
     this.state.branchDim.filterExact(branch);
     this.setState({
       data
     });
   };
-
+  //Reset filter on the branch bar charts when second clicked.
   resetBarFilter = branch => {
     this.state.branchDim.filterAll();
     this.setState({
       data
     });
   };
+
+  /* handlePieSliceClick = pieSlice => {
+    switch ()
+  } */
 
   render() {
     return (
@@ -234,6 +204,8 @@ class App extends Component {
           handleChartChange={this.handleChartChange}
           handleBranchBarClick={this.handleBranchBarClick}
           resetBarFilter={this.resetBarFilter}
+          handlePieSliceClick={this.handlePieSliceClick}
+          resetPieFilter={this.resetPieFilter}
         />
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
@@ -247,6 +219,8 @@ class App extends Component {
           handleChartChange={this.handleChartChange}
           handleBranchBarClick={this.handleBranchBarClick}
           resetBarFilter={this.resetBarFilter}
+          handlePieSliceClick={this.handlePieSliceClick}
+          resetPieFilter={this.resetPieFilter}
         />
         <button onClick={this.handleClick}>Filter</button>
         <button onClick={this.handleSecondClick}>Filter Again</button>
