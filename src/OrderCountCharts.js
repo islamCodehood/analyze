@@ -98,25 +98,25 @@ class OrderCountCharts extends Component {
                 y:
                   this.props.orderTimeDim.group(d => d >= 6).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 12).all()[1].value,
-                label: [6, 12]
+                label: [6, 8, 8 , 12]
               },
               {
                 y:
                   this.props.orderTimeDim.group(d => d >= 12).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 17).all()[1].value,
-                label: [12, 17]
+                label: [12,14, 14, 17]
               },
               {
                 y:
                   this.props.orderTimeDim.group(d => d >= 17).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 20).all()[1].value,
-                label: [17, 20]
+                label: [17,18,18, 20]
               },
               {
                 y:
                   this.props.orderTimeDim.group(d => d >= 20).all()[1].value +
                   this.props.orderTimeDim.group(d => d >= 6).all()[0].value,
-                label: [20, 6]
+                label: [20, 24, 0, 6]
               }
             ]}
             height={280}
@@ -137,6 +137,7 @@ class OrderCountCharts extends Component {
                       {
                         target: "labels",
                         mutation: props => {
+                          console.log(props)
                           if (this.state.clickedPieSlice.find(slice => slice[0] === props.datum.label[0]) === undefined) {
                             this.state.clickedPieSlice.push(props.datum.label)
                             this.setState({
