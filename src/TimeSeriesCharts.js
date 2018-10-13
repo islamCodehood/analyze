@@ -9,8 +9,10 @@ class TimeSeriesCharts extends Component {
 
   render() {
     return (
-      <div>
+      <div className="card-container">
+      <div className="time-series-card">
         <VictoryChart
+          width={1000}
           containerComponent={
             <VictoryBrushContainer
               brushDimension="x"
@@ -28,8 +30,9 @@ class TimeSeriesCharts extends Component {
         >
           <VictoryLine
             style={{
-              data: { stroke: "#c43a31", strokeWidth: 1 }
+              data: { stroke: "#c43a58", strokeWidth: 1 }
             }}
+            
             data={this.props.orderDateDim
               .group()
               .all()
@@ -42,7 +45,10 @@ class TimeSeriesCharts extends Component {
             }}
           />
         </VictoryChart>
+        </div>
+        <div className="time-series-card">
         <VictoryChart
+        width={1000}
           containerComponent={
             <VictoryBrushContainer
               brushDimension="x"
@@ -77,6 +83,7 @@ class TimeSeriesCharts extends Component {
             }}
           />
         </VictoryChart>
+        </div>
       </div>
     );
   }
