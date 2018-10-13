@@ -9,12 +9,10 @@ import RevenueCharts from "./RevenueCharts";
 import TimeSeriesCharts from "./TimeSeriesCharts";
 
 class App extends Component {
-  componentDidUpdate() {
-    console.log(this.state.dataCrossFiltered.groupAll().value())
-  }
+
   componentWillMount() {
     //Get all dimensions ready.
-    
+
     this.setState({
       branchDim: this.state.dataCrossFiltered.dimension(d => d.branch)
     });
@@ -55,21 +53,22 @@ class App extends Component {
     });
   }
   componentDidMount() {
-  /*   this.state.branchDim.filterFunction(d => d === "Branch A")
+    /*   this.state.branchDim.filterFunction(d => d === "Branch A")
     this.state.branchDim.filterFunction(d => d === "Branch B")
     console.log(this.state.dataCrossFiltered.groupAll().value()) */
     //console.log(this.state.dataCrossFiltered.groupAll().value())
-  //this.state.orderAmountDim.filterFunction(d => console.log(d))
-  //console.log(this.state.dataCrossFiltered.groupAll().value())
-  //this.state.orderTimeDim.filterFunction(d => (d >= 20 && d < 24) || (d > 0 && d < 6))
-  //console.log(this.state.dataCrossFiltered.groupAll().value())
-  //this.state.orderTimeDim.filterAll()
-  //this.state.orderTimeDim.filterFunction(d => (d >= 6 && d < 12))
-  //console.log(this.state.dataCrossFiltered.groupAll().value())
-  //console.log(this.state.dataCrossFiltered.groupAll().value())
-  /* this.state.branchDim.filterFunction(d => d === "Branch A")
+    //this.state.orderAmountDim.filterFunction(d => console.log(d))
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    //this.state.orderTimeDim.filterFunction(d => (d >= 20 && d < 24) || (d > 0 && d < 6))
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    //this.state.orderTimeDim.filterAll()
+    //this.state.orderTimeDim.filterFunction(d => (d >= 6 && d < 12))
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    //console.log(this.state.dataCrossFiltered.groupAll().value())
+    /* this.state.branchDim.filterFunction(d => d === "Branch A")
   console.log(this.state.dataCrossFiltered.groupAll().value()) */
-
+    //this.state.orderTimeDim.filterFunction(d => d < 24 || d < 6);
+   // this.state.orderTimeDim.filterFunction(d => d >= 6 && d < 12);
   }
   state = {
     data,
@@ -199,8 +198,13 @@ class App extends Component {
   //Deal with filteration of Branch bar charts by clicking on bars.
   handleBranchBarClick = selectedBranches => {
     if (!selectedBranches.length) {
-      this.resetBarFilter();
+      //Reset filter on the branch bar charts when second clicked.
+      this.setState(prevState => ({
+        branchDim: prevState.branchDim.filterAll()
+      }));
     } else {
+    /*When there is clicked bar(s). Filter according the array contains bars' labels.
+    I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
       this.setState(prevState => ({
         branchDim: prevState.branchDim.filterFunction(
           d =>
@@ -212,133 +216,169 @@ class App extends Component {
             d === selectedBranches[5]
         )
       }));
-      //this.state.branchDim.filterFunction(d => d === selectedBranches[0] || d === selectedBranches[1] || d === selectedBranches[2] || d === selectedBranches[3] || d === selectedBranches[4] || d === selectedBranches[5])
     }
   };
-  //Reset filter on the branch bar charts when second clicked.
-  resetBarFilter = () => {
-    this.setState(prevState => ({
-      branchDim: prevState.branchDim.filterAll()
-    }));
-  };
-
- handlePieSliceClick = selectedSlices => {
-   //console.log(selectedSlices)
-    const paymentMethodPie = selectedSlices.filter(slice => slice === "Cash" || slice === "CreditCard" || slice === "KNET")
-    const orderTimePie = selectedSlices.filter(slice => slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[0] === 20)
-    const orderAmountPie = selectedSlices.filter(slice => slice[0] === 0 || slice[0] === 10 || slice[1] === 40 || slice[0] === 40 || slice[0] === 70)
-    console.log(paymentMethodPie, orderTimePie, orderAmountPie)
+  
+  //Deal with filteration by clicking on Pie charts' slices.
+  handlePieSliceClick = selectedSlices => {
+    //Filterate the array to select every dimension slices and store them in different variables.
+    const paymentMethodPie = selectedSlices.filter(
+      slice => slice === "Cash" || slice === "CreditCard" || slice === "KNET"
+    );
+    //Slices for orderTime Pie and orderAmount Pie are in array format.
+    const orderTimePie = selectedSlices.filter(
+      slice =>
+        slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 6//To avoid double storage of the same slice (num 20 is shared in the two dimensions. ) 
+    );
+    const orderAmountPie = selectedSlices.filter(
+      slice =>
+        slice[0] === 0 ||
+        slice[0] === 10 ||
+        slice[1] === 40 ||//To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
+        slice[0] === 40 ||
+        slice[0] === 70
+    );
+    //If any slice of payment Method pie clicked.
     if (paymentMethodPie.length) {
       this.setState(prevState => ({
-        paymentMethodDim: prevState.paymentMethodDim.filterFunction(slice => slice === paymentMethodPie[0] || slice === paymentMethodPie[1] || slice === paymentMethodPie[2])
-      }))
+        paymentMethodDim: prevState.paymentMethodDim.filterFunction(
+          slice =>
+            slice === paymentMethodPie[0] ||
+            slice === paymentMethodPie[1] ||
+            slice === paymentMethodPie[2]
+        )
+      }));
     } else {
+      //Reset filter on the paymentMethodDim pie chart when slices reset by double clicked.
       this.setState(prevState => ({
         paymentMethodDim: prevState.paymentMethodDim.filterAll()
-      }))
+      }));
     }
     if (orderTimePie.length) {
-     switch (orderTimePie.length) {
-       case 1:
-       this.setState(prevState => ({
-        orderTimeDim: prevState.orderTimeDim.filterFunction(slice =>    //this.state.orderTimeDim.filterFunction(d => (d >= 20 && d < 24) || (d > 0 && d < 6))
+      switch (orderTimePie.length) {
+        case 1:
+          this.setState(prevState => ({
+            orderTimeDim: prevState.orderTimeDim.filterFunction(
+              slice =>
+              (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
+               (slice >= orderTimePie[0][2] && slice < orderTimePie[0][3])
 
-                                                                      (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
-                                                                      ((slice >= orderTimePie[0][0] &&  slice < 24) || (slice > 0 && slice < orderTimePie[0][1]))
-        )
-       }))
-       break
-       case 2:
-       this.setState(prevState => ({
-        orderTimeDim: prevState.orderTimeDim.filterFunction(slice => 
-                                                                      (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
-                                                                      ((slice >= orderTimePie[0][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[0][1])) ||
-                                                                      (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
-                                                                      ((slice >= orderTimePie[1][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[1][1]))
-        )
-       }))
-       break
-       case 3:
-       this.setState(prevState => ({
-        orderTimeDim: prevState.orderTimeDim.filterFunction(slice => 
-                                                                      (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
-                                                                      ((slice >= orderTimePie[0][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[0][1])) ||
-                                                                      (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
-                                                                      ((slice >= orderTimePie[1][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[1][1])) ||
-                                                                      (slice >= orderTimePie[2][0] && slice < orderTimePie[2][1]) ||
-                                                                      ((slice >= orderTimePie[2][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[2][1]))
-        )
-       }))
-       break
-       case 4:
-       this.setState(prevState => ({
-        orderTimeDim: prevState.orderTimeDim.filterFunction(slice => 
-                                                                      (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
-                                                                      ((slice >= orderTimePie[0][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[0][1])) ||
-                                                                      (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
-                                                                      ((slice >= orderTimePie[1][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[1][1])) ||
-                                                                      (slice >= orderTimePie[2][0] && slice < orderTimePie[2][1]) ||
-                                                                      ((slice >= orderTimePie[2][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[2][1])) ||
-                                                                      (slice >= orderTimePie[3][0] && slice < orderTimePie[3][1]) ||
-                                                                      ((slice >= orderTimePie[3][0] &&  slice < 24)|| (slice > 0 && slice < orderTimePie[3][1]))
-        )
-       }))
-       break
-     }
+            )
+          }));
+          break;
+        case 2:
+          this.setState(prevState => ({
+            orderTimeDim: prevState.orderTimeDim.filterFunction(
+              slice =>
+              (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
+              (slice >= orderTimePie[0][2] && slice < orderTimePie[0][3]) ||
+              (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
+              (slice >= orderTimePie[1][2] && slice < orderTimePie[1][3])   
+            )
+          }));
+          break;
+        case 3:
+          this.setState(prevState => ({
+            orderTimeDim: prevState.orderTimeDim.filterFunction(
+              slice =>
+              (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
+              (slice >= orderTimePie[0][2] && slice < orderTimePie[0][3]) ||
+              (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
+              (slice >= orderTimePie[1][2] && slice < orderTimePie[1][3]) ||
+              (slice >= orderTimePie[2][0] && slice < orderTimePie[2][1]) ||
+              (slice >= orderTimePie[2][2] && slice < orderTimePie[2][3])
+            )
+          }));
+          break;
+        case 4:
+          this.setState(prevState => ({
+            orderTimeDim: prevState.orderTimeDim.filterFunction(
+              slice =>
+              (slice >= orderTimePie[0][0] && slice < orderTimePie[0][1]) ||
+              (slice >= orderTimePie[0][2] && slice < orderTimePie[0][3]) ||
+              (slice >= orderTimePie[1][0] && slice < orderTimePie[1][1]) ||
+              (slice >= orderTimePie[1][2] && slice < orderTimePie[1][3]) ||
+              (slice >= orderTimePie[2][0] && slice < orderTimePie[2][1]) ||
+              (slice >= orderTimePie[2][2] && slice < orderTimePie[2][3]) ||
+              (slice >= orderTimePie[3][0] && slice < orderTimePie[3][1]) ||
+              (slice >= orderTimePie[3][2] && slice < orderTimePie[3][3])
+            )
+          }));
+          break;
+      }
     } else {
       this.setState(prevState => ({
         orderTimeDim: prevState.orderTimeDim.filterAll()
-      }))
+      }));
     }
-    if (orderAmountPie.length) {  
+    if (orderAmountPie.length) {
       switch (orderAmountPie.length) {
         case 1:
           this.setState(prevState => ({
-            orderAmountDim: prevState.orderAmountDim.filterFunction(slice => 
-                                                                             (slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]))
-          })) 
-          break
+            orderAmountDim: prevState.orderAmountDim.filterFunction(
+              slice =>
+                slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]
+            )
+          }));
+          break;
         case 2:
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterFunction(slice => 
-                                                                           (slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]) ||
-                                                                           (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1]))
-        }))
-        break
+          this.setState(prevState => ({
+            orderAmountDim: prevState.orderAmountDim.filterFunction(
+              slice =>
+                (slice >= orderAmountPie[0][0] &&
+                  slice < orderAmountPie[0][1]) ||
+                (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1])
+            )
+          }));
+          break;
         case 3:
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterFunction(slice => 
-                                                                           (slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]) ||
-                                                                           (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1]) ||
-                                                                           (slice >= orderAmountPie[2][0] && slice < orderAmountPie[2][1]))
-        }))
-        break
+          this.setState(prevState => ({
+            orderAmountDim: prevState.orderAmountDim.filterFunction(
+              slice =>
+                (slice >= orderAmountPie[0][0] &&
+                  slice < orderAmountPie[0][1]) ||
+                (slice >= orderAmountPie[1][0] &&
+                  slice < orderAmountPie[1][1]) ||
+                (slice >= orderAmountPie[2][0] && slice < orderAmountPie[2][1])
+            )
+          }));
+          break;
         case 4:
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterFunction(slice => 
-                                                                           (slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]) ||
-                                                                           (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1]) ||
-                                                                           (slice >= orderAmountPie[2][0] && slice < orderAmountPie[2][1]) ||
-                                                                           (slice >= orderAmountPie[3][0] && slice < orderAmountPie[3][1]))
-        }))
-        break
+          this.setState(prevState => ({
+            orderAmountDim: prevState.orderAmountDim.filterFunction(
+              slice =>
+                (slice >= orderAmountPie[0][0] &&
+                  slice < orderAmountPie[0][1]) ||
+                (slice >= orderAmountPie[1][0] &&
+                  slice < orderAmountPie[1][1]) ||
+                (slice >= orderAmountPie[2][0] &&
+                  slice < orderAmountPie[2][1]) ||
+                (slice >= orderAmountPie[3][0] && slice < orderAmountPie[3][1])
+            )
+          }));
+          break;
         case 5:
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterFunction(slice => 
-                                                                           (slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]) ||
-                                                                           (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1]) ||
-                                                                           (slice >= orderAmountPie[2][0] && slice < orderAmountPie[2][1]) ||
-                                                                           (slice >= orderAmountPie[3][0] && slice < orderAmountPie[3][1]) ||
-                                                                           (slice >= orderAmountPie[4][0] && slice < orderAmountPie[4][1])
-                                                                          )
-        }))
+          this.setState(prevState => ({
+            orderAmountDim: prevState.orderAmountDim.filterFunction(
+              slice =>
+                (slice >= orderAmountPie[0][0] &&
+                  slice < orderAmountPie[0][1]) ||
+                (slice >= orderAmountPie[1][0] &&
+                  slice < orderAmountPie[1][1]) ||
+                (slice >= orderAmountPie[2][0] &&
+                  slice < orderAmountPie[2][1]) ||
+                (slice >= orderAmountPie[3][0] &&
+                  slice < orderAmountPie[3][1]) ||
+                (slice >= orderAmountPie[4][0] && slice < orderAmountPie[4][1])
+            )
+          }));
       }
     } else {
       this.setState(prevState => ({
         orderAmountDim: prevState.orderAmountDim.filterAll()
-      }))
+      }));
     }
-  }
+  };
 
   render() {
     return (
