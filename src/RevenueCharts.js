@@ -47,8 +47,8 @@ class RevenueCharts extends Component {
             height={280}
             width={280}
             colorScale="warm"
-            labelRadius={60}
-            style={{ labels: { fill: "#999", fontSize: 10 } }}
+            labelRadius={120}
+            style={{ labels: { fill: "#fff", fontSize: 10 } }}
             animate={{
               duration: 2000,
               onLoad: { duration: 3000 }
@@ -112,7 +112,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: [6, 12]
+                label: [6, 8, 8 , 12]
               },
               {
                 y:
@@ -128,7 +128,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: [12, 17]
+                label: [12,14, 14, 17]
               },
               {
                 y:
@@ -144,7 +144,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: [17, 20]
+                label: [17,18,18, 20]
               },
               {
                 y:
@@ -160,14 +160,14 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[0].value,
-                label: [20, 6]
+                label: [20, 24, 0, 6]
               }
             ]}
             height={280}
             width={280}
             colorScale="warm"
-            labelRadius={60}
-            style={{ labels: { fill: "#999", fontSize: 10 } }}
+            labelRadius={120}
+            style={{ labels: { fill: "#fff", fontSize: 10 } }}
             animate={{
               duration: 2000,
               onLoad: { duration: 3000 }
@@ -224,7 +224,7 @@ class RevenueCharts extends Component {
                     parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                   )
                   .all()[0].value,
-                label: "< $10"
+                label: [0, 10]
               },
               {
                 y:
@@ -240,7 +240,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: "$10 - $20"
+                label: [10 , 20]
               },
               {
                 y:
@@ -256,7 +256,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: "$20 - $40"
+                label: [20 , 40]
               },
               {
                 y:
@@ -272,7 +272,7 @@ class RevenueCharts extends Component {
                       parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                     )
                     .all()[1].value,
-                label: "$40 - $70"
+                label: [40 , 70]
               },
               {
                 y: this.props.orderAmountDim
@@ -281,14 +281,14 @@ class RevenueCharts extends Component {
                     parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
                   )
                   .all()[1].value,
-                label: "> $70"
+                label: [70 , 1000000]
               }
             ]}
             height={280}
             width={280}
             colorScale={["#008f68", "#6DB", "#6DB65B", "#4AAE9B", "#EFBB35"]}
-            labelRadius={60}
-            style={{ labels: { fill: "#999", fontSize: 10 } }}
+            labelRadius={120}
+            style={{ labels: { fill: "#fff", fontSize: 10 } }}
             animate={{
               duration: 2000,
               onLoad: { duration: 3000 }
