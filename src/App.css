@@ -43,27 +43,50 @@ h1 {
   margin-right: auto;
   margin-left: auto;
   margin-top: 0;
+  padding: 15px 0;
   text-align: center;
-  color: rgb(214, 214, 214);
-  font-family: 'Lato', sans-serif;
-  font-size: 36px;
-  font-weight: lighter;
-  border-bottom: 1px solid rgb(180, 180, 180);
+  color: #333;
+  text-shadow: 1px 1px rgba(255,255,255,0.9);
+  font-size: 38px;
+  font-weight: 300;
+  border-bottom: 1px solid #333;
   width: 200px;
 }
 
+h2 {
+  margin: 15px 0 -30px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+  text-shadow: 1px 1px rgba(255,255,255,0.9);
+}
+
+.time-series-title {
+  text-align: left;
+  font-size: 20px;
+  padding-left: 60px;
+}
 
 
 .App {
   padding: 0;
   margin: 0;
   width: 100%;
-  height: 100%;
+  height: 3800px;
+  background-color: rgb(202, 202, 202, .6);
+  position: relative;
 }
 
 .card {
   width: 30%;
   height: 400px;
+  background-color: #F5F5DC;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  position: relative;
 }
 
 .card-container {
@@ -75,34 +98,246 @@ h1 {
   align-items: space-around;
   margin-right: auto;
   margin-left: auto;
-}
-
-
-#pie-1 {
-  order: 2;
-}
-
-#pie-2 {
-  order: 4;
-}
-
-#pie-3 {
-  order: 1;
-}
-
-#bar-1 {
-  order: 3;
-}
-
-#bar-2 {
-  order: 5;
-}
-
-#bar-3 {
-  order: 6;
+  position: relative;
 }
 
 .time-series-card {
   width: 100%;
   height: 400px;
+  background-color: #F5F5DC;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
+  position: relative;
+  margin-bottom: 40px;
+}
+
+
+
+
+.labels-container,
+.labels-container-orderAmount,
+.labels-container-orderTime {
+  position: absolute;
+  left: 8%;
+  width: 80px;
+  font-size: 10px;
+}
+
+.labels-container {
+  height: 40px;
+  top: 85%;
+
+}
+
+.labels-container-orderAmount {
+  height: 80px;
+  top: 75%;
+}
+
+.labels-container-orderTime {
+  height: 70px;
+  top: 80%;
+}
+
+.label-1,
+.label-2,
+.label-3,
+.label-1-orderAmount,
+.label-2-orderAmount,
+.label-3-orderAmount,
+.label-4-orderAmount,
+.label-5-orderAmount,
+.label-1-orderTime,
+.label-2-orderTime,
+.label-3-orderTime,
+.label-4-orderTime
+ {
+  position: absolute;
+}
+
+.label-1 {
+  top: 5%;
+  left: 12%;
+}
+
+.label-2 {
+  top: 30%;
+  left: 10%;
+}
+
+.label-3 {
+  top: 60%;
+  left: 10%;
+}
+
+.label-1-orderAmount {
+  top: 10%;
+  left: 12%;
+}
+
+.label-2-orderAmount {
+  top: 30%;
+  left: 10%;
+}
+
+.label-3-orderAmount {
+  top: 50%;
+  left: 10%;
+}
+.label-4-orderAmount {
+  top: 70%;
+  left: 10%
+}
+
+.label-5-orderAmount {
+  top: 90%;;
+  left: 10%;
+}
+
+.label-1-orderTime {
+  top: 10%;
+  left: 12%;
+}
+.label-2-orderTime {
+  top: 30%;
+  left: 12%;
+}
+.label-3-orderTime {
+  top: 50%;
+  left: 12%;
+}
+.label-4-orderTime {
+  top: 70%;
+  left: 12%;
+}
+ 
+
+#box-1 {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #3d3d42;
+}
+#box-2 {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #008f68;
+}
+#box-3 {
+  position: absolute;
+  top: 72%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #EFBB35;
+}
+
+#box-1-orderAmount {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #c8e7b0;
+}
+
+#box-2-orderAmount {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #3d3d42;
+}
+
+#box-3-orderAmount {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #4db7ce;
+}
+
+#box-4-orderAmount {
+  position: absolute;
+  top: 75%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #008f68;
+}
+
+#box-5-orderAmount {
+  position: absolute;
+  top: 95%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #EFBB35;
+}
+
+#box-1-orderTime {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #c8e7b0;
+}
+
+#box-2-orderTime {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #3d3d42;
+}
+
+#box-3-orderTime {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #4db7ce;
+}
+
+#box-4-orderTime {
+  position: absolute;
+  top: 75%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #008f68;
+}
+
+.reset {
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 10px;
+  color: #015c44;
+  display: inline-block;
+  background-color: rgba(199, 199, 181,.9);
+  width: auto;
+  padding: 0 5px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease-in;
+}
+
+.reset:hover {
+  background-color: rgba(161, 161, 148, 0.795);
+}
+
+.btn-group {
+  margin-bottom: -40px;
+
 }
