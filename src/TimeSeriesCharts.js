@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { VictoryLine, VictoryChart, VictoryBrushContainer, VictoryZoomContainer, VictoryAxis } from "victory";
+import { VictoryLine, VictoryChart, VictoryBrushContainer } from "victory";
 //import PropTypes from 'prop-types'
 
 class TimeSeriesCharts extends Component {
@@ -154,10 +154,6 @@ class TimeSeriesCharts extends Component {
               .map(date => {
                 return { x: date.key, y: date.value };
               })}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 2000 }
-            }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
