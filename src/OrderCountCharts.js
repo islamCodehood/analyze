@@ -32,17 +32,11 @@ class OrderCountCharts extends Component {
   handleResetClick = e => {
     if (e.target.text === "Reset All") {
       this.props.resetAll();
-      /* if (document.getElementsByTagName('path')[0].style.fill !== "rgb(76, 76, 130)") {
-        console.log(this.props.style.fill) 
-      } */
     } else {
       this.props.resetDim(e.target.parentElement.id);
     }
   };
 
-  /* handleResetClick = () => {
-
-  } */
 
   render() {
     return (
