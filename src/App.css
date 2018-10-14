@@ -1,36 +1,3 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
 html,
 body {
   width: 100%;
@@ -39,6 +6,17 @@ body {
   padding: 0;
 } 
 
+.App {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 3800px;
+  background-color: rgb(202, 202, 202, .6);
+  position: relative;
+}
+
+
+/*Headers*/
 h1 {
   margin-right: auto;
   margin-left: auto;
@@ -67,35 +45,32 @@ h2 {
   font-size: 20px;
   padding-left: 60px;
 }
+/*******************************/
 
-
-.App {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 3800px;
-  background-color: rgb(202, 202, 202, .6);
-  position: relative;
-}
-
+/*Styling for charts cards*/
 .card {
   width: 30%;
   height: 400px;
   background-color: #F5F5DC;
   border-radius: 5px;
   -webkit-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
   box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
   position: relative;
 }
 
 .card-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   width: 90%;
   height: 900px;
-  justify-content: space-around;
-  align-items: space-around;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: space-around;
+      -ms-flex-align: space-around;
+          align-items: space-around;
   margin-right: auto;
   margin-left: auto;
   position: relative;
@@ -107,14 +82,13 @@ h2 {
   background-color: #F5F5DC;
   border-radius: 5px;
   -webkit-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
   box-shadow: 0px 10px 28px -9px rgba(0,0,0,0.75);
   position: relative;
   margin-bottom: 40px;
 }
+/**********************************************/
 
-
-
+/*styling for colored labals of pie charts*/
 
 .labels-container,
 .labels-container-orderAmount,
@@ -319,7 +293,9 @@ h2 {
   height: 7px;
   background-color: #008f68;
 }
+/***********************/
 
+/*Styling for reset buttons*/
 .reset {
   text-decoration: none;
   font-size: 14px;
@@ -330,7 +306,9 @@ h2 {
   width: auto;
   padding: 0 5px;
   border-radius: 3px;
+  -webkit-transition: background-color 0.3s ease-in;
   transition: background-color 0.3s ease-in;
+  
 }
 
 .reset:hover {
@@ -338,6 +316,8 @@ h2 {
 }
 
 .btn-group {
+  position: relative;
   margin-bottom: -40px;
-
+  z-index: 1000;
 }
+/************************/
