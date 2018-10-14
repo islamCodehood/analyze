@@ -98,7 +98,6 @@ class OrderCountCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
-                          //console.log(typeof(props.style.fill))
                           return props.style.fill === "#4c4c82"
                             ? props.style.fill
                             : { style: { fill: "#4c4c82" } };
