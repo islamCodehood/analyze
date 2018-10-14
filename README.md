@@ -60,7 +60,7 @@
 
 You can either:
 1. Visit the [App web page](https://analyzcharts.netlify.com)./ Or
-2. Download a compressed version from [here](). Then:
+2. Download a compressed version from [here](https://github.com/Islam888/analyze/archive/master.zip). Then:
   - Decompress the app.
   - In your terminale locate the app directory and run `npm install`.
     - To run development mood:
