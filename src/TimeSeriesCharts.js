@@ -9,7 +9,6 @@ class TimeSeriesCharts extends Component {
 
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
-    console.log(domain);
   };
 
   handleResetClick = e => {
