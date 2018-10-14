@@ -236,6 +236,8 @@ class App extends Component {
     }
     if (orderTimePie.length) {
       switch (orderTimePie.length) {
+        /*Labels for time are in array format and divided into 4 time points to overcome the
+        * the time range from 20 to 6*/
         case 1:
           this.setState(prevState => ({
             orderTimeDim: prevState.orderTimeDim.filterFunction(
@@ -359,7 +361,7 @@ class App extends Component {
       }));
     }
   };
-
+//reset all dimensions
   resetAll = () => {
     this.setState(prevState => ({
       branchDim: prevState.branchDim.filterAll()
@@ -386,7 +388,7 @@ class App extends Component {
       orderAmountDim: prevState.orderAmountDim.filterAll()
     }))
   }
-
+//reset individual dimension
   resetDim = (dim) => {
     switch (dim) {
       case "orderCount-paymentMethod":
