@@ -9,8 +9,6 @@ import {
 } from "victory";
 
 class OrderCountCharts extends Component {
-
-
   state = {
     clickedBar: [],
     clickedPieSlice: []
@@ -31,19 +29,16 @@ class OrderCountCharts extends Component {
     }, 100);
   };
 
-  handleResetClick = (e) => {
+  handleResetClick = e => {
     if (e.target.text === "Reset All") {
-      this.props.resetAll()
+      this.props.resetAll();
       /* if (document.getElementsByTagName('path')[0].style.fill !== "rgb(76, 76, 130)") {
         console.log(this.props.style.fill) 
       } */
     } else {
-      this.props.resetDim(e.target.parentElement.id)
+      this.props.resetDim(e.target.parentElement.id);
     }
-    
-  }
-    
-  
+  };
 
   /* handleResetClick = () => {
 
@@ -51,18 +46,22 @@ class OrderCountCharts extends Component {
 
   render() {
     return (
-      <div className="card-container">     
+      <div className="card-container">
         <div id="orderCount-paymentMethod" className="card">
           <h2>Orders Count / Payment Method</h2>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <div className="btn-group">
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
-    
+
           <VictoryPie
-          className="pie"
+            className="pie"
             name="payMethodPieChart"
             responsive={false}
             data={this.props.paymentMethodDim
@@ -118,19 +117,25 @@ class OrderCountCharts extends Component {
             ]}
           />
           <div className="labels-container">
-          <div id="box-1"></div><div className="label-1">Cash</div>
-          <div id="box-2"></div><div className="label-2">Credit Card</div>
-          <div id="box-3"></div><div className="label-3">KNET</div>
+            <div id="box-1" />
+            <div className="label-1">Cash</div>
+            <div id="box-2" />
+            <div className="label-2">Credit Card</div>
+            <div id="box-3" />
+            <div className="label-3">KNET</div>
           </div>
         </div>
         <div id="orderCount-orderTime" className="card">
-        <h2>Orders Count / Order Time</h2>
-        <br/>
-          <br/>
+          <h2>Orders Count / Order Time</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
           <VictoryPie
             responsive={false}
@@ -139,19 +144,19 @@ class OrderCountCharts extends Component {
                 y:
                   this.props.orderTimeDim.group(d => d >= 6).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 12).all()[1].value,
-                label: [6, 8, 8 , 12]
+                label: [6, 8, 8, 12]
               },
               {
                 y:
                   this.props.orderTimeDim.group(d => d >= 12).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 17).all()[1].value,
-                label: [12,14, 14, 17]
+                label: [12, 14, 14, 17]
               },
               {
                 y:
                   this.props.orderTimeDim.group(d => d >= 17).all()[1].value -
                   this.props.orderTimeDim.group(d => d >= 20).all()[1].value,
-                label: [17,18,18, 20]
+                label: [17, 18, 18, 20]
               },
               {
                 y:
@@ -178,12 +183,16 @@ class OrderCountCharts extends Component {
                       {
                         target: "labels",
                         mutation: props => {
-                          if (this.state.clickedPieSlice.find(slice => slice[0] === props.datum.label[0]) === undefined) {
-                            this.state.clickedPieSlice.push(props.datum.label)
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice[0] === props.datum.label[0]
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
-                            })
-                            
+                            });
+
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
@@ -210,20 +219,27 @@ class OrderCountCharts extends Component {
             ]}
           />
           <div className="labels-container-orderTime">
-          <div id="box-1-orderTime"></div><div className="label-1-orderTime">Morning</div>
-          <div id="box-2-orderTime"></div><div className="label-2-orderTime">Afternoon</div>
-          <div id="box-3-orderTime"></div><div className="label-3-orderTime">Evening</div>
-          <div id="box-4-orderTime"></div><div className="label-4-orderTime">Night</div>
+            <div id="box-1-orderTime" />
+            <div className="label-1-orderTime">Morning</div>
+            <div id="box-2-orderTime" />
+            <div className="label-2-orderTime">Afternoon</div>
+            <div id="box-3-orderTime" />
+            <div className="label-3-orderTime">Evening</div>
+            <div id="box-4-orderTime" />
+            <div className="label-4-orderTime">Night</div>
           </div>
         </div>
         <div id="orderCount-orderSize" className="card">
-        <h2>Orders Count / Order Size</h2>
-        <br/>
-          <br/>
+          <h2>Orders Count / Order Size</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
           <VictoryPie
             responsive={false}
@@ -236,23 +252,23 @@ class OrderCountCharts extends Component {
                 y:
                   this.props.orderAmountDim.group(d => d >= 10).all()[1].value -
                   this.props.orderAmountDim.group(d => d >= 20).all()[1].value,
-                label: [10 , 20]
+                label: [10, 20]
               },
               {
                 y:
                   this.props.orderAmountDim.group(d => d >= 20).all()[1].value -
                   this.props.orderAmountDim.group(d => d >= 40).all()[1].value,
-                label: [20 , 40]
+                label: [20, 40]
               },
               {
                 y:
                   this.props.orderAmountDim.group(d => d >= 40).all()[1].value -
                   this.props.orderAmountDim.group(d => d >= 70).all()[1].value,
-                label: [40 , 70]
+                label: [40, 70]
               },
               {
                 y: this.props.orderAmountDim.group(d => d >= 70).all()[1].value,
-                label: [70 , 1000000]
+                label: [70, 1000000]
               }
             ]}
             height={280}
@@ -274,12 +290,16 @@ class OrderCountCharts extends Component {
                       {
                         target: "labels",
                         mutation: props => {
-                          if (this.state.clickedPieSlice.find(slice => slice[0] === props.datum.label[0]) === undefined) {
-                            this.state.clickedPieSlice.push(props.datum.label)
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice[0] === props.datum.label[0]
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
-                            })
-                            
+                            });
+
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
@@ -306,26 +326,32 @@ class OrderCountCharts extends Component {
             ]}
           />
           <div className="labels-container-orderAmount">
-          <div id="box-1-orderAmount"></div><div className="label-1-orderAmount">Less than $10</div>
-          <div id="box-2-orderAmount"></div><div className="label-2-orderAmount">$10 - $20</div>
-          <div id="box-3-orderAmount"></div><div className="label-3-orderAmount">$20 - $40</div>
-          <div id="box-4-orderAmount"></div><div className="label-4-orderAmount">$40 - $70</div>
-          <div id="box-5-orderAmount"></div><div className="label-5-orderAmount">$70 and more</div>
+            <div id="box-1-orderAmount" />
+            <div className="label-1-orderAmount">Less than $10</div>
+            <div id="box-2-orderAmount" />
+            <div className="label-2-orderAmount">$10 - $20</div>
+            <div id="box-3-orderAmount" />
+            <div className="label-3-orderAmount">$20 - $40</div>
+            <div id="box-4-orderAmount" />
+            <div className="label-4-orderAmount">$40 - $70</div>
+            <div id="box-5-orderAmount" />
+            <div className="label-5-orderAmount">$70 and more</div>
           </div>
         </div>
         <div id="orderCount-branch" className="card">
-        <h2>Orders Count / Branch</h2>
-        <br/>
-          <br/>
+          <h2>Orders Count / Branch</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
-           responsive={false}
+            responsive={false}
             domainPadding={16}
-            padding={{left: 80, right: 60}}
-            >
+            padding={{ left: 80, right: 60 }}
+          >
             <VictoryBar
               horizontal
               labelComponent={
@@ -339,7 +365,11 @@ class OrderCountCharts extends Component {
                 .group()
                 .all()
                 .map(branch => {
-                  return { y: branch.value, x: branch.key, label: branch.value + " Order" };
+                  return {
+                    y: branch.value,
+                    x: branch.key,
+                    label: branch.value + " Order"
+                  };
                 })}
               style={{
                 data: { fill: "#008f68" },
@@ -393,12 +423,13 @@ class OrderCountCharts extends Component {
           </VictoryChart>
         </div>
         <div id="orderCount-deliveryArea" className="card">
-        <h2>Orders Count / Delivery Area</h2>
-        <br/>
-          <br/>
+          <h2>Orders Count / Delivery Area</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
             responsive={false}
@@ -417,9 +448,7 @@ class OrderCountCharts extends Component {
               />
             }
             domainPadding={9}
-            
           >
-            
             <VictoryBar
               data={this.props.deliveryAreaDim
                 .group()
@@ -431,26 +460,26 @@ class OrderCountCharts extends Component {
                 data: { fill: (d, active) => (active ? "grey" : "#33619D") },
                 labels: { fill: "#888", fontSize: 10 }
               }}
-              barWidth={17} 
+              barWidth={17}
               animate={{
                 duration: 500,
                 onLoad: { duration: 800 }
               }}
             />
             <VictoryAxis
-            style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-            
-          />
+              style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
+            />
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
         <div id="orderCount-weekDay" className="card">
-        <h2>Orders Count / Week Day</h2>
-        <br/>
-          <br/>
+          <h2>Orders Count / Week Day</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
             responsive={false}
@@ -498,9 +527,8 @@ class OrderCountCharts extends Component {
               }}
             />
             <VictoryAxis
-            style={{ tickLabels: { angle: -70, fontSize: 15, padding: 32 } }}
-            
-          />
+              style={{ tickLabels: { angle: -70, fontSize: 15, padding: 32 } }}
+            />
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
@@ -508,6 +536,5 @@ class OrderCountCharts extends Component {
     );
   }
 }
-
 
 export default OrderCountCharts;

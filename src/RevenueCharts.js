@@ -29,25 +29,28 @@ class RevenueCharts extends Component {
     }, 10);
   };
 
-  handleResetClick = (e) => {
+  handleResetClick = e => {
     if (e.target.text === "Reset All") {
-      this.props.resetAll()
+      this.props.resetAll();
     } else {
-      this.props.resetDim(e.target.parentElement.id)
+      this.props.resetDim(e.target.parentElement.id);
     }
-  }
+  };
 
   render() {
     return (
       <div className="card-container">
         <div id="revenue-paymentMethod" className="card">
-        <h2>Revenue / Payment Method</h2>
-        <br/>
-          <br/>
+          <h2>Revenue / Payment Method</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
           <VictoryPie
             responsive={false}
@@ -110,19 +113,25 @@ class RevenueCharts extends Component {
             ]}
           />
           <div className="labels-container">
-          <div id="box-1"></div><div className="label-1">Cash</div>
-          <div id="box-2"></div><div className="label-2">Credit Card</div>
-          <div id="box-3"></div><div className="label-3">KNET</div>
+            <div id="box-1" />
+            <div className="label-1">Cash</div>
+            <div id="box-2" />
+            <div className="label-2">Credit Card</div>
+            <div id="box-3" />
+            <div className="label-3">KNET</div>
           </div>
         </div>
         <div id="revenue-orderTime" className="card">
-        <h2>Revenue / Order Time</h2>
-        <br/>
-          <br/>
+          <h2>Revenue / Order Time</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
           <VictoryPie
             responsive={false}
@@ -205,17 +214,20 @@ class RevenueCharts extends Component {
               {
                 target: "data",
                 eventHandlers: {
-                  
                   onClick: () => {
                     return [
                       {
                         target: "labels",
                         mutation: props => {
-                          if (this.state.clickedPieSlice.find(slice => slice[0] === props.datum.label[0]) === undefined) {
-                            this.state.clickedPieSlice.push(props.datum.label)
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice[0] === props.datum.label[0]
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
-                            })
+                            });
 
                             this.handlePieSliceClick();
                           } else {
@@ -243,22 +255,30 @@ class RevenueCharts extends Component {
             ]}
           />
           <div className="labels-container-orderTime">
-          <div id="box-1-orderTime"></div><div className="label-1-orderTime">Morning</div>
-          <div id="box-2-orderTime"></div><div className="label-2-orderTime">Afternoon</div>
-          <div id="box-3-orderTime"></div><div className="label-3-orderTime">Evening</div>
-          <div id="box-4-orderTime"></div><div className="label-4-orderTime">Night</div>
+            <div id="box-1-orderTime" />
+            <div className="label-1-orderTime">Morning</div>
+            <div id="box-2-orderTime" />
+            <div className="label-2-orderTime">Afternoon</div>
+            <div id="box-3-orderTime" />
+            <div className="label-3-orderTime">Evening</div>
+            <div id="box-4-orderTime" />
+            <div className="label-4-orderTime">Night</div>
           </div>
         </div>
         <div id="revenue-orderSize" className="card">
-        <h2>Revenue / Order Size</h2>
-        <br/>
-          <br/>
+          <h2>Revenue / Order Size</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset Dimension</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
           </div>
-          <VictoryPie className=""
+          <VictoryPie
+            className=""
             responsive={false}
             data={[
               {
@@ -347,11 +367,15 @@ class RevenueCharts extends Component {
                       {
                         target: "labels",
                         mutation: props => {
-                          if (this.state.clickedPieSlice.find(slice => slice[0] === props.datum.label[0]) === undefined) {
-                            this.state.clickedPieSlice.push(props.datum.label)
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice[0] === props.datum.label[0]
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
-                            })
+                            });
 
                             this.handlePieSliceClick();
                           } else {
@@ -379,20 +403,26 @@ class RevenueCharts extends Component {
             ]}
           />
           <div className="labels-container-orderAmount">
-          <div id="box-1-orderAmount"></div><div className="label-1-orderAmount">Less than $10</div>
-          <div id="box-2-orderAmount"></div><div className="label-2-orderAmount">$10 - $20</div>
-          <div id="box-3-orderAmount"></div><div className="label-3-orderAmount">$20 - $40</div>
-          <div id="box-4-orderAmount"></div><div className="label-4-orderAmount">$40 - $70</div>
-          <div id="box-5-orderAmount"></div><div className="label-5-orderAmount">$70 and more</div>
+            <div id="box-1-orderAmount" />
+            <div className="label-1-orderAmount">Less than $10</div>
+            <div id="box-2-orderAmount" />
+            <div className="label-2-orderAmount">$10 - $20</div>
+            <div id="box-3-orderAmount" />
+            <div className="label-3-orderAmount">$20 - $40</div>
+            <div id="box-4-orderAmount" />
+            <div className="label-4-orderAmount">$40 - $70</div>
+            <div id="box-5-orderAmount" />
+            <div className="label-5-orderAmount">$70 and more</div>
           </div>
         </div>
-        <div id="revenue-branch"  className="card">
-        <h2>Revenue / Branch</h2>
-        <br/>
-          <br/>
+        <div id="revenue-branch" className="card">
+          <h2>Revenue / Branch</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
             responsive={false}
@@ -408,11 +438,20 @@ class RevenueCharts extends Component {
                 )
                 .all()
                 .map(branch => {
-                  return { y: branch.value, x: branch.key, label: "$" + Math.round(branch.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  return {
+                    y: branch.value,
+                    x: branch.key,
+                    label:
+                      "$" +
+                      Math.round(branch.value)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  };
                 })}
-              style={{ labels: { fill: "#666", fontSize: 14 },
-                      data: { fill: "#008f68" }
-            }}
+              style={{
+                labels: { fill: "#666", fontSize: 14 },
+                data: { fill: "#008f68" }
+              }}
               animate={{
                 duration: 2000,
                 onLoad: { duration: 3000 }
@@ -461,12 +500,13 @@ class RevenueCharts extends Component {
           </VictoryChart>
         </div>
         <div id="revenue-deliveryArea" className="card">
-        <h2>Revenue / Delivery Area</h2>
-        <br/>
-          <br/>
+          <h2>Revenue / Delivery Area</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
             responsive={false}
@@ -508,18 +548,18 @@ class RevenueCharts extends Component {
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-
             />
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
         <div id="revenue-weekDay" className="card">
-        <h2>Revenue / Week Day</h2>
-        <br/>
-          <br/>
+          <h2>Revenue / Week Day</h2>
+          <br />
+          <br />
           <div className="btn-group">
-
-          <a href="#!" className="reset" onClick={this.handleResetClick}>Reset All</a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
           </div>
           <VictoryChart
             responsive={false}
@@ -571,7 +611,6 @@ class RevenueCharts extends Component {
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 15, padding: 32 } }}
-
             />
             <VictoryAxis dependentAxis />
           </VictoryChart>
