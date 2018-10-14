@@ -7,7 +7,6 @@ import {
   VictoryLabel,
   VictoryAxis
 } from "victory";
-import PropTypes from "prop-types";
 
 class OrderCountCharts extends Component {
 
@@ -510,11 +509,5 @@ class OrderCountCharts extends Component {
   }
 }
 
-/* OrderCountCharts.propTypes = {
-  height: PropTypes.number,
-  colorScale: PropTypes.string,
-  labelRadius: PropTypes.number,
-  style: PropTypes.object
-}; */
 
 export default OrderCountCharts;

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { VictoryLine, VictoryChart, VictoryBrushContainer } from "victory";
-//import PropTypes from 'prop-types'
 
 class TimeSeriesCharts extends Component {
 
