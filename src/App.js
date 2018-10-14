@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-//import  "normalize.css";
 import data from "./data";
 import crossfilter2 from "crossfilter2";
 import PropTypes from "prop-types";
@@ -12,7 +11,6 @@ class App extends Component {
 
   componentWillMount() {
     //Get all dimensions ready.
-
     this.setState({
       branchDim: this.state.dataCrossFiltered.dimension(d => d.branch)
     });
@@ -440,7 +438,6 @@ class App extends Component {
           handleChartChange={this.handleChartChange}
           handleBranchBarClick={this.handleBranchBarClick}
           handlePieSliceClick={this.handlePieSliceClick}
-          records={this.state.dataCrossFiltered.groupAll().value()}
           resetAll={this.resetAll}
           resetDim={this.resetDim}
         />
