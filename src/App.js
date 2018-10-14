@@ -287,6 +287,8 @@ class App extends Component {
             )
           }));
           break;
+          default:
+          break;
       }
     } else {
       this.setState(prevState => ({
@@ -354,6 +356,9 @@ class App extends Component {
                 (slice >= orderAmountPie[4][0] && slice < orderAmountPie[4][1])
             )
           }));
+          break;
+          default:
+        break;
       }
     } else {
       this.setState(prevState => ({
@@ -421,6 +426,8 @@ class App extends Component {
         orderAmountDim: prevState.orderAmountDim.filterAll()
       }))
       break
+      default:
+        break;
     }
     
 
@@ -470,10 +477,20 @@ class App extends Component {
   }
 }
 
-/* App.propTypes = {
-  data: PropTypes.array,
-  countPerPayment: PropTypes.func,
-  countPerTime: PropTypes.func
-}; */
+App.propTypes = {
+  orderTimeDim: PropTypes.object,
+  paymentMethodDim: PropTypes.object,
+  orderAmountDim: PropTypes.object,
+  branchDim: PropTypes.object,
+  deliveryAreaDim: PropTypes.object,
+  orderWeekDayDim: PropTypes.object,
+  handleChartChange: PropTypes.func,
+  handleBranchBarClick: PropTypes.func,
+  handlePieSliceClick: PropTypes.func,
+  resetAll: PropTypes.func,
+  resetDim: PropTypes.func,
+  orderDateDim: PropTypes.object,
+  orderMonthDim : PropTypes.object
+};
 
 export default App;
