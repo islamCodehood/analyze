@@ -32,7 +32,7 @@
 
 ## App URL
 
-- 
+- https://analyzcharts.netlify.com
 
 
 ## React App Hierarchy
@@ -59,7 +59,7 @@
 ## Installation
 
 You can either:
-1. Visit the [App web page]()./ Or
+1. Visit the [App web page](https://analyzcharts.netlify.com)./ Or
 2. Download a compressed version from [here](). Then:
   - Decompress the app.
   - In your terminale locate the app directory and run `npm install`.
