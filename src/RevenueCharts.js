@@ -26,7 +26,7 @@ class RevenueCharts extends Component {
   handlePieSliceClick = () => {
     setTimeout(() => {
       this.props.handlePieSliceClick(this.state.clickedPieSlice);
-    }, 100);
+    }, 10);
   };
 
   handleResetClick = (e) => {
