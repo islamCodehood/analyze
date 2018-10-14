@@ -6,7 +6,6 @@ import {
   VictoryBrushContainer,
   VictoryAxis
 } from "victory";
-//import PropTypes from 'prop-types'
 
 class RevenueCharts extends Component {
   state = {

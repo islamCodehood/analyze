@@ -5,7 +5,6 @@ import {
   VictoryChart,
   VictoryBrushContainer,
   VictoryLabel,
-  VictoryTheme,
   VictoryAxis
 } from "victory";
 import PropTypes from "prop-types";
@@ -229,7 +228,6 @@ class OrderCountCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
-            innerRadius={10}
             data={[
               {
                 y: this.props.orderAmountDim.group(d => d >= 10).all()[0].value,
