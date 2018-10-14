@@ -52,26 +52,8 @@ class App extends Component {
       )
     });
   }
-  componentDidMount() {
-    /*   this.state.branchDim.filterFunction(d => d === "Branch A")
-    this.state.branchDim.filterFunction(d => d === "Branch B")
-    console.log(this.state.dataCrossFiltered.groupAll().value()) */
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    //this.state.orderAmountDim.filterFunction(d => console.log(d))
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    //this.state.orderTimeDim.filterFunction(d => (d >= 20 && d < 24) || (d > 0 && d < 6))
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    //this.state.orderTimeDim.filterAll()
-    //this.state.orderTimeDim.filterFunction(d => (d >= 6 && d < 12))
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    //console.log(this.state.dataCrossFiltered.groupAll().value())
-    /* this.state.branchDim.filterFunction(d => d === "Branch A")
-  console.log(this.state.dataCrossFiltered.groupAll().value()) */
-    //this.state.orderTimeDim.filterFunction(d => d < 24 || d < 6);
-   // this.state.orderTimeDim.filterFunction(d => d >= 6 && d < 12);
-  }
+
   state = {
-    data,
     dataCrossFiltered: crossfilter2(data),
     branchDim: {},
     paymentMethodDim: {},
@@ -228,7 +210,7 @@ class App extends Component {
     //Slices for orderTime Pie and orderAmount Pie are in array format.
     const orderTimePie = selectedSlices.filter(
       slice =>
-        slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 6//To avoid double storage of the same slice (num 20 is shared in the two dimensions. ) 
+        slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 24//To avoid double storage of the same slice (num 20 is shared in the two dimensions. ) 
     );
     const orderAmountPie = selectedSlices.filter(
       slice =>
@@ -380,6 +362,70 @@ class App extends Component {
     }
   };
 
+  resetAll = () => {
+    this.setState(prevState => ({
+      branchDim: prevState.branchDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      paymentMethodDim: prevState.paymentMethodDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      deliveryAreaDim: prevState.deliveryAreaDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      orderTimeDim: prevState.orderTimeDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      orderDateDim: prevState.orderDateDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      orderWeekDayDim: prevState.orderWeekDayDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      orderMonthDim: prevState.orderMonthDim.filterAll()
+    }))
+    this.setState(prevState => ({
+      orderAmountDim: prevState.orderAmountDim.filterAll()
+    }))
+  }
+
+  resetDim = (dim) => {
+    switch (dim) {
+      case "orderCount-paymentMethod":
+      this.setState(prevState => ({
+        paymentMethodDim: prevState.paymentMethodDim.filterAll()
+      }))
+      break
+      case "orderCount-orderTime":
+      this.setState(prevState => ({
+        orderTimeDim: prevState.orderTimeDim.filterAll()
+      }))
+      break
+      case "orderCount-orderSize":
+      this.setState(prevState => ({
+        orderAmountDim: prevState.orderAmountDim.filterAll()
+      }))
+      break
+      case "revenue-paymentMethod":
+      this.setState(prevState => ({
+        paymentMethodDim: prevState.paymentMethodDim.filterAll()
+      }))
+      break
+      case "revenue-orderTime":
+      this.setState(prevState => ({
+        orderTimeDim: prevState.orderTimeDim.filterAll()
+      }))
+      break
+      case "revenue-orderSize":
+      this.setState(prevState => ({
+        orderAmountDim: prevState.orderAmountDim.filterAll()
+      }))
+      break
+    }
+    
+
+  }
+
   render() {
     return (
       <div className="App">
@@ -393,9 +439,10 @@ class App extends Component {
           orderWeekDayDim={this.state.orderWeekDayDim}
           handleChartChange={this.handleChartChange}
           handleBranchBarClick={this.handleBranchBarClick}
-          resetBarFilter={this.resetBarFilter}
           handlePieSliceClick={this.handlePieSliceClick}
-          resetPieFilter={this.resetPieFilter}
+          records={this.state.dataCrossFiltered.groupAll().value()}
+          resetAll={this.resetAll}
+          resetDim={this.resetDim}
         />
 
         <RevenueCharts
@@ -407,14 +454,17 @@ class App extends Component {
           orderAmountDim={this.state.orderAmountDim}
           handleChartChange={this.handleChartChange}
           handleBranchBarClick={this.handleBranchBarClick}
-          resetBarFilter={this.resetBarFilter}
           handlePieSliceClick={this.handlePieSliceClick}
-          resetPieFilter={this.resetPieFilter}
+          resetAll={this.resetAll}
+          resetDim={this.resetDim}
         />
 
         <TimeSeriesCharts
           orderDateDim={this.state.orderDateDim}
           handleChartChange={this.handleChartChange}
+          orderMonthDim={this.state.orderMonthDim}
+          resetAll={this.resetAll}
+          resetDim={this.resetDim}
         />
       </div>
     );
