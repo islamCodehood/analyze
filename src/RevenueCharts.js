@@ -40,88 +40,9 @@ class RevenueCharts extends Component {
   render() {
     return (
       <div className="card-container">
-        <div id="revenue-paymentMethod" className="card">
-          <h2>Revenue / Payment Method</h2>
-          <br />
-          <br />
-          <div className="btn-group">
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
-            </a>
-          </div>
-          <VictoryPie
-            responsive={false}
-            data={this.props.paymentMethodDim
-              .group()
-              .reduceSum(d =>
-                parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
-              )
-              .all()
-              .map(paymentMethod => {
-                return { y: paymentMethod.value, label: paymentMethod.key };
-              })}
-            height={280}
-            width={280}
-            colorScale={["#3d3d42", "#008f68", "#EFBB35"]}
-            labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 3000 }
-            }}
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onClick: () => {
-                    return [
-                      {
-                        target: "labels",
-                        mutation: props => {
-                          if (this.state.clickedPieSlice.includes(props.text)) {
-                            this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.filter(
-                                slice => slice !== props.text
-                              )
-                            }));
-                            this.handlePieSliceClick();
-                          } else {
-                            this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.concat(
-                                props.text
-                              )
-                            }));
-                            this.handlePieSliceClick();
-                          }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
-                          return props.style.fill === "#4c4c82"
-                            ? "blue"
-                            : { style: { fill: "#4c4c82" } };
-                        }
-                      }
-                    ];
-                  }
-                }
-              }
-            ]}
-          />
-          <div className="labels-container">
-            <div id="box-1" />
-            <div className="label-1">Cash</div>
-            <div id="box-2" />
-            <div className="label-2">Credit Card</div>
-            <div id="box-3" />
-            <div className="label-3">KNET</div>
-          </div>
-        </div>
-        <div id="revenue-orderTime" className="card">
+      
+        
+        <div id="revenue-orderTime" className="card-def card-sm">
           <h2>Revenue / Order Time</h2>
           <br />
           <br />
@@ -265,7 +186,7 @@ class RevenueCharts extends Component {
             <div className="label-4-orderTime">Night</div>
           </div>
         </div>
-        <div id="revenue-orderSize" className="card">
+        <div id="revenue-orderSize" className="card-def card-sm">
           <h2>Revenue / Order Size</h2>
           <br />
           <br />
@@ -402,6 +323,7 @@ class RevenueCharts extends Component {
               }
             ]}
           />
+
           <div className="labels-container-orderAmount">
             <div id="box-1-orderAmount" />
             <div className="label-1-orderAmount">Less than $10</div>
@@ -415,7 +337,144 @@ class RevenueCharts extends Component {
             <div className="label-5-orderAmount">$70 and more</div>
           </div>
         </div>
-        <div id="revenue-branch" className="card">
+        <div id="revenue-deliveryArea" className="card-def card-md">
+          <h2>Revenue / Delivery Area</h2>
+          <br />
+          <br />
+          <div className="btn-group">
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+          </div>
+          <VictoryChart
+            responsive={false}
+            containerComponent={
+              <VictoryBrushContainer
+                brushDimension="x"
+                brushDomain={{ x: [6, 14] }}
+                defaultBrushArea={"all"}
+                onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                brushStyle={{
+                  stroke: "transparent",
+                  fill: "#999",
+                  fillOpacity: 0.3
+                }}
+                name="deliverAreaChart"
+              />
+            }
+            domainPadding={9}
+            height={245}
+          >
+            <VictoryBar
+              data={this.props.deliveryAreaDim
+                .group(d => d.substr(0, 8))
+                .reduceSum(d =>
+                  parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+                )
+                .top(20)
+                .map(area => {
+                  return { y: area.value, x: area.key };
+                })}
+              style={{
+                labels: { fill: "black", fontSize: 8 },
+                data: { fill: "#33619D" }
+              }}
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 3000 }
+              }}
+              barWidth={17}
+            />
+            <VictoryAxis
+              style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
+            />
+            <VictoryAxis dependentAxis />
+          </VictoryChart>
+        </div>
+        <div id="revenue-paymentMethod" className="card-def">
+          <h2>Revenue / Payment Method</h2>
+          <br />
+          <br />
+          <div className="btn-group">
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset Dimension
+            </a>
+          </div>
+          <VictoryPie
+            responsive={false}
+            data={this.props.paymentMethodDim
+              .group()
+              .reduceSum(d =>
+                parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+              )
+              .all()
+              .map(paymentMethod => {
+                return { y: paymentMethod.value, label: paymentMethod.key };
+              })}
+            height={280}
+            width={280}
+            colorScale={["#3d3d42", "#008f68", "#EFBB35"]}
+            labelRadius={120}
+            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 3000 }
+            }}
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onClick: () => {
+                    return [
+                      {
+                        target: "labels",
+                        mutation: props => {
+                          if (this.state.clickedPieSlice.includes(props.text)) {
+                            this.setState(prevState => ({
+                              clickedPieSlice: prevState.clickedPieSlice.filter(
+                                slice => slice !== props.text
+                              )
+                            }));
+                            this.handlePieSliceClick();
+                          } else {
+                            this.setState(prevState => ({
+                              clickedPieSlice: prevState.clickedPieSlice.concat(
+                                props.text
+                              )
+                            }));
+                            this.handlePieSliceClick();
+                          }
+                        }
+                      },
+                      {
+                        target: "data",
+                        mutation: props => {
+                          return props.style.fill === "#4c4c82"
+                            ? "blue"
+                            : { style: { fill: "#4c4c82" } };
+                        }
+                      }
+                    ];
+                  }
+                }
+              }
+            ]}
+          />
+          <div className="labels-container">
+            <div id="box-1" />
+            <div className="label-1">Cash</div>
+            <div id="box-2" />
+            <div className="label-2">Credit Card</div>
+            <div id="box-3" />
+            <div className="label-3">KNET</div>
+          </div>
+        </div>
+        
+        <div id="revenue-branch" className="card-def">
           <h2>Revenue / Branch</h2>
           <br />
           <br />
@@ -499,61 +558,8 @@ class RevenueCharts extends Component {
             />
           </VictoryChart>
         </div>
-        <div id="revenue-deliveryArea" className="card">
-          <h2>Revenue / Delivery Area</h2>
-          <br />
-          <br />
-          <div className="btn-group">
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset All
-            </a>
-          </div>
-          <VictoryChart
-            responsive={false}
-            containerComponent={
-              <VictoryBrushContainer
-                brushDimension="x"
-                brushDomain={{ x: [6, 14] }}
-                defaultBrushArea={"all"}
-                onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
-                brushStyle={{
-                  stroke: "transparent",
-                  fill: "#999",
-                  fillOpacity: 0.3
-                }}
-                name="deliverAreaChart"
-              />
-            }
-            domainPadding={9}
-          >
-            <VictoryBar
-              data={this.props.deliveryAreaDim
-                .group(d => d.substr(0, 8))
-                .reduceSum(d =>
-                  parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
-                )
-                .top(20)
-                .map(area => {
-                  return { y: area.value, x: area.key };
-                })}
-              style={{
-                labels: { fill: "black", fontSize: 8 },
-                data: { fill: "#33619D" }
-              }}
-              animate={{
-                duration: 2000,
-                onLoad: { duration: 3000 }
-              }}
-              barWidth={17}
-            />
-            <VictoryAxis
-              style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-            />
-            <VictoryAxis dependentAxis />
-          </VictoryChart>
-        </div>
-        <div id="revenue-weekDay" className="card">
+        
+        <div id="revenue-weekDay" className="card-def">
           <h2>Revenue / Week Day</h2>
           <br />
           <br />
@@ -570,7 +576,7 @@ class RevenueCharts extends Component {
                 brushDomain={{ x: [3, 5] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}} 
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
