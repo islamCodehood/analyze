@@ -8,6 +8,9 @@ import RevenueCharts from "./RevenueCharts";
 import TimeSeriesCharts from "./TimeSeriesCharts";
 
 class App extends Component {
+  componentDidUpdate() {
+    console.log(this.state.dataCrossFiltered.groupAll().value())
+  }
   componentWillMount() {
     //Get all dimensions ready.
     this.setState({
@@ -84,43 +87,45 @@ class App extends Component {
         let maxEndDelivery = this.state.deliveryAreaDim.group().top(20)[
           Math.floor(dataWidth[1])
         ];
+        console.log(minEndDelivery, maxEndDelivery)
+        console.log(this.state.deliveryAreaDim.group().top(20))
         /*If minEnd or maxEnd points went over 19.9 this would throw error because the max index
         * is 19 (20 branch).So if it would be larger than 19 I return it to 19.*/
         if (dataWidth[1] >= 19 && dataWidth[0] >= 19) {
           minEndDelivery = 19;
           maxEndDelivery = 19;
           this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterRange([
-              minEndDelivery.key,
-              maxEndDelivery.key + "a" //This is to include the maxEnd value in the range.
-            ])
+            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area =>
+              area === minEndDelivery.key ||
+              area === maxEndDelivery.key 
+            )
           }));
         } else if (dataWidth[0] >= 19) {
           minEndDelivery = 19;
           this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterRange([
-              minEndDelivery.key,
-              maxEndDelivery.key
-            ])
+            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
+              area === minEndDelivery.key ||
+              area === maxEndDelivery.key
+            )
           }));
         } else if (dataWidth[1] >= 19) {
           maxEndDelivery = 19;
           this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterRange([
-              minEndDelivery.key,
-              maxEndDelivery.key + "a"
-            ])
+            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
+              area === minEndDelivery.key ||
+              area === maxEndDelivery.key
+            )
           }));
         } else {
           this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterRange([
-              minEndDelivery.key,
-              maxEndDelivery.key
-            ])
+            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
+              area === minEndDelivery.key ||
+              area === maxEndDelivery.key
+            )
           }));
         }
         break;
-      case "branchChart":
+      /* case "branchChart":
         let minEndBranch = this.state.branchDim.group().all()[
           Math.floor(dataWidth[0])
         ];
@@ -161,7 +166,7 @@ class App extends Component {
             ])
           }));
         }
-        break;
+        break;*/
       case "orderDateChart":
         this.setState(prevState => ({
           orderDateDim: prevState.orderDateDim.filterRange([
@@ -476,6 +481,7 @@ class App extends Component {
           resetAll={this.resetAll}
           resetDim={this.resetDim}
         />
+
       </div>
     );
   }
