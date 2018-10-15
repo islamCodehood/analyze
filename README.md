@@ -51,7 +51,7 @@
 
 ## Dependencies
 
-- [crossfilter2](https://crossfilter.github.io/crossfilter/): An extension of crossfilter. It overcomes the limit of array width of more than 32. This drawback appears with multiple filteration of different dimensions.
+- [crossfilter2](https://crossfilter.github.io/crossfilter/): An extension of crossfilter. It overcomes the limit of array width of more than 32. This drawback appears with multiple filtration of different dimensions.
 - [victory js](https://github.com/FormidableLabs/victory): A collection of composable React components for building interactive data visualizations
 - [prop-types](https://github.com/facebook/prop-types).
 
@@ -79,8 +79,8 @@ You can either:
   2. Filter through bar chart with Branches dimension by clicking on individual bars.
   3. Filter through other bar charts by brushing through charts. You can drar, or resize brush to filter dimension, and also you can click on the chart to select all dimension.
   4. Filter through line charts (Time series charts) by brushing through charts.
-- Reset all filteration by clicking Reset All button.
-- Reset individual dimension filteration by clicking Reset Dimension button.
+- Reset all filtration by clicking Reset All button.
+- Reset individual dimension filtration by clicking Reset Dimension button.
 
 
 
