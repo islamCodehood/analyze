@@ -133,7 +133,7 @@ class TimeSeriesCharts extends Component {
                   fill: "#999",
                   fillOpacity: 0.3
                 }}
-                name="orderDateChart"
+                name="orderMonthChart"
               />
             }
           >
@@ -176,7 +176,7 @@ class TimeSeriesCharts extends Component {
                   fill: "#999",
                   fillOpacity: 0.3
                 }}
-                name="orderDateChart"
+                name="orderMonthChart"
               />
             }
           >
