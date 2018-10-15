@@ -514,7 +514,7 @@ class RevenueCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [6, 14] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
@@ -567,7 +567,7 @@ class RevenueCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [3, 5] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",

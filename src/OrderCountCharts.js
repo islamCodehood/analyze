@@ -15,6 +15,7 @@ class OrderCountCharts extends Component {
   };
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
+    console.log(domain.x)
   };
 
   handleBranchBarClick = () => {
@@ -361,7 +362,7 @@ class OrderCountCharts extends Component {
                   return {
                     y: branch.value,
                     x: branch.key,
-                    label: branch.value + " Order"
+                    label: branch.value + " Orders"
                   };
                 })}
               style={{
@@ -430,7 +431,7 @@ class OrderCountCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [6, 14] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
@@ -480,7 +481,7 @@ class OrderCountCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [3, 5] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",

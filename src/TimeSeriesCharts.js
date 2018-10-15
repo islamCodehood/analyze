@@ -37,7 +37,7 @@ class TimeSeriesCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [12, 18] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
@@ -80,7 +80,7 @@ class TimeSeriesCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [12, 18] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
@@ -126,7 +126,7 @@ class TimeSeriesCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [4, 6] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
@@ -169,7 +169,7 @@ class TimeSeriesCharts extends Component {
               <VictoryBrushContainer
                 brushDimension="x"
                 brushDomain={{ x: [4, 6] }}
-                defaultBrushArea={"none"}
+                defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 brushStyle={{
                   stroke: "transparent",
