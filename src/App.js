@@ -170,6 +170,14 @@ class App extends Component {
           ])
         }));
         break;
+        case "orderMonthChart":
+        this.setState(prevState => ({
+          orderMonthDim: prevState.orderMonthDim.filterRange([
+            Math.floor(dataWidth[0]),
+            Math.floor(dataWidth[1])
+          ])
+        }));
+        break;
       default:
         break;
     }
