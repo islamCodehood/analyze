@@ -77,7 +77,7 @@ You can either:
 - Filter Data through each of the methods below:
   1. Filter through pie charts by clicking on individual slices.
   2. Filter through bar chart with Branches dimension by clicking on individual bars.
-  3. Filter through other bar charts by brushing through charts.
+  3. Filter through other bar charts by brushing through charts. You can drar, or resize brush to filter dimension, and also you can click on the chart to select all dimension.
   4. Filter through line charts (Time series charts) by brushing through charts.
 - Reset all filteration by clicking Reset All button.
 - Reset individual dimension filteration by clicking Reset Dimension button.
