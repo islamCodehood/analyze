@@ -35,16 +35,16 @@ class TimeSeriesCharts extends Component {
             width={1000}
             containerComponent={
               <VictoryBrushContainer
-                brushDimension="x"
-                brushDomain={{ x: [12, 18] }}
-                defaultBrushArea={"all"}
-                onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
-                brushStyle={{
-                  stroke: "transparent",
-                  fill: "#999",
-                  fillOpacity: 0.3
-                }}
+                  brushDimension="x"
+                  brushDomain={{ x: [12, 18] }}
+                  defaultBrushArea={"all"}
+                  onBrushDomainChange={this.handleChange}
+                  handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                  brushStyle={{
+                    stroke: "transparent",
+                    fill: "#999",
+                    fillOpacity: 0.3
+                  }}
                 name="orderDateChart"
               />
             }
