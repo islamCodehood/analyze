@@ -39,6 +39,7 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [12, 18] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -82,6 +83,7 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [12, 18] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -128,6 +130,7 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -171,6 +174,7 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",

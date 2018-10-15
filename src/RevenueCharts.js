@@ -516,6 +516,7 @@ class RevenueCharts extends Component {
                 brushDomain={{ x: [6, 14] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -569,6 +570,7 @@ class RevenueCharts extends Component {
                 brushDomain={{ x: [3, 5] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
