@@ -42,7 +42,7 @@ class OrderCountCharts extends Component {
   render() {
     return (
       <div className="card-container">
-        <div id="orderCount-paymentMethod" className="card">
+        <div id="orderCount-paymentMethod" className="card-def card-sm">
           <h2>Orders Count / Payment Method</h2>
           <br />
           <br />
@@ -119,7 +119,7 @@ class OrderCountCharts extends Component {
             <div className="label-3">KNET</div>
           </div>
         </div>
-        <div id="orderCount-orderTime" className="card">
+        <div id="orderCount-orderTime" className="card-def card-sm">
           <h2>Orders Count / Order Time</h2>
           <br />
           <br />
@@ -223,7 +223,145 @@ class OrderCountCharts extends Component {
             <div className="label-4-orderTime">Night</div>
           </div>
         </div>
-        <div id="orderCount-orderSize" className="card">
+        <div id="orderCount-branch" className="card-def card-md">
+          <h2>Orders Count / Branch</h2>
+          <br />
+          <br />
+          <div className="btn-group">
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+          </div>
+          <VictoryChart
+            responsive={false}
+            domainPadding={11}
+            padding={{ left: 80, right: 60 }}
+            width={400}
+            height={140}
+          >
+            <VictoryBar
+              horizontal
+              labelComponent={
+                <VictoryLabel
+                  verticalAnchor="middle"
+                  textAnchor="start"
+                  desc="Order Count per branch chart"
+                />
+              }
+              data={this.props.branchDim
+                .group()
+                .all()
+                .map(branch => {
+                  return {
+                    y: branch.value,
+                    x: branch.key,
+                    label: branch.value + " Orders"
+                  };
+                })}
+              style={{
+                data: { fill: "#008f68" },
+                labels: { fill: "#666", fontSize: 10 }
+              }}
+              animate={{
+                duration: 500,
+                onLoad: { duration: 800 }
+              }}
+              barWidth={21}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: props => {
+                            if (this.state.clickedBar.includes(props.datum.x)) {
+                              this.setState(prevState => ({
+                                clickedBar: prevState.clickedBar.filter(
+                                  branch => branch !== props.datum.x
+                                )
+                              }));
+                              this.handleBranchBarClick();
+                            } else {
+                              this.setState(prevState => ({
+                                clickedBar: prevState.clickedBar.concat(
+                                  props.datum.x
+                                )
+                              }));
+                              this.handleBranchBarClick();
+                            }
+                          }
+                        },
+                        {
+                          target: "data",
+                          mutation: props => {
+                            return props.style.fill === "#4c4c82"
+                              ? "blue"
+                              : { style: { fill: "#4c4c82" } };
+                          }
+                        }
+                      ];
+                    }
+                  }
+                }
+              ]}
+            />
+          </VictoryChart>
+        </div>
+        <div id="orderCount-deliveryArea" className="card-def card-40">
+          <h2>Orders Count / Delivery Area</h2>
+          <br />
+          <br />
+          <div className="btn-group">
+            <a href="#!" className="reset" onClick={this.handleResetClick}>
+              Reset All
+            </a>
+          </div>
+          <VictoryChart
+            responsive={false}
+            containerComponent={
+              <VictoryBrushContainer
+                brushDimension="x"
+                brushDomain={{ x: [6, 14] }}
+                defaultBrushArea={"all"}
+                onBrushDomainChange={this.handleChange}
+                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                brushStyle={{
+                  stroke: "transparent",
+                  fill: "#999",
+                  fillOpacity: 0.3
+                }}
+                name="deliverAreaChart"
+              />
+            }
+            domainPadding={9}
+          >
+            <VictoryBar
+              data={this.props.deliveryAreaDim
+                .group()
+                .top(20)
+                .map(order => {
+                  return { y: order.value, x: order.key.substr(0, 8) };
+                })}
+              style={{
+                data: { fill: (d, active) => (active ? "grey" : "#33619D") },
+                labels: { fill: "#888", fontSize: 10 }
+              }}
+              barWidth={17}
+              animate={{
+                duration: 500,
+                onLoad: { duration: 800 }
+              }}
+            />
+            <VictoryAxis
+              style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
+            />
+            <VictoryAxis dependentAxis />
+          </VictoryChart>
+        </div>
+        
+        <div id="orderCount-orderSize" className="card-def card-25">
           <h2>Orders Count / Order Size</h2>
           <br />
           <br />
@@ -332,142 +470,7 @@ class OrderCountCharts extends Component {
             <div className="label-5-orderAmount">$70 and more</div>
           </div>
         </div>
-        <div id="orderCount-branch" className="card">
-          <h2>Orders Count / Branch</h2>
-          <br />
-          <br />
-          <div className="btn-group">
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset All
-            </a>
-          </div>
-          <VictoryChart
-            responsive={false}
-            domainPadding={16}
-            padding={{ left: 80, right: 60 }}
-          >
-            <VictoryBar
-              horizontal
-              labelComponent={
-                <VictoryLabel
-                  verticalAnchor="middle"
-                  textAnchor="start"
-                  desc="Order Count per branch chart"
-                />
-              }
-              data={this.props.branchDim
-                .group()
-                .all()
-                .map(branch => {
-                  return {
-                    y: branch.value,
-                    x: branch.key,
-                    label: branch.value + " Orders"
-                  };
-                })}
-              style={{
-                data: { fill: "#008f68" },
-                labels: { fill: "#666", fontSize: 14 }
-              }}
-              animate={{
-                duration: 500,
-                onLoad: { duration: 800 }
-              }}
-              barWidth={31}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: props => {
-                            if (this.state.clickedBar.includes(props.datum.x)) {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.filter(
-                                  branch => branch !== props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            } else {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.concat(
-                                  props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            }
-                          }
-                        },
-                        {
-                          target: "data",
-                          mutation: props => {
-                            return props.style.fill === "#4c4c82"
-                              ? "blue"
-                              : { style: { fill: "#4c4c82" } };
-                          }
-                        }
-                      ];
-                    }
-                  }
-                }
-              ]}
-            />
-          </VictoryChart>
-        </div>
-        <div id="orderCount-deliveryArea" className="card">
-          <h2>Orders Count / Delivery Area</h2>
-          <br />
-          <br />
-          <div className="btn-group">
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset All
-            </a>
-          </div>
-          <VictoryChart
-            responsive={false}
-            containerComponent={
-              <VictoryBrushContainer
-                brushDimension="x"
-                brushDomain={{ x: [6, 14] }}
-                defaultBrushArea={"all"}
-                onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
-                brushStyle={{
-                  stroke: "transparent",
-                  fill: "#999",
-                  fillOpacity: 0.3
-                }}
-                name="deliverAreaChart"
-              />
-            }
-            domainPadding={9}
-          >
-            <VictoryBar
-              data={this.props.deliveryAreaDim
-                .group()
-                .top(20)
-                .map(order => {
-                  return { y: order.value, x: order.key.substr(0, 8) };
-                })}
-              style={{
-                data: { fill: (d, active) => (active ? "grey" : "#33619D") },
-                labels: { fill: "#888", fontSize: 10 }
-              }}
-              barWidth={17}
-              animate={{
-                duration: 500,
-                onLoad: { duration: 800 }
-              }}
-            />
-            <VictoryAxis
-              style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-            />
-            <VictoryAxis dependentAxis />
-          </VictoryChart>
-        </div>
-        <div id="orderCount-weekDay" className="card">
+        <div id="orderCount-weekDay" className="card-def card-25">
           <h2>Orders Count / Week Day</h2>
           <br />
           <br />
@@ -494,6 +497,7 @@ class OrderCountCharts extends Component {
               />
             }
             domainPadding={10}
+            height={340}
           >
             <VictoryBar
               data={this.props.orderWeekDayDim
@@ -514,7 +518,7 @@ class OrderCountCharts extends Component {
                   };
                 })}
               style={{
-                labels: { fill: "#888", fontSize: 10 },
+                labels: { fill: "#888", fontSize: 15 },
                 data: { fill: "#C64828" }
               }}
               animate={{
@@ -528,6 +532,7 @@ class OrderCountCharts extends Component {
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
+        
       </div>
     );
   }
