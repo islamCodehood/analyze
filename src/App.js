@@ -8,9 +8,6 @@ import RevenueCharts from "./RevenueCharts";
 import TimeSeriesCharts from "./TimeSeriesCharts";
 
 class App extends Component {
-  componentDidUpdate() {
-    console.log(this.state.dataCrossFiltered.groupAll().value())
-  }
   componentWillMount() {
     //Get all dimensions ready.
     this.setState({
@@ -80,93 +77,6 @@ class App extends Component {
           ])
         }));
         break;
-      case "deliverAreaChart":
-        let minEndDelivery = this.state.deliveryAreaDim.group().top(20)[
-          Math.floor(dataWidth[0])
-        ];
-        let maxEndDelivery = this.state.deliveryAreaDim.group().top(20)[
-          Math.floor(dataWidth[1])
-        ];
-        console.log(minEndDelivery, maxEndDelivery)
-        console.log(this.state.deliveryAreaDim.group().top(20))
-        /*If minEnd or maxEnd points went over 19.9 this would throw error because the max index
-        * is 19 (20 branch).So if it would be larger than 19 I return it to 19.*/
-        if (dataWidth[1] >= 19 && dataWidth[0] >= 19) {
-          minEndDelivery = 19;
-          maxEndDelivery = 19;
-          this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area =>
-              area === minEndDelivery.key ||
-              area === maxEndDelivery.key 
-            )
-          }));
-        } else if (dataWidth[0] >= 19) {
-          minEndDelivery = 19;
-          this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
-              area === minEndDelivery.key ||
-              area === maxEndDelivery.key
-            )
-          }));
-        } else if (dataWidth[1] >= 19) {
-          maxEndDelivery = 19;
-          this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
-              area === minEndDelivery.key ||
-              area === maxEndDelivery.key
-            )
-          }));
-        } else {
-          this.setState(prevState => ({
-            deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(area => 
-              area === minEndDelivery.key ||
-              area === maxEndDelivery.key
-            )
-          }));
-        }
-        break;
-      /* case "branchChart":
-        let minEndBranch = this.state.branchDim.group().all()[
-          Math.floor(dataWidth[0])
-        ];
-        let maxEndBranch = this.state.branchDim.group().all()[
-          Math.floor(dataWidth[1])
-        ];
-        //Here the max index is 5 (6 branches)
-        if (dataWidth[1] >= 5 && dataWidth[0] >= 5) {
-          minEndBranch = 5;
-          maxEndBranch = 5;
-          this.setState(prevState => ({
-            branchDim: prevState.branchDim.filterRange([
-              minEndBranch.key,
-              minEndBranch.key + "a"
-            ])
-          }));
-        } else if (dataWidth[0] >= 5.9) {
-          minEndBranch = 5;
-          this.setState(prevState => ({
-            branchDim: prevState.branchDim.filterRange([
-              minEndBranch.key,
-              maxEndBranch.key
-            ])
-          }));
-        } else if (dataWidth[1] >= 5.9) {
-          maxEndBranch = 5;
-          this.setState(prevState => ({
-            branchDim: prevState.branchDim.filterRange([
-              minEndBranch.key,
-              maxEndBranch.key + "a"
-            ])
-          }));
-        } else {
-          this.setState(prevState => ({
-            branchDim: prevState.branchDim.filterRange([
-              minEndBranch.key,
-              maxEndBranch.key
-            ])
-          }));
-        }
-        break;*/
       case "orderDateChart":
         this.setState(prevState => ({
           orderDateDim: prevState.orderDateDim.filterRange([
@@ -206,6 +116,43 @@ class App extends Component {
             d === selectedBranches[3] ||
             d === selectedBranches[4] ||
             d === selectedBranches[5]
+        )
+      }));
+    }
+  };
+
+  handleDeliveryAreaBarClick = selectedAreas => {
+    if (!selectedAreas.length) {
+      //Reset filter on the branch bar charts when second clicked.
+      this.setState(prevState => ({
+        deliveryAreaDim: prevState.deliveryAreaDim.filterAll()
+      }));
+    } else {
+      /*When there is clicked bar(s). Filter according the array contains bars' labels.
+    I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
+      this.setState(prevState => ({
+        deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(
+          d =>
+            d === selectedAreas[0] ||
+            d === selectedAreas[1] ||
+            d === selectedAreas[2] ||
+            d === selectedAreas[3] ||
+            d === selectedAreas[4] ||
+            d === selectedAreas[5] ||
+            d === selectedAreas[6] ||
+            d === selectedAreas[7] ||
+            d === selectedAreas[8] ||
+            d === selectedAreas[9] ||
+            d === selectedAreas[10] ||
+            d === selectedAreas[11] ||
+            d === selectedAreas[12] ||
+            d === selectedAreas[13] ||
+            d === selectedAreas[14] ||
+            d === selectedAreas[15] ||
+            d === selectedAreas[16] ||
+            d === selectedAreas[17] ||
+            d === selectedAreas[18] ||
+            d === selectedAreas[19] 
         )
       }));
     }
@@ -458,6 +405,7 @@ class App extends Component {
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
           resetDim={this.resetDim}
+          handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
         />
 
         <RevenueCharts
@@ -472,6 +420,7 @@ class App extends Component {
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
           resetDim={this.resetDim}
+          handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
         />
 
         <TimeSeriesCharts
