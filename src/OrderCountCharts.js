@@ -11,7 +11,8 @@ import {
 class OrderCountCharts extends Component {
   state = {
     clickedBar: [],
-    clickedPieSlice: []
+    clickedPieSlice: [],
+    clickedAreaBar: []
   };
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
@@ -23,6 +24,12 @@ class OrderCountCharts extends Component {
       this.props.handleBranchBarClick(this.state.clickedBar);
     }, 10);
   };
+
+  handleDeliveryAreaBarClick = () => {
+    setTimeout(() => {
+      this.props.handleDeliveryAreaBarClick(this.state.clickedAreaBar);
+    }, 10);
+  }
 
   handlePieSliceClick = () => {
     setTimeout(() => {
@@ -38,6 +45,18 @@ class OrderCountCharts extends Component {
     }
   };
 
+
+  sortByName = (a, b) => {
+    const deliveryAreaA = a.key.substr(0,8).toUpperCase()
+    const deliveryAreaB = b.key.substr(0,8).toUpperCase()
+    if (deliveryAreaA < deliveryAreaB) {
+      return -1
+    } else if (deliveryAreaA > deliveryAreaB) {
+      return 1
+    } else {
+      return 0
+    }
+  }
 
   render() {
     return (
@@ -320,29 +339,15 @@ class OrderCountCharts extends Component {
           </div>
           <VictoryChart
             responsive={false}
-            containerComponent={
-              <VictoryBrushContainer
-                brushDimension="x"
-                brushDomain={{ x: [6, 14] }}
-                defaultBrushArea={"all"}
-                onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
-                brushStyle={{
-                  stroke: "transparent",
-                  fill: "#999",
-                  fillOpacity: 0.3
-                }}
-                name="deliverAreaChart"
-              />
-            }
             domainPadding={9}
           >
             <VictoryBar
               data={this.props.deliveryAreaDim
                 .group()
                 .top(20)
+                .sort(this.sortByName)
                 .map(order => {
-                  return { y: order.value, x: order.key.substr(0, 8) };
+                  return { y: order.value, x: order.key };
                 })}
               style={{
                 data: { fill: (d, active) => (active ? "grey" : "#33619D") },
@@ -353,9 +358,53 @@ class OrderCountCharts extends Component {
                 duration: 500,
                 onLoad: { duration: 800 }
               }}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "data",
+                          mutation: props => {
+                            if (this.state.clickedAreaBar.includes(props.datum.x)) {
+                              this.setState(prevState => ({
+                                clickedAreaBar: prevState.clickedAreaBar.filter(
+                                  area => area !== props.datum.x
+                                )
+                              }));
+                              this.handleDeliveryAreaBarClick();
+                            } else {
+                              this.setState(prevState => ({
+                                clickedAreaBar: prevState.clickedAreaBar.concat(
+                                  props.datum.x
+                                )
+                              }));
+                              this.handleDeliveryAreaBarClick();
+                            }
+                            return props.style.fill === "#4c4c82"
+                              ? "blue"
+                              : { style: { fill: "#4c4c82" } };
+                          }
+                        }
+                      ];
+                    }
+                  }
+                }
+              ]}
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
+              tickValues={
+                this.props.deliveryAreaDim
+                .group()
+                .top(20)
+                .sort(this.sortByName)
+                .map(order => {
+                  return { y: order.value, x: order.key };
+                })
+              }
+              tickFormat={t => t.substr(0, 8)}
             />
             <VictoryAxis dependentAxis />
           </VictoryChart>
