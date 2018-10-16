@@ -185,7 +185,7 @@ class OrderCountCharts extends Component {
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 3000 }
+              onLoad: { duration: 2000 }
             }}
             events={[
               {
@@ -282,8 +282,8 @@ class OrderCountCharts extends Component {
                 labels: { fill: "#666", fontSize: 10 }
               }}
               animate={{
-                duration: 500,
-                onLoad: { duration: 800 }
+                duration: 2000,
+                onLoad: { duration: 2000 }
               }}
               barWidth={21}
               events={[
@@ -355,8 +355,8 @@ class OrderCountCharts extends Component {
               }}
               barWidth={17}
               animate={{
-                duration: 500,
-                onLoad: { duration: 800 }
+                duration: 2000,
+                onLoad: { duration: 2000 }
               }}
               events={[
                 {
@@ -459,8 +459,8 @@ class OrderCountCharts extends Component {
             innerRadius={50}
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
-              duration: 500,
-              onLoad: { duration: 800 }
+              duration: 2000,
+              onLoad: { duration: 2000 }
             }}
             events={[
               {
@@ -571,8 +571,8 @@ class OrderCountCharts extends Component {
                 data: { fill: "#C64828" }
               }}
               animate={{
-                duration: 1500,
-                onLoad: { duration: 1200 }
+                duration: 2000,
+                onLoad: { duration: 2000 }
               }}
             />
             <VictoryAxis

@@ -149,7 +149,7 @@ class RevenueCharts extends Component {
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 3000 }
+              onLoad: { duration: 2000 }
             }}
             events={[
               {
@@ -297,7 +297,7 @@ class RevenueCharts extends Component {
             innerRadius={50}
             animate={{
               duration: 2000,
-              onLoad: { duration: 3000 }
+              onLoad: { duration: 2000 }
             }}
             events={[
               {
@@ -388,7 +388,7 @@ class RevenueCharts extends Component {
               }}
               animate={{
                 duration: 2000,
-                onLoad: { duration: 3000 }
+                onLoad: { duration: 2000 }
               }}
               barWidth={17}
               events={[
@@ -472,7 +472,7 @@ class RevenueCharts extends Component {
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 3000 }
+              onLoad: { duration: 2000 }
             }}
             events={[
               {
@@ -563,7 +563,7 @@ class RevenueCharts extends Component {
               }}
               animate={{
                 duration: 2000,
-                onLoad: { duration: 3000 }
+                onLoad: { duration: 2000 }
               }}
               barWidth={31}
               events={[
@@ -662,10 +662,10 @@ class RevenueCharts extends Component {
                     ][day.key]
                   };
                 })}
-              animate={{
-                duration: 2000,
-                onLoad: { duration: 3000 }
-              }}
+                animate={{
+                  duration: 2000,
+                  onLoad: { duration: 2000 }
+                }}
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 15, padding: 32 } }}
