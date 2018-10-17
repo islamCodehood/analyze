@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { VictoryLine, VictoryChart, VictoryBrushContainer } from "victory";
 
 class TimeSeriesCharts extends Component {
-  state = {
-    selectedDomain: {},
-    zoomDomain: {}
-  };
+
 
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
