@@ -12,17 +12,18 @@ class OrderCountCharts extends Component {
   state = {
     clickedBar: [],
     clickedPieSlice: [],
-    clickedAreaBar: []
+    clickedAreaBar: [],
+    externalMutations: undefined
   };
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
-    console.log(domain.x)
   };
 
   handleBranchBarClick = () => {
     setTimeout(() => {
       this.props.handleBranchBarClick(this.state.clickedBar);
     }, 10);
+    
   };
 
   handleDeliveryAreaBarClick = () => {
@@ -34,16 +35,44 @@ class OrderCountCharts extends Component {
   handlePieSliceClick = () => {
     setTimeout(() => {
       this.props.handlePieSliceClick(this.state.clickedPieSlice);
-    }, 100);
+    }, 10);
   };
 
   handleResetClick = e => {
+    
     if (e.target.text === "Reset All") {
       this.props.resetAll();
+      this.setState({
+        externalMutations: [
+          {
+            childName: "orderCountBranch",
+            target: ["data"],
+            eventKey: "all",
+            mutation: () => ({ style: { fill: "#008f68" } }),
+            callback: this.removeMutation
+          },
+          {
+            childName: "orderCountDeliveryArea",
+            target: ["data"],
+            eventKey: "all",
+            mutation: () => ({ style: { fill: "#33619D" } }),
+            callback: this.removeMutation
+          } 
+        ]
+      })
+      
     } else {
       this.props.resetDim(e.target.parentElement.id);
     }
   };
+
+  removeMutation = () => {
+    this.setState({
+      externalMutations: undefined
+    })
+  }
+
+
 
 
   sortByName = (a, b) => {
@@ -98,6 +127,7 @@ class OrderCountCharts extends Component {
                       {
                         target: "labels",
                         mutation: props => {
+                          console.log(props)
                           if (this.state.clickedPieSlice.includes(props.text)) {
                             this.setState(prevState => ({
                               clickedPieSlice: prevState.clickedPieSlice.filter(
@@ -119,7 +149,7 @@ class OrderCountCharts extends Component {
                         target: "data",
                         mutation: props => {
                           return props.style.fill === "#4c4c82"
-                            ? props.style.fill
+                            ? "red"
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -257,9 +287,47 @@ class OrderCountCharts extends Component {
             padding={{ left: 80, right: 60 }}
             width={400}
             height={140}
+            externalEventMutations={this.state.externalMutations}
+            events={[
+              {
+                target: "data",
+                childName: "orderCountBranch",
+                eventHandlers: {
+                  onClick: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: props => {
+                          if (this.state.clickedBar.includes(props.datum.x)) {
+                            this.setState(prevState => ({
+                              clickedBar: prevState.clickedBar.filter(
+                                branch => branch !== props.datum.x
+                              )
+                            }));
+                            this.handleBranchBarClick();
+                          } else {
+                            this.setState(prevState => ({
+                              clickedBar: prevState.clickedBar.concat(
+                                props.datum.x
+                              )
+                            }));
+                            this.handleBranchBarClick();
+                          }
+                          console.log(props)
+                          return props.style.fill === "#4c4c82"
+                            ? "blue"
+                            : { style: { fill: "#4c4c82" } };
+                        }
+                      }
+                    ];
+                  }
+                }
+              }
+            ]}
           >
             <VictoryBar
               horizontal
+              name="orderCountBranch"
               labelComponent={
                 <VictoryLabel
                   verticalAnchor="middle"
@@ -286,45 +354,7 @@ class OrderCountCharts extends Component {
                 onLoad: { duration: 2000 }
               }}
               barWidth={21}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: props => {
-                            if (this.state.clickedBar.includes(props.datum.x)) {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.filter(
-                                  branch => branch !== props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            } else {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.concat(
-                                  props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            }
-                          }
-                        },
-                        {
-                          target: "data",
-                          mutation: props => {
-                            return props.style.fill === "#4c4c82"
-                              ? "blue"
-                              : { style: { fill: "#4c4c82" } };
-                          }
-                        }
-                      ];
-                    }
-                  }
-                }
-              ]}
+              
             />
           </VictoryChart>
         </div>
@@ -340,8 +370,45 @@ class OrderCountCharts extends Component {
           <VictoryChart
             responsive={false}
             domainPadding={9}
+            externalEventMutations={this.state.externalMutations}
+            events={[
+              {
+                target: "data",
+                childName: "orderCountDeliveryArea",
+                eventHandlers: {
+                  onClick: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: props => {
+                          if (this.state.clickedAreaBar.includes(props.datum.x)) {
+                            this.setState(prevState => ({
+                              clickedAreaBar: prevState.clickedAreaBar.filter(
+                                area => area !== props.datum.x
+                              )
+                            }));
+                            this.handleDeliveryAreaBarClick();
+                          } else {
+                            this.setState(prevState => ({
+                              clickedAreaBar: prevState.clickedAreaBar.concat(
+                                props.datum.x
+                              )
+                            }));
+                            this.handleDeliveryAreaBarClick();
+                          }
+                          return props.style.fill === "#4c4c82"
+                            ? "blue"
+                            : { style: { fill: "#4c4c82" } };
+                        }
+                      }
+                    ];
+                  }
+                }
+              }
+            ]}
           >
             <VictoryBar
+              name="orderCountDeliveryArea"
               data={this.props.deliveryAreaDim
                 .group()
                 .top(20)
@@ -353,45 +420,11 @@ class OrderCountCharts extends Component {
                 data: { fill: (d, active) => (active ? "grey" : "#33619D") },
                 labels: { fill: "#888", fontSize: 10 }
               }}
-              barWidth={17}
+              barWidth={16}
               animate={{
                 duration: 2000,
                 onLoad: { duration: 2000 }
               }}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "data",
-                          mutation: props => {
-                            if (this.state.clickedAreaBar.includes(props.datum.x)) {
-                              this.setState(prevState => ({
-                                clickedAreaBar: prevState.clickedAreaBar.filter(
-                                  area => area !== props.datum.x
-                                )
-                              }));
-                              this.handleDeliveryAreaBarClick();
-                            } else {
-                              this.setState(prevState => ({
-                                clickedAreaBar: prevState.clickedAreaBar.concat(
-                                  props.datum.x
-                                )
-                              }));
-                              this.handleDeliveryAreaBarClick();
-                            }
-                            return props.style.fill === "#4c4c82"
-                              ? "blue"
-                              : { style: { fill: "#4c4c82" } };
-                          }
-                        }
-                      ];
-                    }
-                  }
-                }
-              ]}
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
@@ -423,6 +456,7 @@ class OrderCountCharts extends Component {
             </a>
           </div>
           <VictoryPie
+            name="orderCountOrderSize"
             responsive={false}
             data={[
               {
@@ -469,7 +503,7 @@ class OrderCountCharts extends Component {
                   onClick: () => {
                     return [
                       {
-                        target: "labels",
+                        target: "data",
                         mutation: props => {
                           if (
                             this.state.clickedPieSlice.find(
@@ -490,18 +524,13 @@ class OrderCountCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
                           return props.style.fill === "#4c4c82"
                             ? "blue"
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
-                  }
+                  },
                 }
               }
             ]}
