@@ -55,9 +55,28 @@ class OrderCountCharts extends Component {
             childName: "orderCountDeliveryArea",
             target: ["data"],
             eventKey: "all",
-            mutation: () => ({ style: { fill: "#33619D" } }),
+            mutation: (props) => ({ style: { fill: "#33619D" } }),
             callback: this.removeMutation
-          } 
+          },
+          {
+            childName: "orderCountOrderSize",
+            target: ["data"],
+            eventKey: "all",
+            mutation: (props) => {if (props.index === 0) {
+              return ({style: {fill: "#c8e7b0"}})
+            } else if (props.index === 1) {
+              return ({style: {fill: "#3d3d42"}})
+            } else if (props.index === 2) {
+              return ({style: {fill: "#4db7ce"}})
+            } else if (props.index === 3) {
+              return ({style: {fill: "#008f68"}})
+            } else {
+              return ({style: {fill: "#EFBB35"}})
+            }
+           
+          },
+            callback: this.removeMutation
+          }
         ]
       })
       
@@ -457,6 +476,7 @@ class OrderCountCharts extends Component {
           </div>
           <VictoryPie
             name="orderCountOrderSize"
+            externalEventMutations={this.state.externalMutations}
             responsive={false}
             data={[
               {
@@ -499,6 +519,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "orderCountOrderSize",
                 eventHandlers: {
                   onClick: () => {
                     return [
