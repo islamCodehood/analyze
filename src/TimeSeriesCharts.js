@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import { VictoryLine, VictoryChart, VictoryBrushContainer } from "victory";
 
 class TimeSeriesCharts extends Component {
-
-
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
   };
 
   handleResetClick = () => {
-      this.props.resetAll();
+    this.props.resetAll();
   };
 
   render() {
@@ -28,16 +26,21 @@ class TimeSeriesCharts extends Component {
             width={1000}
             containerComponent={
               <VictoryBrushContainer
-                  brushDimension="x"
-                  brushDomain={{ x: [12, 18] }}
-                  defaultBrushArea={"all"}
-                  onBrushDomainChange={this.handleChange}
-                  handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
-                  brushStyle={{
-                    stroke: "transparent",
-                    fill: "#999",
-                    fillOpacity: 0.3
-                  }}
+                brushDimension="x"
+                brushDomain={{ x: [12, 18] }}
+                defaultBrushArea={"all"}
+                onBrushDomainChange={this.handleChange}
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
+                brushStyle={{
+                  stroke: "transparent",
+                  fill: "#999",
+                  fillOpacity: 0.3
+                }}
                 name="orderDateChart"
               />
             }
@@ -76,7 +79,12 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [12, 18] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -123,7 +131,12 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -167,7 +180,12 @@ class TimeSeriesCharts extends Component {
                 brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
