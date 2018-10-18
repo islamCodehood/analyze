@@ -351,43 +351,7 @@ class App extends Component {
       orderAmountDim: prevState.orderAmountDim.filterAll()
     }));
   };
-  //reset individual dimension
-  resetDim = dim => {
-    switch (dim) {
-      case "orderCount-paymentMethod":
-        this.setState(prevState => ({
-          paymentMethodDim: prevState.paymentMethodDim.filterAll()
-        }));
-        break;
-      case "orderCount-orderTime":
-        this.setState(prevState => ({
-          orderTimeDim: prevState.orderTimeDim.filterAll()
-        }));
-        break;
-      case "orderCount-orderSize":
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterAll()
-        }));
-        break;
-      case "revenue-paymentMethod":
-        this.setState(prevState => ({
-          paymentMethodDim: prevState.paymentMethodDim.filterAll()
-        }));
-        break;
-      case "revenue-orderTime":
-        this.setState(prevState => ({
-          orderTimeDim: prevState.orderTimeDim.filterAll()
-        }));
-        break;
-      case "revenue-orderSize":
-        this.setState(prevState => ({
-          orderAmountDim: prevState.orderAmountDim.filterAll()
-        }));
-        break;
-      default:
-        break;
-    }
-  };
+
 
   render() {
     return (
@@ -404,7 +368,6 @@ class App extends Component {
           handleBranchBarClick={this.handleBranchBarClick}
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
-          resetDim={this.resetDim}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
         />
 
@@ -419,7 +382,6 @@ class App extends Component {
           handleBranchBarClick={this.handleBranchBarClick}
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
-          resetDim={this.resetDim}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
         />
 
@@ -428,7 +390,6 @@ class App extends Component {
           handleChartChange={this.handleChartChange}
           orderMonthDim={this.state.orderMonthDim}
           resetAll={this.resetAll}
-          resetDim={this.resetDim}
         />
 
       </div>
@@ -447,7 +408,6 @@ App.propTypes = {
   handleBranchBarClick: PropTypes.func,
   handlePieSliceClick: PropTypes.func,
   resetAll: PropTypes.func,
-  resetDim: PropTypes.func,
   orderDateDim: PropTypes.object,
   orderMonthDim: PropTypes.object
 };
