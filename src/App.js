@@ -85,7 +85,7 @@ class App extends Component {
           ])
         }));
         break;
-        case "orderMonthChart":
+      case "orderMonthChart":
         this.setState(prevState => ({
           orderMonthDim: prevState.orderMonthDim.filterRange([
             Math.floor(dataWidth[0]),
@@ -152,7 +152,7 @@ class App extends Component {
             d === selectedAreas[16] ||
             d === selectedAreas[17] ||
             d === selectedAreas[18] ||
-            d === selectedAreas[19] 
+            d === selectedAreas[19]
         )
       }));
     }
@@ -352,7 +352,6 @@ class App extends Component {
     }));
   };
 
-
   render() {
     return (
       <div className="App">
@@ -391,7 +390,6 @@ class App extends Component {
           orderMonthDim={this.state.orderMonthDim}
           resetAll={this.resetAll}
         />
-
       </div>
     );
   }
