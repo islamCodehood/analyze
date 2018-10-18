@@ -12,8 +12,8 @@ class RevenueCharts extends Component {
     clickedBar: [],
     clickedPieSlice: [],
     clickedAreaBar: [],
-    externalMutations: undefined
-
+    externalMutations: undefined,
+    externalMutationsPayment: undefined
   };
 
   handleChange = (domain, props) => {
@@ -30,7 +30,7 @@ class RevenueCharts extends Component {
     setTimeout(() => {
       this.props.handleDeliveryAreaBarClick(this.state.clickedAreaBar);
     }, 10);
-  }
+  };
 
   handlePieSliceClick = () => {
     setTimeout(() => {
@@ -55,36 +55,100 @@ class RevenueCharts extends Component {
           eventKey: "all",
           mutation: () => ({ style: { fill: "#33619D" } }),
           callback: this.removeMutation
+        },
+        {
+          childName: "revenueOrderSize",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              case 4:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        },
+        {
+          childName: "revenueOrderTime",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
         }
       ]
-    })
-    
+    });
+    this.setState({
+      externalMutationsPayment: [
+        {
+          childName: "revenuePayment",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#3d3d42" } };
+              case 1:
+                return { style: { fill: "#008f68" } };
+              case 2:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        }
+      ]
+    });
   };
 
   removeMutation = () => {
     this.setState({
       externalMutations: undefined
-    })
-  }
+    });
+    this.setState({
+      externalMutationsPayment: undefined
+    });
+  };
 
-  //To sort delivery area by name of area. 
+  //To sort delivery area by name of area.
   sortByName = (a, b) => {
-    const deliveryAreaA = a.key.substr(0,8).toUpperCase()
-    const deliveryAreaB = b.key.substr(0,8).toUpperCase()
+    const deliveryAreaA = a.key.substr(0, 8).toUpperCase();
+    const deliveryAreaB = b.key.substr(0, 8).toUpperCase();
     if (deliveryAreaA < deliveryAreaB) {
-      return -1
+      return -1;
     } else if (deliveryAreaA > deliveryAreaB) {
-      return 1
+      return 1;
     } else {
-      return 0
+      return 0;
     }
-  }
+  };
 
   render() {
     return (
       <div className="card-container">
-      
-        
         <div id="revenue-orderTime" className="card-def card-sm">
           <h2>Revenue / Order Time</h2>
           <br />
@@ -96,6 +160,8 @@ class RevenueCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
+            name="revenueOrderTime"
+            externalEventMutations={this.state.externalMutations}
             data={[
               {
                 y:
@@ -174,11 +240,12 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "revenueOrderTime",
                 eventHandlers: {
                   onClick: () => {
                     return [
                       {
-                        target: "labels",
+                        target: "data",
                         mutation: props => {
                           if (
                             this.state.clickedPieSlice.find(
@@ -199,11 +266,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
                           return props.style.fill === "#4c4c82"
                             ? "blue"
                             : { style: { fill: "#4c4c82" } };
@@ -236,8 +298,9 @@ class RevenueCharts extends Component {
             </a>
           </div>
           <VictoryPie
-            className=""
             responsive={false}
+            name="revenueOrderSize"
+            externalEventMutations={this.state.externalMutations}
             data={[
               {
                 y: this.props.orderAmountDim
@@ -319,11 +382,12 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "revenueOrderSize",
                 eventHandlers: {
                   onClick: () => {
                     return [
                       {
-                        target: "labels",
+                        target: "data",
                         mutation: props => {
                           if (
                             this.state.clickedPieSlice.find(
@@ -344,11 +408,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
                           return props.style.fill === "#4c4c82"
                             ? "blue"
                             : { style: { fill: "#4c4c82" } };
@@ -398,7 +457,9 @@ class RevenueCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
-                          if (this.state.clickedAreaBar.includes(props.datum.x)) {
+                          if (
+                            this.state.clickedAreaBar.includes(props.datum.x)
+                          ) {
                             this.setState(prevState => ({
                               clickedAreaBar: prevState.clickedAreaBar.filter(
                                 area => area !== props.datum.x
@@ -445,52 +506,16 @@ class RevenueCharts extends Component {
                 onLoad: { duration: 2000 }
               }}
               barWidth={16}
-              /* events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "data",
-                          mutation: props => {
-                            if (this.state.clickedAreaBar.includes(props.datum.x)) {
-                              this.setState(prevState => ({
-                                clickedAreaBar: prevState.clickedAreaBar.filter(
-                                  area => area !== props.datum.x
-                                )
-                              }));
-                              this.handleDeliveryAreaBarClick();
-                            } else {
-                              this.setState(prevState => ({
-                                clickedAreaBar: prevState.clickedAreaBar.concat(
-                                  props.datum.x
-                                )
-                              }));
-                              this.handleDeliveryAreaBarClick();
-                            }
-                            return props.style.fill === "#4c4c82"
-                              ? "blue"
-                              : { style: { fill: "#4c4c82" } };
-                          }
-                        }
-                      ];
-                    }
-                  }
-                }
-              ]} */
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-              tickValues={
-                this.props.deliveryAreaDim
+              tickValues={this.props.deliveryAreaDim
                 .group()
                 .top(20)
                 .sort(this.sortByName)
                 .map(order => {
                   return { y: order.value, x: order.key };
-                })
-              }
+                })}
               tickFormat={t => t.substr(0, 8)}
             />
             <VictoryAxis dependentAxis />
@@ -507,6 +532,8 @@ class RevenueCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
+            name="revenuePayment"
+            externalEventMutations={this.state.externalMutationsPayment}
             data={this.props.paymentMethodDim
               .group()
               .reduceSum(d =>
@@ -528,34 +555,34 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "revenuePayment",
                 eventHandlers: {
                   onClick: () => {
                     return [
                       {
-                        target: "labels",
+                        target: "data",
                         mutation: props => {
-                          if (this.state.clickedPieSlice.includes(props.text)) {
-                            this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.filter(
-                                slice => slice !== props.text
-                              )
-                            }));
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice === props.datum.label
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
+                            this.setState({
+                              clickedPieSlice: this.state.clickedPieSlice
+                            });
+
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.concat(
-                                props.text
+                              clickedPieSlice: prevState.clickedPieSlice.filter(
+                                slice => slice !== props.datum.label
                               )
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? "red"
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -574,7 +601,7 @@ class RevenueCharts extends Component {
             <div className="label-3">KNET</div>
           </div>
         </div>
-        
+
         <div id="revenue-branch" className="card-def">
           <h2>Revenue / Branch</h2>
           <br />
@@ -614,7 +641,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handleBranchBarClick();
                           }
-                          console.log(props)
                           return props.style.fill === "#4c4c82"
                             ? "blue"
                             : { style: { fill: "#4c4c82" } };
@@ -697,7 +723,7 @@ class RevenueCharts extends Component {
             />
           </VictoryChart>
         </div>
-        
+
         <div id="revenue-weekDay" className="card-def">
           <h2>Revenue / Week Day</h2>
           <br />
@@ -715,7 +741,12 @@ class RevenueCharts extends Component {
                 brushDomain={{ x: [3, 5] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}} 
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -751,10 +782,10 @@ class RevenueCharts extends Component {
                     ][day.key]
                   };
                 })}
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 2000 }
-                }}
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 2000 }
+              }}
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 15, padding: 32 } }}

@@ -13,7 +13,8 @@ class OrderCountCharts extends Component {
     clickedBar: [],
     clickedPieSlice: [],
     clickedAreaBar: [],
-    externalMutations: undefined
+    externalMutations: undefined,
+    externalMutationsPayment: undefined
   };
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
@@ -23,14 +24,13 @@ class OrderCountCharts extends Component {
     setTimeout(() => {
       this.props.handleBranchBarClick(this.state.clickedBar);
     }, 10);
-    
   };
 
   handleDeliveryAreaBarClick = () => {
     setTimeout(() => {
       this.props.handleDeliveryAreaBarClick(this.state.clickedAreaBar);
     }, 10);
-  }
+  };
 
   handlePieSliceClick = () => {
     setTimeout(() => {
@@ -39,66 +39,111 @@ class OrderCountCharts extends Component {
   };
 
   handleResetClick = () => {
-    
-      this.props.resetAll();
-      this.setState({
-        externalMutations: [
-          {
-            childName: "orderCountBranch",
-            target: ["data"],
-            eventKey: "all",
-            mutation: () => ({ style: { fill: "#008f68" } }),
-            callback: this.removeMutation
+    this.props.resetAll();
+    this.setState({
+      externalMutations: [
+        {
+          childName: "orderCountBranch",
+          target: ["data"],
+          eventKey: "all",
+          mutation: () => ({ style: { fill: "#008f68" } }),
+          callback: this.removeMutation
+        },
+        {
+          childName: "orderCountDeliveryArea",
+          target: ["data"],
+          eventKey: "all",
+          mutation: () => ({ style: { fill: "#33619D" } }),
+          callback: this.removeMutation
+        },
+        {
+          childName: "orderCountOrderSize",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              case 4:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
           },
-          {
-            childName: "orderCountDeliveryArea",
-            target: ["data"],
-            eventKey: "all",
-            mutation: (props) => ({ style: { fill: "#33619D" } }),
-            callback: this.removeMutation
+          callback: this.removeMutation
+        },
+        {
+          childName: "orderCountOrderTime",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              default:
+                break;
+            }
           },
-          {
-            childName: "orderCountOrderSize",
-            target: ["data"],
-            eventKey: "all",
-            mutation: (props) => {if (props.index === 0) {
-              return ({style: {fill: "#c8e7b0"}})
-            } else if (props.index === 1) {
-              return ({style: {fill: "#3d3d42"}})
-            } else if (props.index === 2) {
-              return ({style: {fill: "#4db7ce"}})
-            } else if (props.index === 3) {
-              return ({style: {fill: "#008f68"}})
-            } else {
-              return ({style: {fill: "#EFBB35"}})
-            }},
-            callback: this.removeMutation
-          }
-        ]
-      })
-      
+          callback: this.removeMutation
+        }
+      ]
+    });
+    this.setState({
+      externalMutationsPayment: [
+        {
+          childName: "orderCountPaymentMethod",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#3d3d42" } };
+              case 1:
+                return { style: { fill: "#008f68" } };
+              case 2:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        }
+      ]
+    });
   };
 
   removeMutation = () => {
     this.setState({
       externalMutations: undefined
-    })
-  }
-
-
-
+    });
+    this.setState({
+      externalMutationsPayment: undefined
+    });
+  };
 
   sortByName = (a, b) => {
-    const deliveryAreaA = a.key.substr(0,8).toUpperCase()
-    const deliveryAreaB = b.key.substr(0,8).toUpperCase()
+    const deliveryAreaA = a.key.substr(0, 8).toUpperCase();
+    const deliveryAreaB = b.key.substr(0, 8).toUpperCase();
     if (deliveryAreaA < deliveryAreaB) {
-      return -1
+      return -1;
     } else if (deliveryAreaA > deliveryAreaB) {
-      return 1
+      return 1;
     } else {
-      return 0
+      return 0;
     }
-  }
+  };
 
   render() {
     return (
@@ -115,8 +160,9 @@ class OrderCountCharts extends Component {
 
           <VictoryPie
             className="pie"
-            name="payMethodPieChart"
+            name="orderCountPaymentMethod"
             responsive={false}
+            externalEventMutations={this.state.externalMutationsPayment}
             data={this.props.paymentMethodDim
               .group()
               .all()
@@ -131,33 +177,32 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "orderCountPaymentMethod",
                 eventHandlers: {
                   onClick: () => {
                     return [
                       {
-                        target: "labels",
+                        target: "data",
                         mutation: props => {
-                          console.log(props)
-                          if (this.state.clickedPieSlice.includes(props.text)) {
-                            this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.filter(
-                                slice => slice !== props.text
-                              )
-                            }));
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice === props.datum.label
+                            ) === undefined
+                          ) {
+                            this.state.clickedPieSlice.push(props.datum.label);
+                            this.setState({
+                              clickedPieSlice: this.state.clickedPieSlice
+                            });
+
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
-                              clickedPieSlice: prevState.clickedPieSlice.concat(
-                                props.text
+                              clickedPieSlice: prevState.clickedPieSlice.filter(
+                                slice => slice !== props.datum.label
                               )
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
                           return props.style.fill === "#4c4c82"
                             ? "red"
                             : { style: { fill: "#4c4c82" } };
@@ -188,7 +233,9 @@ class OrderCountCharts extends Component {
             </a>
           </div>
           <VictoryPie
+            name="orderCountOrderTime"
             responsive={false}
+            externalEventMutations={this.state.externalMutations}
             data={[
               {
                 y:
@@ -227,6 +274,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
+                childName: "orderCountOrderTime",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -320,7 +368,6 @@ class OrderCountCharts extends Component {
                             }));
                             this.handleBranchBarClick();
                           }
-                          console.log(props)
                           return props.style.fill === "#4c4c82"
                             ? "blue"
                             : { style: { fill: "#4c4c82" } };
@@ -361,7 +408,6 @@ class OrderCountCharts extends Component {
                 onLoad: { duration: 2000 }
               }}
               barWidth={21}
-              
             />
           </VictoryChart>
         </div>
@@ -388,7 +434,9 @@ class OrderCountCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
-                          if (this.state.clickedAreaBar.includes(props.datum.x)) {
+                          if (
+                            this.state.clickedAreaBar.includes(props.datum.x)
+                          ) {
                             this.setState(prevState => ({
                               clickedAreaBar: prevState.clickedAreaBar.filter(
                                 area => area !== props.datum.x
@@ -435,21 +483,19 @@ class OrderCountCharts extends Component {
             />
             <VictoryAxis
               style={{ tickLabels: { angle: -70, fontSize: 12, padding: 25 } }}
-              tickValues={
-                this.props.deliveryAreaDim
+              tickValues={this.props.deliveryAreaDim
                 .group()
                 .top(20)
                 .sort(this.sortByName)
                 .map(order => {
                   return { y: order.value, x: order.key };
-                })
-              }
+                })}
               tickFormat={t => t.substr(0, 8)}
             />
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
-        
+
         <div id="orderCount-orderSize" className="card-def card-25">
           <h2>Orders Count / Order Size</h2>
           <br />
@@ -536,7 +582,7 @@ class OrderCountCharts extends Component {
                         }
                       }
                     ];
-                  },
+                  }
                 }
               }
             ]}
@@ -571,7 +617,12 @@ class OrderCountCharts extends Component {
                 brushDomain={{ x: [3, 5] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
-                handleStyle={{stroke: "transparent", strokeWidth:1, fill: "#000", fillOpacity: ".5"}}
+                handleStyle={{
+                  stroke: "transparent",
+                  strokeWidth: 1,
+                  fill: "#000",
+                  fillOpacity: ".5"
+                }}
                 brushStyle={{
                   stroke: "transparent",
                   fill: "#999",
@@ -616,7 +667,6 @@ class OrderCountCharts extends Component {
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
-        
       </div>
     );
   }
