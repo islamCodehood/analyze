@@ -38,7 +38,8 @@ class RevenueCharts extends Component {
     }, 10);
   };
 
-  handleResetClick = e => {
+  handleResetClick = () => {
+    this.props.resetAll();
     this.setState({
       externalMutations: [
         {
@@ -57,11 +58,7 @@ class RevenueCharts extends Component {
         }
       ]
     })
-    if (e.target.text === "Reset All") {
-      this.props.resetAll();
-    } else {
-      this.props.resetDim(e.target.parentElement.id);
-    }
+    
   };
 
   removeMutation = () => {
@@ -95,9 +92,6 @@ class RevenueCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
           <VictoryPie
@@ -239,9 +233,6 @@ class RevenueCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
           <VictoryPie
@@ -512,9 +503,6 @@ class RevenueCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
           <VictoryPie

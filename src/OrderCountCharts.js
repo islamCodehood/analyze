@@ -38,9 +38,8 @@ class OrderCountCharts extends Component {
     }, 10);
   };
 
-  handleResetClick = e => {
+  handleResetClick = () => {
     
-    if (e.target.text === "Reset All") {
       this.props.resetAll();
       this.setState({
         externalMutations: [
@@ -72,17 +71,12 @@ class OrderCountCharts extends Component {
               return ({style: {fill: "#008f68"}})
             } else {
               return ({style: {fill: "#EFBB35"}})
-            }
-           
-          },
+            }},
             callback: this.removeMutation
           }
         ]
       })
       
-    } else {
-      this.props.resetDim(e.target.parentElement.id);
-    }
   };
 
   removeMutation = () => {
@@ -116,9 +110,6 @@ class OrderCountCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
 
@@ -194,9 +185,6 @@ class OrderCountCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
           <VictoryPie
@@ -469,9 +457,6 @@ class OrderCountCharts extends Component {
           <div className="btn-group">
             <a href="#!" className="reset" onClick={this.handleResetClick}>
               Reset All
-            </a>
-            <a href="#!" className="reset" onClick={this.handleResetClick}>
-              Reset Dimension
             </a>
           </div>
           <VictoryPie

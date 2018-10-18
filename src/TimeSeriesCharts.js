@@ -8,12 +8,8 @@ class TimeSeriesCharts extends Component {
     this.props.handleChartChange(domain.x, props.name);
   };
 
-  handleResetClick = e => {
-    if (e.target.text === "Reset All") {
+  handleResetClick = () => {
       this.props.resetAll();
-    } else {
-      this.props.resetDim(e.target.parentElement.id);
-    }
   };
 
   render() {
