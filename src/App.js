@@ -59,7 +59,9 @@ class App extends Component {
     orderWeekDayDim: {},
     orderMonthDim: {},
     orderTimeDim: {},
-    deliveryAreaDim: {}
+    deliveryAreaDim: {},
+    externalMutations: undefined,
+    externalMutationsPayment: undefined
   };
 
   /*****Filteration Functions*****/
@@ -350,6 +352,98 @@ class App extends Component {
     this.setState(prevState => ({
       orderAmountDim: prevState.orderAmountDim.filterAll()
     }));
+
+    this.setState({
+      externalMutations: [
+        {
+          childName: "branch",
+          target: ["data"],
+          eventKey: "all",
+          mutation: () => ({ style: { fill: "#008f68" } }),
+          callback: this.removeMutation
+        },
+        {
+          childName: "deliveryArea",
+          target: ["data"],
+          eventKey: "all",
+          mutation: () => ({ style: { fill: "#33619D" } }),
+          callback: this.removeMutation
+        },
+        {
+          childName: "orderSize",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              case 4:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        },
+        {
+          childName: "orderTime",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#c8e7b0" } };
+              case 1:
+                return { style: { fill: "#3d3d42" } };
+              case 2:
+                return { style: { fill: "#4db7ce" } };
+              case 3:
+                return { style: { fill: "#008f68" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        }
+      ]
+    });
+    this.setState({
+      externalMutationsPayment: [
+        {
+          childName: "paymentMethod",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#3d3d42" } };
+              case 1:
+                return { style: { fill: "#008f68" } };
+              case 2:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        }
+      ]
+    });
+  };
+  
+  removeMutation = () => {
+    this.setState({
+      externalMutations: undefined
+    });
+    this.setState({
+      externalMutationsPayment: undefined
+    });
   };
 
   render() {
@@ -368,6 +462,8 @@ class App extends Component {
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
+          externalMutations={this.state.externalMutations}
+          externalMutationsPayment={this.state.externalMutationsPayment}
         />
 
         <RevenueCharts
@@ -382,6 +478,9 @@ class App extends Component {
           handlePieSliceClick={this.handlePieSliceClick}
           resetAll={this.resetAll}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
+          externalMutations={this.state.externalMutations}
+          externalMutationsPayment={this.state.externalMutationsPayment}
+
         />
 
         <TimeSeriesCharts
