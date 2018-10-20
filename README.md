@@ -79,7 +79,7 @@ You can either:
   2. Filter through bar chart of Branches, or Delivery area dimensions by clicking on individual bars.
   3. Filter through other bar charts, by brushing through charts. You can drar, or resize brush to filter dimension, and also you can click on the chart to select all dimension.
   4. Filter through line charts (Time series charts) by brushing through charts.
-- Reset all filtration by clicking Reset All button.
+- Reset all filtration by clicking any of Reset All button.
 
 
 
