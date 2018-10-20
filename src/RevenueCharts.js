@@ -11,9 +11,7 @@ class RevenueCharts extends Component {
   state = {
     clickedBar: [],
     clickedPieSlice: [],
-    clickedAreaBar: [],
-    externalMutations: undefined,
-    externalMutationsPayment: undefined
+    clickedAreaBar: []
   };
 
   handleChange = (domain, props) => {
@@ -40,98 +38,9 @@ class RevenueCharts extends Component {
 
   handleResetClick = () => {
     this.props.resetAll();
-    this.setState({
-      externalMutations: [
-        {
-          childName: "revenueBranch",
-          target: ["data"],
-          eventKey: "all",
-          mutation: () => ({ style: { fill: "#008f68" } }),
-          callback: this.removeMutation
-        },
-        {
-          childName: "revenueDeliveryArea",
-          target: ["data"],
-          eventKey: "all",
-          mutation: () => ({ style: { fill: "#33619D" } }),
-          callback: this.removeMutation
-        },
-        {
-          childName: "revenueOrderSize",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#c8e7b0" } };
-              case 1:
-                return { style: { fill: "#3d3d42" } };
-              case 2:
-                return { style: { fill: "#4db7ce" } };
-              case 3:
-                return { style: { fill: "#008f68" } };
-              case 4:
-                return { style: { fill: "#EFBB35" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        },
-        {
-          childName: "revenueOrderTime",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#c8e7b0" } };
-              case 1:
-                return { style: { fill: "#3d3d42" } };
-              case 2:
-                return { style: { fill: "#4db7ce" } };
-              case 3:
-                return { style: { fill: "#008f68" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        }
-      ]
-    });
-    this.setState({
-      externalMutationsPayment: [
-        {
-          childName: "revenuePayment",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#3d3d42" } };
-              case 1:
-                return { style: { fill: "#008f68" } };
-              case 2:
-                return { style: { fill: "#EFBB35" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        }
-      ]
-    });
   };
 
-  removeMutation = () => {
-    this.setState({
-      externalMutations: undefined
-    });
-    this.setState({
-      externalMutationsPayment: undefined
-    });
-  };
+  
 
   //To sort delivery area by name of area.
   sortByName = (a, b) => {
@@ -160,8 +69,8 @@ class RevenueCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
-            name="revenueOrderTime"
-            externalEventMutations={this.state.externalMutations}
+            name="orderTime"
+            externalEventMutations={this.props.externalMutations}
             data={[
               {
                 y:
@@ -240,7 +149,7 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "revenueOrderTime",
+                childName: "orderTime",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -299,8 +208,8 @@ class RevenueCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
-            name="revenueOrderSize"
-            externalEventMutations={this.state.externalMutations}
+            name="orderSize"
+            externalEventMutations={this.props.externalMutations}
             data={[
               {
                 y: this.props.orderAmountDim
@@ -382,7 +291,7 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "revenueOrderSize",
+                childName: "orderSize",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -446,11 +355,11 @@ class RevenueCharts extends Component {
             responsive={false}
             domainPadding={9}
             height={245}
-            externalEventMutations={this.state.externalMutations}
+            externalEventMutations={this.props.externalMutations}
             events={[
               {
                 target: "data",
-                childName: "revenueDeliveryArea",
+                childName: "deliveryArea",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -486,7 +395,7 @@ class RevenueCharts extends Component {
             ]}
           >
             <VictoryBar
-              name="revenueDeliveryArea"
+              name="deliveryArea"
               data={this.props.deliveryAreaDim
                 .group()
                 .reduceSum(d =>
@@ -532,8 +441,8 @@ class RevenueCharts extends Component {
           </div>
           <VictoryPie
             responsive={false}
-            name="revenuePayment"
-            externalEventMutations={this.state.externalMutationsPayment}
+            name="paymentMethod"
+            externalEventMutations={this.props.externalMutationsPayment}
             data={this.props.paymentMethodDim
               .group()
               .reduceSum(d =>
@@ -555,7 +464,7 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "revenuePayment",
+                childName: "paymentMethod",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -615,11 +524,11 @@ class RevenueCharts extends Component {
             responsive={false}
             domainPadding={16}
             padding={{ left: 80, right: 60 }}
-            externalEventMutations={this.state.externalMutations}
+            externalEventMutations={this.props.externalMutations}
             events={[
               {
                 target: "data",
-                childName: "revenueBranch",
+                childName: "branch",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -654,7 +563,7 @@ class RevenueCharts extends Component {
           >
             <VictoryBar
               horizontal
-              name="revenueBranch"
+              name="branch"
               data={this.props.branchDim
                 .group()
                 .reduceSum(d =>
@@ -681,45 +590,6 @@ class RevenueCharts extends Component {
                 onLoad: { duration: 2000 }
               }}
               barWidth={31}
-              /* events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: props => {
-                            if (this.state.clickedBar.includes(props.datum.x)) {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.filter(
-                                  branch => branch !== props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            } else {
-                              this.setState(prevState => ({
-                                clickedBar: prevState.clickedBar.concat(
-                                  props.datum.x
-                                )
-                              }));
-                              this.handleBranchBarClick();
-                            }
-                          }
-                        },
-                        {
-                          target: "data",
-                          mutation: props => {
-                            return props.style.fill === "#4c4c82"
-                              ? "blue"
-                              : { style: { fill: "#4c4c82" } };
-                          }
-                        }
-                      ];
-                    }
-                  }
-                }
-              ]} */
             />
           </VictoryChart>
         </div>

@@ -12,9 +12,7 @@ class OrderCountCharts extends Component {
   state = {
     clickedBar: [],
     clickedPieSlice: [],
-    clickedAreaBar: [],
-    externalMutations: undefined,
-    externalMutationsPayment: undefined
+    clickedAreaBar: []
   };
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
@@ -40,98 +38,9 @@ class OrderCountCharts extends Component {
 
   handleResetClick = () => {
     this.props.resetAll();
-    this.setState({
-      externalMutations: [
-        {
-          childName: "orderCountBranch",
-          target: ["data"],
-          eventKey: "all",
-          mutation: () => ({ style: { fill: "#008f68" } }),
-          callback: this.removeMutation
-        },
-        {
-          childName: "orderCountDeliveryArea",
-          target: ["data"],
-          eventKey: "all",
-          mutation: () => ({ style: { fill: "#33619D" } }),
-          callback: this.removeMutation
-        },
-        {
-          childName: "orderCountOrderSize",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#c8e7b0" } };
-              case 1:
-                return { style: { fill: "#3d3d42" } };
-              case 2:
-                return { style: { fill: "#4db7ce" } };
-              case 3:
-                return { style: { fill: "#008f68" } };
-              case 4:
-                return { style: { fill: "#EFBB35" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        },
-        {
-          childName: "orderCountOrderTime",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#c8e7b0" } };
-              case 1:
-                return { style: { fill: "#3d3d42" } };
-              case 2:
-                return { style: { fill: "#4db7ce" } };
-              case 3:
-                return { style: { fill: "#008f68" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        }
-      ]
-    });
-    this.setState({
-      externalMutationsPayment: [
-        {
-          childName: "orderCountPaymentMethod",
-          target: ["data"],
-          eventKey: "all",
-          mutation: props => {
-            switch (props.index) {
-              case 0:
-                return { style: { fill: "#3d3d42" } };
-              case 1:
-                return { style: { fill: "#008f68" } };
-              case 2:
-                return { style: { fill: "#EFBB35" } };
-              default:
-                break;
-            }
-          },
-          callback: this.removeMutation
-        }
-      ]
-    });
   };
 
-  removeMutation = () => {
-    this.setState({
-      externalMutations: undefined
-    });
-    this.setState({
-      externalMutationsPayment: undefined
-    });
-  };
+ 
 
   sortByName = (a, b) => {
     const deliveryAreaA = a.key.substr(0, 8).toUpperCase();
@@ -160,9 +69,9 @@ class OrderCountCharts extends Component {
 
           <VictoryPie
             className="pie"
-            name="orderCountPaymentMethod"
+            name="paymentMethod"
             responsive={false}
-            externalEventMutations={this.state.externalMutationsPayment}
+            externalEventMutations={this.props.externalMutationsPayment}
             data={this.props.paymentMethodDim
               .group()
               .all()
@@ -177,7 +86,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "orderCountPaymentMethod",
+                childName: "paymentMethod",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -233,9 +142,9 @@ class OrderCountCharts extends Component {
             </a>
           </div>
           <VictoryPie
-            name="orderCountOrderTime"
+            name="orderTime"
             responsive={false}
-            externalEventMutations={this.state.externalMutations}
+            externalEventMutations={this.props.externalMutations}
             data={[
               {
                 y:
@@ -274,7 +183,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "orderCountOrderTime",
+                childName: "orderTime",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -342,11 +251,11 @@ class OrderCountCharts extends Component {
             padding={{ left: 80, right: 60 }}
             width={400}
             height={140}
-            externalEventMutations={this.state.externalMutations}
+            externalEventMutations={this.props.externalMutations}
             events={[
               {
                 target: "data",
-                childName: "orderCountBranch",
+                childName: "branch",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -381,7 +290,7 @@ class OrderCountCharts extends Component {
           >
             <VictoryBar
               horizontal
-              name="orderCountBranch"
+              name="branch"
               labelComponent={
                 <VictoryLabel
                   verticalAnchor="middle"
@@ -423,11 +332,11 @@ class OrderCountCharts extends Component {
           <VictoryChart
             responsive={false}
             domainPadding={9}
-            externalEventMutations={this.state.externalMutations}
+            externalEventMutations={this.props.externalMutations}
             events={[
               {
                 target: "data",
-                childName: "orderCountDeliveryArea",
+                childName: "deliveryArea",
                 eventHandlers: {
                   onClick: () => {
                     return [
@@ -463,7 +372,7 @@ class OrderCountCharts extends Component {
             ]}
           >
             <VictoryBar
-              name="orderCountDeliveryArea"
+              name="deliveryArea"
               data={this.props.deliveryAreaDim
                 .group()
                 .top(20)
@@ -506,8 +415,8 @@ class OrderCountCharts extends Component {
             </a>
           </div>
           <VictoryPie
-            name="orderCountOrderSize"
-            externalEventMutations={this.state.externalMutations}
+            name="orderSize"
+            externalEventMutations={this.props.externalMutations}
             responsive={false}
             data={[
               {
@@ -550,7 +459,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "orderCountOrderSize",
+                childName: "orderSize",
                 eventHandlers: {
                   onClick: () => {
                     return [
