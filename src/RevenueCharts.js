@@ -14,12 +14,13 @@ class RevenueCharts extends Component {
     clickedAreaBar: []
   };
 
+  //Handle Brushing of the week day bar chart
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
   };
 
   handleBranchBarClick = () => {
-    setTimeout(() => {
+    setTimeout(() => {//Time out to give a chance to the state change to happen before calling the function.
       this.props.handleBranchBarClick(this.state.clickedBar);
     }, 10);
   };
@@ -41,8 +42,7 @@ class RevenueCharts extends Component {
   };
 
   
-
-  //To sort delivery area by name of area.
+  //Sort delivery area bar chart's areas alphabetically
   sortByName = (a, b) => {
     const deliveryAreaA = a.key.substr(0, 8).toUpperCase();
     const deliveryAreaB = b.key.substr(0, 8).toUpperCase();

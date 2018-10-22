@@ -14,12 +14,14 @@ class OrderCountCharts extends Component {
     clickedPieSlice: [],
     clickedAreaBar: []
   };
+
+  //Handle Brushing of the week day bar chart
   handleChange = (domain, props) => {
     this.props.handleChartChange(domain.x, props.name);
   };
 
   handleBranchBarClick = () => {
-    setTimeout(() => {
+    setTimeout(() => {//Time out to give a chance to the state change to happen before calling the function.
       this.props.handleBranchBarClick(this.state.clickedBar);
     }, 10);
   };
@@ -40,8 +42,7 @@ class OrderCountCharts extends Component {
     this.props.resetAll();
   };
 
- 
-
+  //Sort delivery area bar chart's areas alphabetically
   sortByName = (a, b) => {
     const deliveryAreaA = a.key.substr(0, 8).toUpperCase();
     const deliveryAreaB = b.key.substr(0, 8).toUpperCase();
