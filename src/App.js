@@ -102,7 +102,8 @@ class App extends Component {
   //Deal with filteration of Branch bar charts by clicking on bars.
   handleBranchBarClick = selectedBranches => {
     if (!selectedBranches.length) {
-      //Reset filter on the branch bar charts when second clicked.
+      /*Reset filter on the branch bar charts when second clicked.
+      * When same bar clicked for the second time, it will be filtered from the returned array state.*/
       this.setState(prevState => ({
         branchDim: prevState.branchDim.filterAll()
       }));
@@ -111,7 +112,7 @@ class App extends Component {
     I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
       this.setState(prevState => ({
         branchDim: prevState.branchDim.filterFunction(
-          d =>
+          d => //taking into consideration any possible array length of branches selected(max number is 6 branches)
             d === selectedBranches[0] ||
             d === selectedBranches[1] ||
             d === selectedBranches[2] ||
@@ -123,9 +124,11 @@ class App extends Component {
     }
   };
 
+  //Deal with filteration of Delivery Area bar charts by clicking on bars.
   handleDeliveryAreaBarClick = selectedAreas => {
     if (!selectedAreas.length) {
-      //Reset filter on the branch bar charts when second clicked.
+       /*Reset filter on the Delivery Area bar charts when second clicked.
+      * When same bar clicked for the second time, it will be filtered from the returned array state.*/
       this.setState(prevState => ({
         deliveryAreaDim: prevState.deliveryAreaDim.filterAll()
       }));
@@ -134,7 +137,7 @@ class App extends Component {
     I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
       this.setState(prevState => ({
         deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(
-          d =>
+          d => //taking into consideration any possible array length of delivery areas selected(max number is 20 areas)
             d === selectedAreas[0] ||
             d === selectedAreas[1] ||
             d === selectedAreas[2] ||
@@ -168,14 +171,14 @@ class App extends Component {
     );
     //Slices for orderTime Pie and orderAmount Pie are in array format.
     const orderTimePie = selectedSlices.filter(
-      slice =>
-        slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 24 //To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
+      slice => //filteration accord to the first element of the arrays inside the selectedSlices array.
+        slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 24 //Exception: To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
     );
     const orderAmountPie = selectedSlices.filter(
-      slice =>
+      slice => //filteration accord to the first element of the arrays inside the selectedSlices array.
         slice[0] === 0 ||
         slice[0] === 10 ||
-        slice[1] === 40 || //To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
+        slice[1] === 40 || //Exception: To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
         slice[0] === 40 ||
         slice[0] === 70
     );
@@ -195,9 +198,10 @@ class App extends Component {
         paymentMethodDim: prevState.paymentMethodDim.filterAll()
       }));
     }
+    //If any slice of order Time pie clicked.
     if (orderTimePie.length) {
       switch (orderTimePie.length) {
-        /*Labels for time are in array format and divided into 4 time points to overcome the
+        /*Labels for time are in array format and divided into 4 time points to overcome issue of
         * the time range from 20 to 6*/
         case 1:
           this.setState(prevState => ({
@@ -255,6 +259,7 @@ class App extends Component {
         orderTimeDim: prevState.orderTimeDim.filterAll()
       }));
     }
+    //If any slice of order Amount pie clicked.
     if (orderAmountPie.length) {
       switch (orderAmountPie.length) {
         case 1:
@@ -326,7 +331,8 @@ class App extends Component {
       }));
     }
   };
-  //reset all dimensions
+
+  //reset all dimensions, and reset all charts colors.
   resetAll = () => {
     this.setState(prevState => ({
       branchDim: prevState.branchDim.filterAll()
@@ -413,6 +419,7 @@ class App extends Component {
         }
       ]
     });
+    //Payment method pie is handled alone because it contains different slices' colors order than other pies.
     this.setState({
       externalMutationsPayment: [
         {
@@ -436,7 +443,7 @@ class App extends Component {
       ]
     });
   };
-  
+  // Remove external mustation to reset charts' colors.
   removeMutation = () => {
     this.setState({
       externalMutations: undefined
@@ -480,7 +487,6 @@ class App extends Component {
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
           externalMutations={this.state.externalMutations}
           externalMutationsPayment={this.state.externalMutationsPayment}
-
         />
 
         <TimeSeriesCharts
