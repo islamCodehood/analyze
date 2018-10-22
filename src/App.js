@@ -20,22 +20,22 @@ class App extends Component {
     });
     this.setState({
       orderAmountDim: this.state.dataCrossFiltered.dimension(d =>
-        parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+        parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, "")) //remove the dollar sign.
       )
     });
     this.setState({
       orderDateDim: this.state.dataCrossFiltered.dimension(d =>
-        new Date(d.orderdate.substr(0, 10)).getDate()
+        new Date(d.orderdate).getDate()
       )
     });
     this.setState({
       orderWeekDayDim: this.state.dataCrossFiltered.dimension(d =>
-        new Date(d.orderdate.substr(0, 10)).getDay()
+        new Date(d.orderdate).getDay()
       )
     });
     this.setState({
       orderMonthDim: this.state.dataCrossFiltered.dimension(d =>
-        new Date(d.orderdate.substr(0, 10)).getMonth()
+        new Date(d.orderdate).getMonth()
       )
     });
     this.setState({
