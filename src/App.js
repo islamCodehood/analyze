@@ -19,8 +19,8 @@ class App extends Component {
       )
     });
     this.setState({
-      orderAmountDim: this.state.dataCrossFiltered.dimension(d =>
-        parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, "")) //remove the dollar sign.
+      orderAmountDim: this.state.dataCrossFiltered.dimension(
+        d => parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, "")) //remove the dollar sign.
       )
     });
     this.setState({
@@ -112,7 +112,9 @@ class App extends Component {
     I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
       this.setState(prevState => ({
         branchDim: prevState.branchDim.filterFunction(
-          d => //taking into consideration any possible array length of branches selected(max number is 6 branches)
+          (
+            d //taking into consideration any possible array length of branches selected(max number is 6 branches)
+          ) =>
             d === selectedBranches[0] ||
             d === selectedBranches[1] ||
             d === selectedBranches[2] ||
@@ -127,7 +129,7 @@ class App extends Component {
   //Deal with filteration of Delivery Area bar charts by clicking on bars.
   handleDeliveryAreaBarClick = selectedAreas => {
     if (!selectedAreas.length) {
-       /*Reset filter on the Delivery Area bar charts when second clicked.
+      /*Reset filter on the Delivery Area bar charts when second clicked.
       * When same bar clicked for the second time, it will be filtered from the returned array state.*/
       this.setState(prevState => ({
         deliveryAreaDim: prevState.deliveryAreaDim.filterAll()
@@ -137,7 +139,9 @@ class App extends Component {
     I iterate over the maximum array length to be sure that I take into account any number of bars clicked.*/
       this.setState(prevState => ({
         deliveryAreaDim: prevState.deliveryAreaDim.filterFunction(
-          d => //taking into consideration any possible array length of delivery areas selected(max number is 20 areas)
+          (
+            d //taking into consideration any possible array length of delivery areas selected(max number is 20 areas)
+          ) =>
             d === selectedAreas[0] ||
             d === selectedAreas[1] ||
             d === selectedAreas[2] ||
@@ -171,11 +175,15 @@ class App extends Component {
     );
     //Slices for orderTime Pie and orderAmount Pie are in array format.
     const orderTimePie = selectedSlices.filter(
-      slice => //filteration accord to the first element of the arrays inside the selectedSlices array.
+      (
+        slice //filteration accord to the first element of the arrays inside the selectedSlices array.
+      ) =>
         slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 24 //Exception: To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
     );
     const orderAmountPie = selectedSlices.filter(
-      slice => //filteration accord to the first element of the arrays inside the selectedSlices array.
+      (
+        slice //filteration accord to the first element of the arrays inside the selectedSlices array.
+      ) =>
         slice[0] === 0 ||
         slice[0] === 10 ||
         slice[1] === 40 || //Exception: To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
