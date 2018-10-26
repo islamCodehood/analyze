@@ -29,7 +29,6 @@ class TimeSeriesCharts extends Component {
             containerComponent={
               <VictoryBrushContainer
                 brushDimension="x"
-                brushDomain={{ x: [12, 18] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 handleStyle={{
@@ -78,7 +77,6 @@ class TimeSeriesCharts extends Component {
             containerComponent={
               <VictoryBrushContainer
                 brushDimension="x"
-                brushDomain={{ x: [12, 18] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 handleStyle={{
@@ -130,7 +128,6 @@ class TimeSeriesCharts extends Component {
             containerComponent={
               <VictoryBrushContainer
                 brushDimension="x"
-                brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 handleStyle={{
@@ -179,7 +176,6 @@ class TimeSeriesCharts extends Component {
             containerComponent={
               <VictoryBrushContainer
                 brushDimension="x"
-                brushDomain={{ x: [4, 6] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 handleStyle={{

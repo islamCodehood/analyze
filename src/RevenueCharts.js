@@ -608,7 +608,6 @@ class RevenueCharts extends Component {
             containerComponent={
               <VictoryBrushContainer
                 brushDimension="x"
-                brushDomain={{ x: [3, 5] }}
                 defaultBrushArea={"all"}
                 onBrushDomainChange={this.handleChange}
                 handleStyle={{
