@@ -574,15 +574,24 @@ class RevenueCharts extends Component {
                   return {
                     y: branch.value,
                     x: branch.key,
-                    label:
-                      "$" +
-                      Math.round(branch.value)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   };
                 })}
+              labels={
+                this.props.branchDim
+                .group()
+                .reduceSum(d =>
+                  parseFloat(d.orderAmount.replace(/[^0-9.-]+/g, ""))
+                )
+                .all()
+                .map(branch => 
+                      {return "$" +
+                      Math.round(branch.value)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                )
+              }
               style={{
-                labels: { fill: "#666", fontSize: 14 },
+                labels: {  fontSize: 14 },
                 data: { fill: "#008f68" }
               }}
               animate={{

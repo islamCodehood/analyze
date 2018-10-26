@@ -306,8 +306,13 @@ class OrderCountCharts extends Component {
                   return {
                     y: branch.value,
                     x: branch.key,
-                    label: branch.value + " Orders"
                   };
+                })}
+              labels={this.props.branchDim
+                .group()
+                .all()
+                .map(branch => {
+                  return branch.value + " Orders"
                 })}
               style={{
                 data: { fill: "#008f68" },
