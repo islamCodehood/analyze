@@ -176,7 +176,7 @@ class RevenueCharts extends Component {
                             this.handlePieSliceClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -318,7 +318,7 @@ class RevenueCharts extends Component {
                             this.handlePieSliceClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -384,7 +384,7 @@ class RevenueCharts extends Component {
                             this.handleDeliveryAreaBarClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -491,7 +491,7 @@ class RevenueCharts extends Component {
                             this.handlePieSliceClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "red"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -551,7 +551,7 @@ class RevenueCharts extends Component {
                             this.handleBranchBarClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }

@@ -216,7 +216,7 @@ class OrderCountCharts extends Component {
                         target: "data",
                         mutation: props => {
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -279,7 +279,7 @@ class OrderCountCharts extends Component {
                             this.handleBranchBarClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -367,7 +367,7 @@ class OrderCountCharts extends Component {
                             this.handleDeliveryAreaBarClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
@@ -492,7 +492,7 @@ class OrderCountCharts extends Component {
                             this.handlePieSliceClick();
                           }
                           return props.style.fill === "#4c4c82"
-                            ? "blue"
+                            ? ""
                             : { style: { fill: "#4c4c82" } };
                         }
                       }
