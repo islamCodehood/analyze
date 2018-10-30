@@ -39,6 +39,15 @@ class RevenueCharts extends Component {
 
   handleResetClick = () => {
     this.props.resetAll();
+    this.setState({
+      clickedBar: []
+    })
+    this.setState({
+      clickedPieSlice: []
+    })
+    this.setState({
+      clickedAreaBar: []
+    })
   };
 
   
@@ -139,7 +148,7 @@ class RevenueCharts extends Component {
             ]}
             height={280}
             width={280}
-            colorScale={["#c8e7b0", "#3d3d42", "#4db7ce", "#008f68"]}
+            colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)"]}
             labelRadius={120}
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
@@ -151,6 +160,24 @@ class RevenueCharts extends Component {
                 target: "data",
                 childName: "orderTime",
                 eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8"}}
+                        }
+                      }
+                    ]
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return null
+                        }
+                      }
+                    ]
+                  },
                   onClick: () => {
                     return [
                       {
@@ -280,7 +307,7 @@ class RevenueCharts extends Component {
             ]}
             height={280}
             width={280}
-            colorScale={["#c8e7b0", "#3d3d42", "#4db7ce", "#008f68", "#EFBB35"]}
+            colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             innerRadius={50}
@@ -293,6 +320,24 @@ class RevenueCharts extends Component {
                 target: "data",
                 childName: "orderSize",
                 eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8"}}
+                        }
+                      }
+                    ]
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return null
+                        }
+                      }
+                    ]
+                  },
                   onClick: () => {
                     return [
                       {
@@ -454,7 +499,7 @@ class RevenueCharts extends Component {
               })}
             height={280}
             width={280}
-            colorScale={["#3d3d42", "#008f68", "#EFBB35"]}
+            colorScale={["rgba(61, 61, 66, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
             style={{ labels: { fill: "transparent", fontSize: 10 } }}
             animate={{
@@ -466,6 +511,24 @@ class RevenueCharts extends Component {
                 target: "data",
                 childName: "paymentMethod",
                 eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8"}}
+                        }
+                      }
+                    ]
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        mutation: props => {
+                          return null
+                        }
+                      }
+                    ]
+                  },
                   onClick: () => {
                     return [
                       {
