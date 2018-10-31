@@ -5,7 +5,7 @@ import {
   VictoryChart,
   VictoryBrushContainer,
   VictoryLabel,
-  VictoryAxis
+  VictoryAxis,
 } from "victory";
 
 class OrderCountCharts extends Component {
@@ -96,11 +96,13 @@ class OrderCountCharts extends Component {
             width={280}
             colorScale={["rgba(61, 61, 66, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
+              
             }}
+            
             events={[
               {
                 target: "data",
@@ -129,6 +131,7 @@ class OrderCountCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
+                          console.log(props)
                           if (
                             this.state.clickedPieSlice.find(
                               slice => slice === props.datum.label
@@ -157,10 +160,6 @@ class OrderCountCharts extends Component {
                             }))
                             this.handlePieSliceClick();
                           }
-                          
-                          return props.style.strokeWidth === 5
-                            ? { style: { fill: props.style.fill, stroke: "#F5F5DC", strokeWidth: 6} } 
-                            : { style: { fill: props.style.fill,stroke: "red", strokeWidth: 5} };
                         }
                       }
                     ];
@@ -221,7 +220,7 @@ class OrderCountCharts extends Component {
             width={280}
             colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)"]}
             labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
@@ -273,14 +272,6 @@ class OrderCountCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                        }
-                      },
-                      {
-                        target: "data",
-                        mutation: props => {
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
@@ -341,9 +332,6 @@ class OrderCountCharts extends Component {
                             }));
                             this.handleBranchBarClick();
                           }
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
@@ -352,6 +340,11 @@ class OrderCountCharts extends Component {
               }
             ]}
           >
+          <VictoryAxis dependentAxis
+          style={{
+            axis: {stroke: "transparent"}
+          }}
+          />
             <VictoryBar
               horizontal
               name="branch"
@@ -383,7 +376,8 @@ class OrderCountCharts extends Component {
               }}
               animate={{
                 duration: 2000,
-                onLoad: { duration: 2000 }
+                onLoad: { duration: 2000},
+                 
               }}
               barWidth={21}
             />
@@ -520,7 +514,7 @@ class OrderCountCharts extends Component {
             colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
             innerRadius={50}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }

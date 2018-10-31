@@ -150,7 +150,7 @@ class RevenueCharts extends Component {
             width={280}
             colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)"]}
             labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
@@ -202,9 +202,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
@@ -309,7 +306,7 @@ class RevenueCharts extends Component {
             width={280}
             colorScale={["rgba(200, 231, 176, 0.9)", "rgba(61, 61, 66, 0.9)", "rgba(77, 183, 206, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             innerRadius={50}
             animate={{
               duration: 2000,
@@ -362,9 +359,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
@@ -475,7 +469,7 @@ class RevenueCharts extends Component {
             <VictoryAxis dependentAxis />
           </VictoryChart>
         </div>
-        <div id="revenue-paymentMethod" className="card-def">
+        <div id="revenue-paymentMethod" className="card-def card-sm">
           <h2>Revenue / Payment Method</h2>
           <br />
           <br />
@@ -501,7 +495,7 @@ class RevenueCharts extends Component {
             width={280}
             colorScale={["rgba(61, 61, 66, 0.9)", "rgba(0, 143, 104, 0.9)", "rgba(239, 187, 53, 0.9)"]}
             labelRadius={120}
-            style={{ labels: { fill: "transparent", fontSize: 10 } }}
+            style={{ labels: { fill: "transparent", fontSize: 10 }, data: { stroke: "#F5F5DC", strokeWidth: 2} }}
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
@@ -553,9 +547,6 @@ class RevenueCharts extends Component {
                             }));
                             this.handlePieSliceClick();
                           }
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
@@ -624,6 +615,11 @@ class RevenueCharts extends Component {
               }
             ]}
           >
+          <VictoryAxis dependentAxis
+          style={{
+            axis: {stroke: "transparent"}
+          }}
+          />
             <VictoryBar
               horizontal
               name="branch"
@@ -661,7 +657,7 @@ class RevenueCharts extends Component {
                 duration: 2000,
                 onLoad: { duration: 2000 }
               }}
-              barWidth={31}
+              barWidth={45}
             />
           </VictoryChart>
         </div>
