@@ -100,7 +100,7 @@ class App extends Component {
     }
   };
   //Deal with filteration of Branch bar charts by clicking on bars.
-  handleBranchBarClick = selectedBranches => {
+  handleBranchBarClick = (selectedBranches) => {
     if (!selectedBranches.length) {
       /*Reset filter on the branch bar charts when second clicked.
       * When same bar clicked for the second time, it will be filtered from the returned array state.*/
@@ -123,6 +123,8 @@ class App extends Component {
             d === selectedBranches[5]
         )
       }));
+
+      
     }
   };
 
@@ -168,7 +170,7 @@ class App extends Component {
   };
 
   //Deal with filteration by clicking on Pie charts' slices.
-  handlePieSliceClick = selectedSlices => {
+  handlePieSliceClick = (selectedSlices, selectedKeys) => {
     //Filterate the array to select every dimension slices and store them in different variables.
     const paymentMethodPie = selectedSlices.filter(
       slice => slice === "Cash" || slice === "CreditCard" || slice === "KNET"
@@ -180,6 +182,8 @@ class App extends Component {
       ) =>
         slice[0] === 6 || slice[0] === 12 || slice[0] === 17 || slice[1] === 24 //Exception: To avoid double storage of the same slice (num 20 is shared in the two dimensions. )
     );
+
+     
     const orderAmountPie = selectedSlices.filter(
       (
         slice //filteration accord to the first element of the arrays inside the selectedSlices array.
@@ -200,6 +204,17 @@ class App extends Component {
             slice === paymentMethodPie[2]
         )
       }));
+      /* this.setState({
+        externalMutationsPayment: [
+          {
+            childName: "paymentMethod",
+            target: ["data"],
+            eventKey: [0, 1, 2].filter(key => key !== selectedKeys[0] && key !== selectedKeys[1] && key !== selectedKeys[2]), 
+            mutation: () => ({ style: { fill: "#808080" } }),
+            callback: this.removeMutation
+          }
+        ]
+      }) */ 
     } else {
       //Reset filter on the paymentMethodDim pie chart when slices reset by double clicked.
       this.setState(prevState => ({
@@ -459,6 +474,9 @@ class App extends Component {
     this.setState({
       externalMutationsPayment: undefined
     });
+    this.setState({
+      inactivePart: undefined
+    });
   };
 
   render() {
@@ -479,6 +497,7 @@ class App extends Component {
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
           externalMutations={this.state.externalMutations}
           externalMutationsPayment={this.state.externalMutationsPayment}
+          inactivePart={this.state.inactivePart}
         />
 
         <RevenueCharts
