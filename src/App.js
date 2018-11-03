@@ -170,7 +170,7 @@ class App extends Component {
   };
 
   //Deal with filteration by clicking on Pie charts' slices.
-  handlePieSliceClick = (selectedSlices, selectedKeys) => {
+  handlePieSliceClick = (selectedSlices, selectedPaymentKeys, selectedOrderSizeKeys, selectedOrderTimeKeys) => {
     //Filterate the array to select every dimension slices and store them in different variables.
     const paymentMethodPie = selectedSlices.filter(
       slice => slice === "Cash" || slice === "CreditCard" || slice === "KNET"
@@ -204,17 +204,17 @@ class App extends Component {
             slice === paymentMethodPie[2]
         )
       }));
-      /* this.setState({
+      this.setState({
         externalMutationsPayment: [
           {
             childName: "paymentMethod",
             target: ["data"],
-            eventKey: [0, 1, 2].filter(key => key !== selectedKeys[0] && key !== selectedKeys[1] && key !== selectedKeys[2]), 
-            mutation: () => ({ style: { fill: "#808080" } }),
+            eventKey: [0, 1, 2].filter(key => key !== selectedPaymentKeys[0] && key !== selectedPaymentKeys[1] && key !== selectedPaymentKeys[2]), 
+            mutation: () => ({ style: { fill: "rgb(128,128,128)" } }),
             callback: this.removeMutation
           }
         ]
-      }) */ 
+      }) 
     } else {
       //Reset filter on the paymentMethodDim pie chart when slices reset by double clicked.
       this.setState(prevState => ({
@@ -234,6 +234,17 @@ class App extends Component {
                 (slice >= orderTimePie[0][2] && slice < orderTimePie[0][3])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderTime",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3].filter(key => key !== selectedOrderTimeKeys[0]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          }) */
           break;
         case 2:
           this.setState(prevState => ({
@@ -245,6 +256,17 @@ class App extends Component {
                 (slice >= orderTimePie[1][2] && slice < orderTimePie[1][3])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderTime",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3].filter(key => key !== selectedOrderTimeKeys[0] && key !== selectedOrderTimeKeys[1]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          }) */
           break;
         case 3:
           this.setState(prevState => ({
@@ -258,6 +280,17 @@ class App extends Component {
                 (slice >= orderTimePie[2][2] && slice < orderTimePie[2][3])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderTime",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3].filter(key => key !== selectedOrderTimeKeys[0] && key !== selectedOrderTimeKeys[1] && key !== selectedOrderTimeKeys[2]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          }) */
           break;
         case 4:
           this.setState(prevState => ({
@@ -273,6 +306,17 @@ class App extends Component {
                 (slice >= orderTimePie[3][2] && slice < orderTimePie[3][3])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderTime",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3].filter(key => key !== selectedOrderTimeKeys[0] && key !== selectedOrderTimeKeys[1] && key !== selectedOrderTimeKeys[2] && key !== selectedOrderTimeKeys[3]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          }) */
           break;
         default:
           break;
@@ -292,6 +336,17 @@ class App extends Component {
                 slice >= orderAmountPie[0][0] && slice < orderAmountPie[0][1]
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderSize",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3, 4].filter(key => key !== selectedOrderSizeKeys[0]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          })  */
           break;
         case 2:
           this.setState(prevState => ({
@@ -302,6 +357,17 @@ class App extends Component {
                 (slice >= orderAmountPie[1][0] && slice < orderAmountPie[1][1])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderSize",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3, 4].filter(key => key !== selectedOrderSizeKeys[0] && key !== selectedOrderSizeKeys[1]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          })  */
           break;
         case 3:
           this.setState(prevState => ({
@@ -314,6 +380,17 @@ class App extends Component {
                 (slice >= orderAmountPie[2][0] && slice < orderAmountPie[2][1])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderSize",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3, 4].filter(key => key !== selectedOrderSizeKeys[0] && key !== selectedOrderSizeKeys[1] && key !== selectedOrderSizeKeys[2]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          })  */
           break;
         case 4:
           this.setState(prevState => ({
@@ -328,6 +405,17 @@ class App extends Component {
                 (slice >= orderAmountPie[3][0] && slice < orderAmountPie[3][1])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderSize",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3, 4].filter(key => key !== selectedOrderSizeKeys[0] && key !== selectedOrderSizeKeys[1] && key !== selectedOrderSizeKeys[2] && key !== selectedOrderSizeKeys[3]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          })  */
           break;
         case 5:
           this.setState(prevState => ({
@@ -344,10 +432,22 @@ class App extends Component {
                 (slice >= orderAmountPie[4][0] && slice < orderAmountPie[4][1])
             )
           }));
+          /* this.setState({
+            externalMutations: [
+              {
+                childName: "orderSize",
+                target: ["data"],
+                eventKey: [0, 1, 2, 3, 4].filter(key => key !== selectedOrderSizeKeys[0] && key !== selectedOrderSizeKeys[1] && key !== selectedOrderSizeKeys[2] && key !== selectedOrderSizeKeys[3] && key !== selectedOrderSizeKeys[4]), 
+                mutation: () => ({ style: { fill: "#808080" } }),
+                callback: this.removeMutation
+              }
+            ]
+          })  */
           break;
         default:
           break;
       }
+
     } else {
       this.setState(prevState => ({
         orderAmountDim: prevState.orderAmountDim.filterAll()
@@ -497,7 +597,6 @@ class App extends Component {
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
           externalMutations={this.state.externalMutations}
           externalMutationsPayment={this.state.externalMutationsPayment}
-          inactivePart={this.state.inactivePart}
         />
 
         <RevenueCharts
