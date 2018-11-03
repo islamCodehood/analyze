@@ -13,7 +13,9 @@ class OrderCountCharts extends Component {
     clickedBar: [],
     clickedPieSlice: [],
     clickedAreaBar: [],
-    clickedPaymentKey: []
+    clickedPaymentKey: [],
+    clickedOrderSizeKey: [],
+    clickedOrderTimeKey: []
   };
 
   //Handle Brushing of the week day bar chart
@@ -35,7 +37,7 @@ class OrderCountCharts extends Component {
 
   handlePieSliceClick = () => {
     setTimeout(() => {
-      this.props.handlePieSliceClick(this.state.clickedPieSlice, this.state.clickedPaymentKey);
+      this.props.handlePieSliceClick(this.state.clickedPieSlice, this.state.clickedPaymentKey, this.state.clickedOrderSizeKey, this.state.clickedOrderTimeKey);
     }, 10);
   };
 
@@ -52,6 +54,12 @@ class OrderCountCharts extends Component {
     })
     this.setState({
       clickedPaymentKey: []
+    })
+    this.setState({
+      clickedOrderSizeKey: []
+    })
+    this.setState({
+      clickedOrderTimeKey: []
     })
   };
 
@@ -100,7 +108,6 @@ class OrderCountCharts extends Component {
             animate={{
               duration: 2000,
               onLoad: { duration: 2000 }
-              
             }}
             
             events={[
@@ -112,7 +119,9 @@ class OrderCountCharts extends Component {
                     return [
                       {
                         mutation: props => {
-                          return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8"}}
+                          if (props.style.fill !== "rgb(128,128,128)" || props.style.fill !== "#808080") {
+                            return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8)"}}
+                          }
                         }
                       }
                     ]
@@ -121,7 +130,12 @@ class OrderCountCharts extends Component {
                     return [
                       {
                         mutation: props => {
-                          return null
+                          if (props.style.fill === "rgb(128,128,128)") {
+                            return {style: {fill: "rgb(128,128,128)" }} 
+                          } else {
+                            return null
+                          }
+                                                     
                         }
                       }
                     ]
@@ -262,7 +276,6 @@ class OrderCountCharts extends Component {
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
                             });
-
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
@@ -270,6 +283,31 @@ class OrderCountCharts extends Component {
                                 slice => slice[0] !== props.datum.label[0]
                               )
                             }));
+                            this.handlePieSliceClick();
+                          }
+                        }
+                      },
+                      {
+                        target: "data",
+                        mutation: props => {
+                          console.log(props)
+                          if (
+                            this.state.clickedPieSlice.find(
+                              slice => slice[0] === props.datum.label[0]
+                            ) === undefined
+                          ) {
+                            this.setState(prevState => ({
+                              clickedOrderTimeKey: prevState.clickedOrderTimeKey.concat(
+                                props.datum.eventKey
+                              )
+                            }))
+                            this.handlePieSliceClick();
+                          } else {
+                            this.setState(prevState => ({
+                              clickedOrderTimeKey: prevState.clickedOrderTimeKey.filter(
+                                key => key !== props.datum.eventKey
+                              )
+                            }))
                             this.handlePieSliceClick();
                           }
                         }
@@ -556,7 +594,11 @@ class OrderCountCharts extends Component {
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
                             });
-
+                            this.setState(prevState => ({
+                              clickedOrderSizeKey: prevState.clickedOrderSizeKey.concat(
+                                props.datum.eventKey
+                              )
+                            }))
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
@@ -564,11 +606,13 @@ class OrderCountCharts extends Component {
                                 slice => slice[0] !== props.datum.label[0]
                               )
                             }));
+                            this.setState(prevState => ({
+                              clickedOrderSizeKey: prevState.clickedOrderSizeKey.filter(
+                                key => key !== props.datum.eventKey
+                              )
+                            }))
                             this.handlePieSliceClick();
                           }
-                          return props.style.fill === "#4c4c82"
-                            ? ""
-                            : { style: { fill: "#4c4c82" } };
                         }
                       }
                     ];
