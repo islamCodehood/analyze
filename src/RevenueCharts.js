@@ -11,7 +11,10 @@ class RevenueCharts extends Component {
   state = {
     clickedBar: [],
     clickedPieSlice: [],
-    clickedAreaBar: []
+    clickedAreaBar: [],
+    clickedPaymentKey: [],
+    clickedOrderSizeKey: [],
+    clickedOrderTimeKey: []
   };
 
   //Handle Brushing of the week day bar chart
@@ -33,7 +36,7 @@ class RevenueCharts extends Component {
 
   handlePieSliceClick = () => {
     setTimeout(() => {
-      this.props.handlePieSliceClick(this.state.clickedPieSlice);
+      this.props.handlePieSliceClick(this.state.clickedPieSlice, this.state.clickedPaymentKey, this.state.clickedOrderSizeKey, this.state.clickedOrderTimeKey);
     }, 10);
   };
 
@@ -509,7 +512,9 @@ class RevenueCharts extends Component {
                     return [
                       {
                         mutation: props => {
-                          return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8"}}
+                          if (props.style.fill !== "rgb(128,128,128)" || props.style.fill !== "#808080") {
+                            return {style: {fill: props.style.fill.substr(0, props.style.fill.length - 2) + "8)"}}
+                          }
                         }
                       }
                     ]
@@ -518,7 +523,11 @@ class RevenueCharts extends Component {
                     return [
                       {
                         mutation: props => {
-                          return null
+                          if (props.style.fill === "rgb(128,128,128)") {
+                            return {style: {fill: "rgb(128,128,128)" }} 
+                          } else {
+                            return null
+                          }
                         }
                       }
                     ]
@@ -537,7 +546,11 @@ class RevenueCharts extends Component {
                             this.setState({
                               clickedPieSlice: this.state.clickedPieSlice
                             });
-
+                            this.setState(prevState => ({
+                              clickedPaymentKey: prevState.clickedPaymentKey.concat(
+                                props.datum.eventKey
+                              )
+                            }))
                             this.handlePieSliceClick();
                           } else {
                             this.setState(prevState => ({
@@ -545,6 +558,11 @@ class RevenueCharts extends Component {
                                 slice => slice !== props.datum.label
                               )
                             }));
+                            this.setState(prevState => ({
+                              clickedPaymentKey: prevState.clickedPaymentKey.filter(
+                                key => key !== props.datum.eventKey
+                              )
+                            }))
                             this.handlePieSliceClick();
                           }
                         }
