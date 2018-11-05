@@ -8,6 +8,9 @@ import {
 } from "victory";
 
 class RevenueCharts extends Component {
+  componentDidUpdate() {
+    console.log("update!!")
+  }
   state = {
     clickedBar: [],
     clickedPieSlice: [],
@@ -506,7 +509,7 @@ class RevenueCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "paymentMethod",
+                childName: "paymentMethodRevenue",
                 eventHandlers: {
                   onMouseOver: () => {
                     return [

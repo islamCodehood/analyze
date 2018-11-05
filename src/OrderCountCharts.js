@@ -113,7 +113,7 @@ class OrderCountCharts extends Component {
             events={[
               {
                 target: "data",
-                childName: "paymentMethod",
+                childName: "paymentMethodOrderCount",
                 eventHandlers: {
                   onMouseOver: () => {
                     return [
@@ -145,7 +145,6 @@ class OrderCountCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
-                          console.log(props)
                           if (
                             this.state.clickedPieSlice.find(
                               slice => slice === props.datum.label
