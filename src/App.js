@@ -61,7 +61,8 @@ class App extends Component {
     orderTimeDim: {},
     deliveryAreaDim: {},
     externalMutations: undefined,
-    externalMutationsPayment: undefined
+    externalMutationsPaymentOrderCount: undefined,
+    externalMutationsPaymentRevenue: undefined
   };
 
   /*****Filteration Functions*****/
@@ -205,16 +206,27 @@ class App extends Component {
         )
       }));
       this.setState({
-        externalMutationsPayment: [
+        externalMutationsPaymentOrderCount: [
           {
-            childName: "paymentMethod",
+            childName: "paymentMethodOrderCount",
             target: ["data"],
             eventKey: [0, 1, 2].filter(key => key !== selectedPaymentKeys[0] && key !== selectedPaymentKeys[1] && key !== selectedPaymentKeys[2]), 
             mutation: () => ({ style: { fill: "rgb(128,128,128)" } }),
             callback: this.removeMutation
           }
         ]
-      }) 
+      })       
+      this.setState({
+        externalMutationsPaymentRevenue: [
+          {
+            childName: "paymentMethodRevenue",
+            target: ["data"],
+            eventKey: [0, 1, 2].filter(key => key !== selectedPaymentKeys[0] && key !== selectedPaymentKeys[1] && key !== selectedPaymentKeys[2]), 
+            mutation: () => ({ style: { fill: "rgb(128,128,128)" } }),
+            callback: this.removeMutation
+          }
+        ]
+      })       
     } else {
       //Reset filter on the paymentMethodDim pie chart when slices reset by double clicked.
       this.setState(prevState => ({
@@ -544,9 +556,31 @@ class App extends Component {
     });
     //Payment method pie is handled alone because it contains different slices' colors order than other pies.
     this.setState({
-      externalMutationsPayment: [
+      externalMutationsPaymentOrderCount: [
         {
-          childName: "paymentMethod",
+          childName: "paymentMethodOrderCount",
+          target: ["data"],
+          eventKey: "all",
+          mutation: props => {
+            switch (props.index) {
+              case 0:
+                return { style: { fill: "#3d3d42" } };
+              case 1:
+                return { style: { fill: "#008f68" } };
+              case 2:
+                return { style: { fill: "#EFBB35" } };
+              default:
+                break;
+            }
+          },
+          callback: this.removeMutation
+        }
+      ]
+    });
+    this.setState({
+      externalMutationsPaymentRevenue: [
+        {
+          childName: "paymentMethodRevenue",
           target: ["data"],
           eventKey: "all",
           mutation: props => {
@@ -572,7 +606,10 @@ class App extends Component {
       externalMutations: undefined
     });
     this.setState({
-      externalMutationsPayment: undefined
+      externalMutationsPaymentOrderCount: undefined
+    });
+    this.setState({
+      externalMutationsPaymentRevenue: undefined
     });
     this.setState({
       inactivePart: undefined
@@ -596,7 +633,7 @@ class App extends Component {
           resetAll={this.resetAll}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
           externalMutations={this.state.externalMutations}
-          externalMutationsPayment={this.state.externalMutationsPayment}
+          externalMutationsPayment={this.state.externalMutationsPaymentOrderCount}
         />
 
         <RevenueCharts
@@ -612,7 +649,7 @@ class App extends Component {
           resetAll={this.resetAll}
           handleDeliveryAreaBarClick={this.handleDeliveryAreaBarClick}
           externalMutations={this.state.externalMutations}
-          externalMutationsPayment={this.state.externalMutationsPayment}
+          externalMutationsPayment={this.state.externalMutationsPaymentRevenue}
         />
 
         <TimeSeriesCharts
