@@ -28,19 +28,19 @@ class RevenueCharts extends Component {
   handleBranchBarClick = () => {
     setTimeout(() => {//Time out to give a chance to the state change to happen before calling the function.
       this.props.handleBranchBarClick(this.state.clickedBar);
-    }, 10);
+    });
   };
 
   handleDeliveryAreaBarClick = () => {
     setTimeout(() => {
       this.props.handleDeliveryAreaBarClick(this.state.clickedAreaBar);
-    }, 10);
+    });
   };
 
   handlePieSliceClick = () => {
     setTimeout(() => {
       this.props.handlePieSliceClick(this.state.clickedPieSlice, this.state.clickedPaymentKey, this.state.clickedOrderSizeKey, this.state.clickedOrderTimeKey);
-    }, 10);
+    });
   };
 
   handleResetClick = () => {

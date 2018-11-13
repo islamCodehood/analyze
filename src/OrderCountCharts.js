@@ -15,7 +15,7 @@ class OrderCountCharts extends Component {
     clickedAreaBar: [],
     clickedPaymentKey: [],
     clickedOrderSizeKey: [],
-    clickedOrderTimeKey: []
+    clickedOrderTimeKey: [],
   };
 
   //Handle Brushing of the week day bar chart
@@ -25,20 +25,20 @@ class OrderCountCharts extends Component {
 
   handleBranchBarClick = () => {
     setTimeout(() => {//Time out to give a chance to the state change to happen before calling the function.
-      this.props.handleBranchBarClick(this.state.clickedBar);
-    }, 10);
+      this.props.handleBranchBarClick(this.state.clickedBar)
+    });
   };
 
   handleDeliveryAreaBarClick = () => {
     setTimeout(() => {
       this.props.handleDeliveryAreaBarClick(this.state.clickedAreaBar);
-    }, 10);
+    });
   };
 
   handlePieSliceClick = () => {
     setTimeout(() => {
       this.props.handlePieSliceClick(this.state.clickedPieSlice, this.state.clickedPaymentKey, this.state.clickedOrderSizeKey, this.state.clickedOrderTimeKey);
-    }, 10);
+    });
   };
 
   handleResetClick = () => {
