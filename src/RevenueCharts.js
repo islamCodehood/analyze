@@ -8,9 +8,7 @@ import {
 } from "victory";
 
 class RevenueCharts extends Component {
-  componentDidUpdate() {
-    console.log("update!!")
-  }
+
   state = {
     clickedBar: [],
     clickedPieSlice: [],

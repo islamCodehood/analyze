@@ -289,7 +289,6 @@ class OrderCountCharts extends Component {
                       {
                         target: "data",
                         mutation: props => {
-                          console.log(props)
                           if (
                             this.state.clickedPieSlice.find(
                               slice => slice[0] === props.datum.label[0]
