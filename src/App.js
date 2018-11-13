@@ -205,7 +205,7 @@ class App extends Component {
             slice === paymentMethodPie[2]
         )
       }));
-      this.setState({
+      /* this.setState({
         externalMutationsPaymentOrderCount: [
           {
             childName: "paymentMethodOrderCount",
@@ -215,8 +215,8 @@ class App extends Component {
             callback: this.removeMutation
           }
         ]
-      })       
-      this.setState({
+      })  */      
+      /* this.setState({
         externalMutationsPaymentRevenue: [
           {
             childName: "paymentMethodRevenue",
@@ -226,7 +226,7 @@ class App extends Component {
             callback: this.removeMutation
           }
         ]
-      })       
+      }) */       
     } else {
       //Reset filter on the paymentMethodDim pie chart when slices reset by double clicked.
       this.setState(prevState => ({
