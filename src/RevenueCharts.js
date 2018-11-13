@@ -426,9 +426,9 @@ class RevenueCharts extends Component {
                             }));
                             this.handleDeliveryAreaBarClick();
                           }
-                          return props.style.fill === "#4c4c82"
+                          return props.style.fill === "#84a0c4"
                             ? ""
-                            : { style: { fill: "#4c4c82" } };
+                            : { style: { fill: "#84a0c4" } };
                         }
                       }
                     ];
@@ -623,9 +623,9 @@ class RevenueCharts extends Component {
                             }));
                             this.handleBranchBarClick();
                           }
-                          return props.style.fill === "#4c4c82"
+                          return props.style.fill === "#7fc7b3"
                             ? ""
-                            : { style: { fill: "#4c4c82" } };
+                            : { style: { fill: "#7fc7b3" } };
                         }
                       }
                     ];
